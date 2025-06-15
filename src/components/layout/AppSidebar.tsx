@@ -102,7 +102,7 @@ export function AppSidebar() {
             cn(
               `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-3 rounded-xl transition-all duration-300 group relative overflow-hidden`,
               isActive
-                ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg transform scale-105`
+                ? `bg-gradient-to-${isRTL ? 'l' : 'r'} ${item.gradient} text-white shadow-lg transform scale-105`
                 : 'hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 dark:hover:from-gray-800 dark:hover:to-gray-700 text-gray-700 dark:text-gray-300'
             )
           }
@@ -129,7 +129,7 @@ export function AppSidebar() {
                 </span>
               )}
               {isActive && (
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-pulse" />
+                <div className={`absolute inset-0 bg-gradient-to-${isRTL ? 'l' : 'r'} from-white/20 to-transparent animate-pulse`} />
               )}
             </>
           )}
@@ -139,14 +139,18 @@ export function AppSidebar() {
   );
 
   return (
-    <Sidebar className={cn(
-      'transition-all duration-300 border-r border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md',
-      isCollapsed ? 'w-16' : 'w-72'
-    )}>
+    <Sidebar 
+      side={isRTL ? "right" : "left"}
+      className={cn(
+        'transition-all duration-300 border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md',
+        isRTL ? 'border-l' : 'border-r',
+        isCollapsed ? 'w-16' : 'w-72'
+      )}
+    >
       <SidebarContent className="p-4">
         <div className="mb-8">
           <div className={cn(
-            `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-700 text-white shadow-xl`,
+            `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-4 rounded-2xl bg-gradient-to-${isRTL ? 'l' : 'r'} from-blue-600 to-purple-700 text-white shadow-xl`,
             isCollapsed && 'justify-center'
           )}>
             <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
@@ -194,7 +198,7 @@ export function AppSidebar() {
         </SidebarGroup>
 
         {!isCollapsed && (
-          <div className="mt-8 p-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white">
+          <div className={`mt-8 p-4 rounded-2xl bg-gradient-to-${isRTL ? 'l' : 'r'} from-emerald-500 to-teal-600 text-white`}>
             <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} mb-2`}>
               <Clock className="h-5 w-5" />
               <span className="font-semibold">{t('sidebar.currentTime')}</span>

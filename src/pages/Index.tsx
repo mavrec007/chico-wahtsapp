@@ -1,15 +1,14 @@
 
+import React from 'react';
+import { AppLayout } from '@/components/layout/AppLayout';
 import BookingDashboard from './BookingDashboard';
-import { useEffect } from 'react';
-import { botManager } from '../services/BotManager';
 
 const Index = () => {
-  useEffect(() => {
-    // Initialize the bot system when the app loads
-    botManager.initialize().catch(console.error);
-  }, []);
-
-  return <BookingDashboard />;
+  return (
+    <AppLayout>
+      <BookingDashboard />
+    </AppLayout>
+  );
 };
 
 export default Index;

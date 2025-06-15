@@ -246,6 +246,12 @@ export function AppointmentModal({ isOpen, onClose, appointment, mode = 'create'
     }
   };
 
+  const handleTabChange = (value: string) => {
+    if (value === 'details' || value === 'management') {
+      setActiveTab(value);
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -256,7 +262,7 @@ export function AppointmentModal({ isOpen, onClose, appointment, mode = 'create'
           </DialogTitle>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           <TabsList className="grid w-full grid-cols-2 bg-gray-100 dark:bg-gray-800">
             <TabsTrigger value="details" className="flex items-center space-x-2">
               <Plus className="h-4 w-4" />

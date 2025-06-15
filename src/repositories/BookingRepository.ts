@@ -44,13 +44,13 @@ export class BookingRepository {
   async findPendingBookingById(id: number): Promise<PendingBooking | null> {
     const query = 'SELECT * FROM pending_bookings WHERE id = ?';
     const results = await db.query(query, [id]);
-    return results.length > 0 ? this.mapToPendingBooking(results[0]) : null;
+    return Array.isArray(results) && results.length > 0 ? this.mapToPendingBooking(results[0]) : null;
   }
 
   async findPendingBookingByReference(reference: string): Promise<PendingBooking | null> {
     const query = 'SELECT * FROM pending_bookings WHERE booking_reference = ?';
     const results = await db.query(query, [reference]);
-    return results.length > 0 ? this.mapToPendingBooking(results[0]) : null;
+    return Array.isArray(results) && results.length > 0 ? this.mapToPendingBooking(results[0]) : null;
   }
 
   async getAllPendingBookings(): Promise<PendingBookingWithDetails[]> {
@@ -75,7 +75,7 @@ export class BookingRepository {
     `;
 
     const results = await db.query(query);
-    return results.map((row: any) => this.mapToPendingBookingWithDetails(row));
+    return Array.isArray(results) ? results.map((row: any) => this.mapToPendingBookingWithDetails(row)) : [];
   }
 
   async updatePendingBookingStatus(id: number, status: 'pending_payment' | 'payment_submitted' | 'expired'): Promise<boolean> {
@@ -99,7 +99,7 @@ export class BookingRepository {
         [pendingBookingId]
       );
 
-      if (pendingRows.length === 0) {
+      if (!Array.isArray(pendingRows) || pendingRows.length === 0) {
         throw new Error('Pending booking not found');
       }
 
@@ -134,7 +134,7 @@ export class BookingRepository {
   async findConfirmedBookingById(id: number): Promise<ConfirmedBooking | null> {
     const query = 'SELECT * FROM confirmed_bookings WHERE id = ?';
     const results = await db.query(query, [id]);
-    return results.length > 0 ? this.mapToConfirmedBooking(results[0]) : null;
+    return Array.isArray(results) && results.length > 0 ? this.mapToConfirmedBooking(results[0]) : null;
   }
 
   async getAllConfirmedBookings(): Promise<ConfirmedBookingWithDetails[]> {
@@ -156,7 +156,7 @@ export class BookingRepository {
     `;
 
     const results = await db.query(query);
-    return results.map((row: any) => this.mapToConfirmedBookingWithDetails(row));
+    return Array.isArray(results) ? results.map((row: any) => this.mapToConfirmedBookingWithDetails(row)) : [];
   }
 
   // Helper methods for mapping database rows to objects

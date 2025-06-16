@@ -17,7 +17,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <SidebarProvider defaultOpen={true}>
         <div 
-          className={`min-h-screen flex w-full bg-gradient-to-br from-background via-background to-accent/5 transition-all duration-500 ease-in-out ${
+          className={`min-h-screen flex w-full bg-gradient-to-br from-background via-background to-muted/20 transition-all duration-500 ease-in-out ${
             isRTL ? 'flex-row-reverse' : ''
           }`}
           dir={isRTL ? 'rtl' : 'ltr'}
@@ -25,8 +25,8 @@ export function AppLayout({ children }: AppLayoutProps) {
           <AppSidebar />
           <div className="flex-1 flex flex-col min-w-0 relative">
             <AppHeader />
-            <main className="flex-1 overflow-y-auto relative">
-              <div className="container mx-auto p-4 md:p-6 lg:p-8 max-w-7xl">
+            <main className="flex-1 overflow-y-auto relative bg-gradient-to-br from-background to-muted/10">
+              <div className="min-h-full">
                 <div className="animate-fade-in">
                   {children}
                 </div>

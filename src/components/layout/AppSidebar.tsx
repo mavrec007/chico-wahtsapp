@@ -11,7 +11,12 @@ import {
   Home,
   Clock,
   Waves,
-  Target
+  Target,
+  Activity,
+  FileText,
+  UserCheck,
+  Key,
+  Database
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -37,49 +42,85 @@ export function AppSidebar() {
       title: t('sidebar.dashboard', 'لوحة التحكم'),
       url: '/',
       icon: Home,
+      description: 'النظرة العامة والإحصائيات'
     },
     {
-      title: t('sidebar.bookings', 'الحجوزات'),
+      title: t('sidebar.bookings', 'إدارة الحجوزات'),
       url: '/bookings',
       icon: Calendar,
+      description: 'عرض وإدارة جميع الحجوزات'
     },
     {
-      title: t('nav.courts', 'الملاعب'),
+      title: t('nav.courts', 'الملاعب الرياضية'),
       url: '/courts',
       icon: Target,
+      description: 'إدارة الملاعب والمرافق'
     },
     {
       title: t('nav.swimming', 'المسابح'),
       url: '/swimming',
       icon: Waves,
+      description: 'إدارة المسابح ومواعيدها'
     },
     {
-      title: t('nav.accounting', 'المحاسبة'),
+      title: t('nav.accounting', 'المحاسبة والمالية'),
       url: '/accounting',
       icon: CreditCard,
+      description: 'الفواتير والمدفوعات'
     },
     {
-      title: t('sidebar.clients', 'العملاء'),
+      title: t('sidebar.clients', 'إدارة العملاء'),
       url: '/clients',
       icon: Users,
+      description: 'بيانات العملاء والعضويات'
     },
     {
-      title: t('sidebar.reports', 'التقارير'),
+      title: t('sidebar.reports', 'التقارير والإحصائيات'),
       url: '/reports',
       icon: BarChart3,
+      description: 'تقارير الأداء والتحليلات'
     }
   ];
 
-  const adminItems = [
+  const permissionsItems = [
     {
-      title: t('nav.users', 'المستخدمين'),
+      title: t('nav.users', 'إدارة المستخدمين'),
       url: '/admin/users',
-      icon: Shield,
+      icon: UserCheck,
+      description: 'إضافة وإدارة المستخدمين'
     },
     {
-      title: t('sidebar.settings', 'الإعدادات'),
+      title: t('nav.roles', 'الأدوار والصلاحيات'),
+      url: '/admin/roles',
+      icon: Shield,
+      description: 'تحديد الأدوار والصلاحيات'
+    },
+    {
+      title: t('nav.permissions', 'إعدادات الأمان'),
+      url: '/admin/permissions',
+      icon: Key,
+      description: 'إدارة صلاحيات النظام'
+    }
+  ];
+
+  const systemItems = [
+    {
+      title: t('nav.activities', 'سجل الأنشطة'),
+      url: '/admin/activities',
+      icon: Activity,
+      description: 'متابعة نشاطات النظام'
+    },
+    {
+      title: t('nav.backup', 'النسخ الاحتياطي'),
+      url: '/admin/backup',
+      icon: Database,
+      description: 'إدارة النسخ الاحتياطية'
+    },
+    {
+      title: t('sidebar.settings', 'إعدادات النظام'),
       url: '/settings',
       icon: Settings,
+      description: 'إعدادات عامة للنظام'
     }
   ];
 
@@ -92,28 +133,35 @@ export function AppSidebar() {
             cn(
               `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-3 rounded-xl transition-all duration-300 group relative overflow-hidden hover-lift`,
               isActive
-                ? 'gradient-primary text-white shadow-lg animate-glow'
-                : 'hover:bg-accent/60 text-foreground hover:shadow-md'
+                ? 'gradient-primary text-white shadow-lg'
+                : 'hover:bg-primary/10 text-foreground hover:shadow-md'
             )
           }
         >
           {({ isActive }) => (
             <>
               <div className={cn(
-                'p-2 rounded-lg transition-all duration-300 flex-shrink-0',
+                'p-2.5 rounded-lg transition-all duration-300 flex-shrink-0',
                 isActive 
                   ? 'bg-white/20 backdrop-blur-sm shadow-inner' 
-                  : 'group-hover:bg-primary/10'
+                  : 'group-hover:bg-primary/15 group-hover:scale-110'
               )}>
                 <item.icon className="h-5 w-5" />
               </div>
               {!isCollapsed && (
-                <span className="font-medium transition-all duration-300 truncate">
-                  {item.title}
-                </span>
+                <div className="flex flex-col flex-1 min-w-0">
+                  <span className="font-medium transition-all duration-300 truncate text-sm">
+                    {item.title}
+                  </span>
+                  {!isActive && (
+                    <span className="text-xs text-muted-foreground truncate opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {item.description}
+                    </span>
+                  )}
+                </div>
               )}
               {isActive && !isCollapsed && (
-                <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent animate-float" />
+                <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent animate-float pointer-events-none" />
               )}
             </>
           )}
@@ -126,25 +174,25 @@ export function AppSidebar() {
     <Sidebar 
       side={isRTL ? "right" : "left"}
       className={cn(
-        'transition-all duration-300 border-border fixed inset-y-0 z-50',
-        'gradient-sidebar backdrop-blur-lg border-r border-border/50',
+        'transition-all duration-500 border-border fixed inset-y-0 z-50',
+        'gradient-sidebar backdrop-blur-lg border-r border-border/50 shadow-xl',
         isCollapsed ? 'w-16' : 'w-72'
       )}
     >
-      <SidebarContent className="p-4">
+      <SidebarContent className="p-4 space-y-6">
         {/* Logo Section */}
-        <div className="mb-8 animate-slide-up">
+        <div className="animate-slide-up">
           <div className={cn(
-            `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-4 rounded-2xl gradient-primary text-white shadow-xl hover-lift animate-glow`,
+            `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-4 rounded-2xl gradient-primary text-white shadow-xl hover-lift`,
             isCollapsed && 'justify-center px-2'
           )}>
-            <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
-              <Calendar className="h-6 w-6" />
+            <div className="p-2.5 bg-white/20 rounded-lg backdrop-blur-sm animate-glow">
+              <Activity className="h-6 w-6" />
             </div>
             {!isCollapsed && (
               <div className={isRTL ? 'text-right' : 'text-left'}>
-                <h1 className="text-xl font-bold">نظام الحجوزات</h1>
-                <p className="text-white/80 text-sm">إدارة متكاملة</p>
+                <h1 className="text-lg font-bold">نظام إدارة المرافق</h1>
+                <p className="text-white/80 text-xs">الرياضية المتكامل</p>
               </div>
             )}
           </div>
@@ -156,7 +204,7 @@ export function AppSidebar() {
             'text-muted-foreground font-semibold mb-4 px-2 text-xs uppercase tracking-wider',
             isCollapsed ? 'text-center' : (isRTL ? 'text-right' : 'text-left')
           )}>
-            {isCollapsed ? '•••' : t('sidebar.mainMenu', 'القائمة الرئيسية')}
+            {isCollapsed ? '📊' : t('sidebar.mainMenu', 'الإدارة الرئيسية')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2">
@@ -173,17 +221,17 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Admin Section */}
-        <SidebarGroup className="mt-8 animate-slide-in-right">
+        {/* Permissions Section */}
+        <SidebarGroup className="animate-slide-in-right">
           <SidebarGroupLabel className={cn(
             'text-muted-foreground font-semibold mb-4 px-2 text-xs uppercase tracking-wider',
             isCollapsed ? 'text-center' : (isRTL ? 'text-right' : 'text-left')
           )}>
-            {isCollapsed ? '⚙' : t('sidebar.systemAdmin', 'إدارة النظام')}
+            {isCollapsed ? '🔐' : t('sidebar.permissions', 'الصلاحيات والأمان')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2">
-              {adminItems.map((item, index) => (
+              {permissionsItems.map((item, index) => (
                 <div 
                   key={item.url} 
                   className="animate-slide-in-right"
@@ -196,18 +244,51 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Time Widget */}
+        {/* System Admin Section */}
+        <SidebarGroup className="animate-fade-in">
+          <SidebarGroupLabel className={cn(
+            'text-muted-foreground font-semibold mb-4 px-2 text-xs uppercase tracking-wider',
+            isCollapsed ? 'text-center' : (isRTL ? 'text-right' : 'text-left')
+          )}>
+            {isCollapsed ? '⚙️' : t('sidebar.systemAdmin', 'إدارة النظام')}
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-2">
+              {systemItems.map((item, index) => (
+                <div 
+                  key={item.url} 
+                  className="animate-fade-in"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <NavItem item={item} />
+                </div>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Status Widget */}
         {!isCollapsed && (
-          <div className="mt-8 p-4 rounded-2xl glass-card hover-glow animate-fade-in">
-            <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} mb-2`}>
+          <div className="p-4 rounded-2xl glass-card hover-glow animate-fade-in">
+            <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} mb-3`}>
               <Clock className="h-5 w-5 text-primary animate-float" />
               <span className="font-semibold text-sm">
-                {t('sidebar.currentTime', 'الوقت الحالي')}
+                {t('sidebar.systemStatus', 'حالة النظام')}
               </span>
             </div>
-            <p className="text-muted-foreground text-sm font-mono">
-              {new Date().toLocaleTimeString(isRTL ? 'ar-SA' : 'en-US')}
-            </p>
+            <div className="space-y-2">
+              <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <span className="text-xs text-muted-foreground">الخوادم</span>
+                <span className="text-xs text-green-600 font-medium">متصل</span>
+              </div>
+              <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <span className="text-xs text-muted-foreground">قاعدة البيانات</span>
+                <span className="text-xs text-green-600 font-medium">نشط</span>
+              </div>
+              <div className="text-xs text-muted-foreground font-mono">
+                {new Date().toLocaleTimeString(isRTL ? 'ar-SA' : 'en-US')}
+              </div>
+            </div>
           </div>
         )}
       </SidebarContent>

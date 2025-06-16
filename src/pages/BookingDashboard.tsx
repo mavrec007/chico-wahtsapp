@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Calendar, Clock, Users, MapPin, Phone, Check, X, Moon, Sun, Waves, Target, TrendingUp, AlertCircle } from "lucide-react";
-import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Booking {
   id: string;
@@ -26,7 +25,6 @@ interface Booking {
 }
 
 const BookingDashboard = () => {
-  const { isRTL, t } = useLanguage();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [stats, setStats] = useState({
@@ -57,7 +55,7 @@ const BookingDashboard = () => {
         paymentConfirmed: false,
         createdAt: new Date().toISOString(),
         details: {
-          courtType: t('court.football'),
+          courtType: 'ملعب كرة قدم',
           duration: 2,
           price: 200
         }
@@ -87,7 +85,7 @@ const BookingDashboard = () => {
         paymentConfirmed: true,
         createdAt: new Date().toISOString(),
         details: {
-          courtType: t('court.basketball'),
+          courtType: 'ملعب كرة سلة',
           duration: 1,
           price: 150
         }
@@ -118,7 +116,7 @@ const BookingDashboard = () => {
       courtsBookings: mockBookings.filter(b => b.activityType === 'courts').length,
       swimmingBookings: mockBookings.filter(b => b.activityType === 'swimming').length
     });
-  }, [t]);
+  }, []);
 
   const handleConfirmBooking = (bookingId: string) => {
     setBookings(prev => prev.map(booking => 
@@ -148,19 +146,20 @@ const BookingDashboard = () => {
   };
 
   const getStatusText = (status: string) => {
-    return t(`status.${status}`);
+    switch (status) {
+      case 'pending': return 'معلق';
+      case 'confirmed': return 'مؤكد';
+      case 'cancelled': return 'ملغي';
+      default: return 'غير محدد';
+    }
   };
 
   const getActivityTypeArabic = (type: string) => {
-    return type === 'courts' ? t('bookings.courts') : t('bookings.swimming');
+    return type === 'courts' ? 'الملاعب' : 'حمام السباحة';
   };
 
   const filterBookingsByType = (type: 'courts' | 'swimming') => {
     return bookings.filter(booking => booking.activityType === type);
-  };
-
-  const getSwimmingTypeText = (poolType: string) => {
-    return poolType === 'private' ? t('swimming.private') : t('swimming.freeTime');
   };
 
   const BookingTable = ({ bookings: tableBookings }: { bookings: Booking[] }) => (
@@ -168,20 +167,20 @@ const BookingDashboard = () => {
       <Table>
         <TableHeader>
           <TableRow className="bg-slate-50 dark:bg-slate-900">
-            <TableHead className={`${isRTL ? 'text-right' : 'text-left'} font-semibold text-slate-900 dark:text-slate-100`}>{t('table.client')}</TableHead>
-            <TableHead className={`${isRTL ? 'text-right' : 'text-left'} font-semibold text-slate-900 dark:text-slate-100`}>{t('table.type')}</TableHead>
-            <TableHead className={`${isRTL ? 'text-right' : 'text-left'} font-semibold text-slate-900 dark:text-slate-100`}>{t('table.dateTime')}</TableHead>
-            <TableHead className={`${isRTL ? 'text-right' : 'text-left'} font-semibold text-slate-900 dark:text-slate-100`}>{t('table.duration')}</TableHead>
-            <TableHead className={`${isRTL ? 'text-right' : 'text-left'} font-semibold text-slate-900 dark:text-slate-100`}>{t('table.price')}</TableHead>
-            <TableHead className={`${isRTL ? 'text-right' : 'text-left'} font-semibold text-slate-900 dark:text-slate-100`}>{t('table.status')}</TableHead>
-            <TableHead className={`${isRTL ? 'text-right' : 'text-left'} font-semibold text-slate-900 dark:text-slate-100`}>{t('table.actions')}</TableHead>
+            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">العميل</TableHead>
+            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">النوع</TableHead>
+            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">التاريخ والوقت</TableHead>
+            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">المدة</TableHead>
+            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">السعر</TableHead>
+            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">الحالة</TableHead>
+            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">الإجراءات</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {tableBookings.map((booking) => (
             <TableRow key={booking.id} className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
               <TableCell className="font-medium">
-                <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
+                <div className="flex items-center space-x-2 space-x-reverse">
                   <Phone className="h-4 w-4 text-slate-500 dark:text-slate-400" />
                   <span className="text-slate-900 dark:text-slate-100">{booking.customerPhone}</span>
                 </div>
@@ -189,22 +188,22 @@ const BookingDashboard = () => {
               <TableCell>
                 <span className="text-slate-700 dark:text-slate-300">
                   {booking.activityType === 'courts' ? booking.details?.courtType : 
-                   getSwimmingTypeText(booking.details?.poolType || 'free')}
+                   booking.details?.poolType === 'private' ? 'برايفت' : 'فترة حرة'}
                 </span>
               </TableCell>
               <TableCell>
-                <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} text-slate-700 dark:text-slate-300`}>
+                <div className="flex items-center space-x-2 space-x-reverse text-slate-700 dark:text-slate-300">
                   <Calendar className="h-4 w-4" />
                   <span>{booking.selectedDate}</span>
-                  <Clock className={`h-4 w-4 ${isRTL ? 'ml-1' : 'mr-1'}`} />
+                  <Clock className="h-4 w-4 mr-1" />
                   <span>{booking.selectedTime}</span>
                 </div>
               </TableCell>
               <TableCell>
-                <span className="text-slate-700 dark:text-slate-300">{booking.details?.duration} {t('table.hours')}</span>
+                <span className="text-slate-700 dark:text-slate-300">{booking.details?.duration} ساعة</span>
               </TableCell>
               <TableCell>
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{booking.details?.price} {t('table.riyal')}</span>
+                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{booking.details?.price} ريال</span>
               </TableCell>
               <TableCell>
                 <Badge className={`${getStatusColor(booking.status)} text-white`}>
@@ -213,7 +212,7 @@ const BookingDashboard = () => {
               </TableCell>
               <TableCell>
                 {booking.status === 'pending' && (
-                  <div className={`flex space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
+                  <div className="flex space-x-2 space-x-reverse">
                     <Button 
                       onClick={() => handleConfirmBooking(booking.id)}
                       size="sm"
@@ -232,7 +231,7 @@ const BookingDashboard = () => {
                 )}
                 {booking.status === 'confirmed' && (
                   <Badge className="bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
-                    {t('status.confirmed')}
+                    مؤكد
                   </Badge>
                 )}
               </TableCell>
@@ -244,15 +243,15 @@ const BookingDashboard = () => {
   );
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-slate-900' : 'bg-gradient-to-br from-blue-50 to-indigo-100'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-slate-900' : 'bg-gradient-to-br from-blue-50 to-indigo-100'}`} dir="rtl">
       <div className="max-w-7xl mx-auto p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-              {t('dashboard.title')}
+              لوحة تحكم الحجوزات الرياضية
             </h1>
-            <p className="text-slate-600 dark:text-slate-400">{t('dashboard.subtitle')}</p>
+            <p className="text-slate-600 dark:text-slate-400">إدارة حجوزات الملاعب وحمامات السباحة بكل سهولة</p>
           </div>
           <Button
             onClick={toggleDarkMode}
@@ -271,45 +270,45 @@ const BookingDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0 shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">{t('dashboard.totalBookings')}</CardTitle>
+              <CardTitle className="text-sm font-medium opacity-90">إجمالي الحجوزات</CardTitle>
               <Calendar className="h-5 w-5 opacity-80" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{stats.totalBookings}</div>
-              <p className="text-xs opacity-80 mt-1">{t('dashboard.allBookingsDesc')}</p>
+              <p className="text-xs opacity-80 mt-1">جميع الحجوزات</p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-amber-500 to-orange-500 text-white border-0 shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">{t('dashboard.pendingBookings')}</CardTitle>
+              <CardTitle className="text-sm font-medium opacity-90">حجوزات معلقة</CardTitle>
               <AlertCircle className="h-5 w-5 opacity-80" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{stats.pendingBookings}</div>
-              <p className="text-xs opacity-80 mt-1">{t('dashboard.needsApproval')}</p>
+              <p className="text-xs opacity-80 mt-1">تحتاج موافقة</p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-emerald-500 to-green-500 text-white border-0 shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">{t('dashboard.confirmedBookings')}</CardTitle>
+              <CardTitle className="text-sm font-medium opacity-90">حجوزات مؤكدة</CardTitle>
               <Check className="h-5 w-5 opacity-80" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{stats.confirmedBookings}</div>
-              <p className="text-xs opacity-80 mt-1">{t('dashboard.confirmed')}</p>
+              <p className="text-xs opacity-80 mt-1">تم التأكيد</p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-to-br from-purple-500 to-pink-500 text-white border-0 shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">{t('dashboard.todayRevenue')}</CardTitle>
+              <CardTitle className="text-sm font-medium opacity-90">إيرادات اليوم</CardTitle>
               <TrendingUp className="h-5 w-5 opacity-80" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold">{stats.todayRevenue}</div>
-              <p className="text-xs opacity-80 mt-1">{t('dashboard.saudiRiyal')}</p>
+              <p className="text-xs opacity-80 mt-1">ريال سعودي</p>
             </CardContent>
           </Card>
         </div>
@@ -318,13 +317,13 @@ const BookingDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
             <CardHeader>
-              <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
+              <div className="flex items-center space-x-3 space-x-reverse">
                 <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
                   <Target className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div>
-                  <CardTitle className="text-slate-900 dark:text-slate-100">{t('nav.courts')}</CardTitle>
-                  <CardDescription className="text-slate-600 dark:text-slate-400">{t('dashboard.sportsCourtBookings')}</CardDescription>
+                  <CardTitle className="text-slate-900 dark:text-slate-100">الملاعب الرياضية</CardTitle>
+                  <CardDescription className="text-slate-600 dark:text-slate-400">حجوزات الملاعب</CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -335,13 +334,13 @@ const BookingDashboard = () => {
 
           <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
             <CardHeader>
-              <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
+              <div className="flex items-center space-x-3 space-x-reverse">
                 <div className="p-2 bg-cyan-100 dark:bg-cyan-900 rounded-lg">
                   <Waves className="h-6 w-6 text-cyan-600 dark:text-cyan-400" />
                 </div>
                 <div>
-                  <CardTitle className="text-slate-900 dark:text-slate-100">{t('nav.swimming')}</CardTitle>
-                  <CardDescription className="text-slate-600 dark:text-slate-400">{t('dashboard.swimmingPoolBookings')}</CardDescription>
+                  <CardTitle className="text-slate-900 dark:text-slate-100">حمام السباحة</CardTitle>
+                  <CardDescription className="text-slate-600 dark:text-slate-400">حجوزات السباحة</CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -355,31 +354,31 @@ const BookingDashboard = () => {
         <Tabs defaultValue="all" className="space-y-6">
           <TabsList className="bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700">
             <TabsTrigger value="all" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-              {t('bookings.allBookings')}
+              جميع الحجوزات
             </TabsTrigger>
             <TabsTrigger value="courts" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-              <Target className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-              {t('bookings.courts')}
+              <Target className="h-4 w-4 mr-2" />
+              الملاعب
             </TabsTrigger>
             <TabsTrigger value="swimming" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
-              <Waves className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-              {t('bookings.swimming')}
+              <Waves className="h-4 w-4 mr-2" />
+              حمام السباحة
             </TabsTrigger>
             <TabsTrigger value="pending" className="data-[state=active]:bg-amber-500 data-[state=active]:text-white">
-              <AlertCircle className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-              {t('bookings.pending')}
+              <AlertCircle className="h-4 w-4 mr-2" />
+              معلقة
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="all" className="space-y-6">
             <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
               <CardHeader>
-                <CardTitle className={`text-slate-900 dark:text-slate-100 flex items-center ${isRTL ? 'space-x-reverse' : ''}`}>
-                  <Calendar className={`h-5 w-5 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                  {t('bookings.allBookings')}
+                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center">
+                  <Calendar className="h-5 w-5 mr-2" />
+                  جميع الحجوزات
                 </CardTitle>
                 <CardDescription className="text-slate-600 dark:text-slate-400">
-                  {t('bookings.comprehensive')}
+                  عرض شامل لجميع حجوزات الملاعب وحمام السباحة
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -391,12 +390,12 @@ const BookingDashboard = () => {
           <TabsContent value="courts" className="space-y-6">
             <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
               <CardHeader>
-                <CardTitle className={`text-slate-900 dark:text-slate-100 flex items-center ${isRTL ? 'space-x-reverse' : ''}`}>
-                  <Target className={`h-5 w-5 ${isRTL ? 'ml-2' : 'mr-2'} text-blue-600`} />
-                  {t('bookings.sportsCourtManagement')}
+                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center">
+                  <Target className="h-5 w-5 mr-2 text-blue-600" />
+                  حجوزات الملاعب الرياضية
                 </CardTitle>
                 <CardDescription className="text-slate-600 dark:text-slate-400">
-                  {t('bookings.courtsDesc')}
+                  إدارة حجوزات ملاعب كرة القدم وكرة السلة والتنس
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -408,12 +407,12 @@ const BookingDashboard = () => {
           <TabsContent value="swimming" className="space-y-6">
             <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
               <CardHeader>
-                <CardTitle className={`text-slate-900 dark:text-slate-100 flex items-center ${isRTL ? 'space-x-reverse' : ''}`}>
-                  <Waves className={`h-5 w-5 ${isRTL ? 'ml-2' : 'mr-2'} text-cyan-600`} />
-                  {t('bookings.swimmingManagement')}
+                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center">
+                  <Waves className="h-5 w-5 mr-2 text-cyan-600" />
+                  حجوزات حمام السباحة
                 </CardTitle>
                 <CardDescription className="text-slate-600 dark:text-slate-400">
-                  {t('bookings.swimmingDesc')}
+                  إدارة حجوزات الفترات الحرة والجلسات الخاصة
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -425,12 +424,12 @@ const BookingDashboard = () => {
           <TabsContent value="pending" className="space-y-6">
             <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
               <CardHeader>
-                <CardTitle className={`text-slate-900 dark:text-slate-100 flex items-center ${isRTL ? 'space-x-reverse' : ''}`}>
-                  <AlertCircle className={`h-5 w-5 ${isRTL ? 'ml-2' : 'mr-2'} text-amber-600`} />
-                  {t('bookings.pendingManagement')}
+                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center">
+                  <AlertCircle className="h-5 w-5 mr-2 text-amber-600" />
+                  الحجوزات المعلقة
                 </CardTitle>
                 <CardDescription className="text-slate-600 dark:text-slate-400">
-                  {t('bookings.pendingDesc')}
+                  الحجوزات التي تحتاج لمراجعة وتأكيد
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -443,36 +442,36 @@ const BookingDashboard = () => {
         {/* Bot Status */}
         <Card className="mt-8 bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
           <CardHeader>
-            <CardTitle className="text-slate-900 dark:text-slate-100">{t('bot.title')}</CardTitle>
+            <CardTitle className="text-slate-900 dark:text-slate-100">حالة البوتات</CardTitle>
             <CardDescription className="text-slate-600 dark:text-slate-400">
-              {t('bot.subtitle')}
+              معلومات الاتصال مع بوتات واتساب وتليجرام
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
+                <div className="flex items-center space-x-3 space-x-reverse">
                   <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
                     <Phone className="h-5 w-5 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
-                    <p className="font-medium text-green-900 dark:text-green-100">{t('bot.whatsapp')}</p>
-                    <p className="text-sm text-green-700 dark:text-green-300">{t('bot.whatsappDesc')}</p>
+                    <p className="font-medium text-green-900 dark:text-green-100">بوت واتساب</p>
+                    <p className="text-sm text-green-700 dark:text-green-300">للتفاعل مع العملاء</p>
                   </div>
                 </div>
-                <Badge className="bg-green-500 text-white">{t('bot.connected')}</Badge>
+                <Badge className="bg-green-500 text-white">متصل</Badge>
               </div>
               <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
+                <div className="flex items-center space-x-3 space-x-reverse">
                   <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
                     <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <p className="font-medium text-blue-900 dark:text-blue-100">{t('bot.telegram')}</p>
-                    <p className="text-sm text-blue-700 dark:text-blue-300">{t('bot.telegramDesc')}</p>
+                    <p className="font-medium text-blue-900 dark:text-blue-100">بوت تليجرام</p>
+                    <p className="text-sm text-blue-700 dark:text-blue-300">لإدارة الحجوزات</p>
                   </div>
                 </div>
-                <Badge className="bg-blue-500 text-white">{t('bot.connected')}</Badge>
+                <Badge className="bg-blue-500 text-white">متصل</Badge>
               </div>
             </div>
           </CardContent>

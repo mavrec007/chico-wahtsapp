@@ -70,10 +70,10 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
         <SheetHeader className={isRTL ? 'text-right' : 'text-left'}>
           <SheetTitle className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
             <Palette className="h-5 w-5" />
-            <span>{t('stylePanel.title')}</span>
+            <span>{t('stylePanel.title', 'Style Control Panel')}</span>
           </SheetTitle>
           <SheetDescription>
-            {t('stylePanel.description')}
+            {t('stylePanel.description', 'Customize the appearance and styling of your application')}
           </SheetDescription>
         </SheetHeader>
 
@@ -82,19 +82,19 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="theme" className="flex items-center space-x-1">
                 <Monitor className="h-4 w-4" />
-                <span className="hidden sm:inline">{t('stylePanel.theme')}</span>
+                <span className="hidden sm:inline">{t('stylePanel.theme', 'Theme')}</span>
               </TabsTrigger>
               <TabsTrigger value="colors" className="flex items-center space-x-1">
                 <Palette className="h-4 w-4" />
-                <span className="hidden sm:inline">{t('stylePanel.colors')}</span>
+                <span className="hidden sm:inline">{t('stylePanel.colors', 'Colors')}</span>
               </TabsTrigger>
               <TabsTrigger value="sidebar" className="flex items-center space-x-1">
                 <Sidebar className="h-4 w-4" />
-                <span className="hidden sm:inline">{t('stylePanel.sidebar')}</span>
+                <span className="hidden sm:inline">{t('stylePanel.sidebar', 'Sidebar')}</span>
               </TabsTrigger>
               <TabsTrigger value="layout" className="flex items-center space-x-1">
                 <Layout className="h-4 w-4" />
-                <span className="hidden sm:inline">{t('stylePanel.layout')}</span>
+                <span className="hidden sm:inline">{t('stylePanel.layout', 'Layout')}</span>
               </TabsTrigger>
             </TabsList>
 
@@ -103,10 +103,10 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Eye className="h-5 w-5" />
-                    <span>{t('stylePanel.themeMode')}</span>
+                    <span>{t('stylePanel.themeMode', 'Theme Mode')}</span>
                   </CardTitle>
                   <CardDescription>
-                    {t('stylePanel.themeModeDesc')}
+                    {t('stylePanel.themeModeDesc', 'Choose between light, dark, or system theme')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -117,7 +117,7 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
                       onClick={() => setTheme('light')}
                     >
                       <Sun className="h-6 w-6" />
-                      <span className="text-xs">{t('stylePanel.light')}</span>
+                      <span className="text-xs">{t('stylePanel.light', 'Light')}</span>
                     </Button>
                     <Button
                       variant={theme === 'dark' ? 'default' : 'outline'}
@@ -125,7 +125,7 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
                       onClick={() => setTheme('dark')}
                     >
                       <Moon className="h-6 w-6" />
-                      <span className="text-xs">{t('stylePanel.dark')}</span>
+                      <span className="text-xs">{t('stylePanel.dark', 'Dark')}</span>
                     </Button>
                     <Button
                       variant={theme === 'system' ? 'default' : 'outline'}
@@ -133,7 +133,7 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
                       onClick={() => setTheme('system')}
                     >
                       <Laptop className="h-6 w-6" />
-                      <span className="text-xs">{t('stylePanel.system')}</span>
+                      <span className="text-xs">{t('stylePanel.system', 'System')}</span>
                     </Button>
                   </div>
                 </CardContent>
@@ -143,9 +143,9 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
             <TabsContent value="colors" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>{t('stylePanel.colorScheme')}</CardTitle>
+                  <CardTitle>{t('stylePanel.colorScheme', 'Color Scheme')}</CardTitle>
                   <CardDescription>
-                    {t('stylePanel.colorSchemeDesc')}
+                    {t('stylePanel.colorSchemeDesc', 'Select a color scheme for your application')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -169,9 +169,9 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
             <TabsContent value="sidebar" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>{t('stylePanel.sidebarStyle')}</CardTitle>
+                  <CardTitle>{t('stylePanel.sidebarStyle', 'Sidebar Style')}</CardTitle>
                   <CardDescription>
-                    {t('stylePanel.sidebarStyleDesc')}
+                    {t('stylePanel.sidebarStyleDesc', 'Customize the sidebar appearance')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -195,9 +195,9 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
             <TabsContent value="layout" className="space-y-4">
               <Card>
                 <CardHeader>
-                  <CardTitle>{t('stylePanel.headerStyle')}</CardTitle>
+                  <CardTitle>{t('stylePanel.headerStyle', 'Header Style')}</CardTitle>
                   <CardDescription>
-                    {t('stylePanel.headerStyleDesc')}
+                    {t('stylePanel.headerStyleDesc', 'Customize the header appearance')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -219,16 +219,16 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>{t('stylePanel.layoutOptions')}</CardTitle>
+                  <CardTitle>{t('stylePanel.layoutOptions', 'Layout Options')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <div className={isRTL ? 'text-right' : 'text-left'}>
                       <label className="text-sm font-medium">
-                        {t('stylePanel.compactMode')}
+                        {t('stylePanel.compactMode', 'Compact Mode')}
                       </label>
                       <p className="text-xs text-gray-500">
-                        {t('stylePanel.compactModeDesc')}
+                        {t('stylePanel.compactModeDesc', 'Reduce spacing and padding')}
                       </p>
                     </div>
                     <Switch />
@@ -237,10 +237,10 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
                   <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <div className={isRTL ? 'text-right' : 'text-left'}>
                       <label className="text-sm font-medium">
-                        {t('stylePanel.animations')}
+                        {t('stylePanel.animations', 'Animations')}
                       </label>
                       <p className="text-xs text-gray-500">
-                        {t('stylePanel.animationsDesc')}
+                        {t('stylePanel.animationsDesc', 'Enable smooth animations')}
                       </p>
                     </div>
                     <Switch defaultChecked />
@@ -249,10 +249,10 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
                   <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <div className={isRTL ? 'text-right' : 'text-left'}>
                       <label className="text-sm font-medium">
-                        {t('stylePanel.blurEffects')}
+                        {t('stylePanel.blurEffects', 'Blur Effects')}
                       </label>
                       <p className="text-xs text-gray-500">
-                        {t('stylePanel.blurEffectsDesc')}
+                        {t('stylePanel.blurEffectsDesc', 'Enable backdrop blur effects')}
                       </p>
                     </div>
                     <Switch defaultChecked />
@@ -266,7 +266,7 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
             <CardContent className="pt-6">
               <Button className="w-full" variant="outline">
                 <Settings className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                {t('stylePanel.resetToDefault')}
+                {t('stylePanel.resetToDefault', 'Reset to Default')}
               </Button>
             </CardContent>
           </Card>

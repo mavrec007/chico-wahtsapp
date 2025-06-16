@@ -1,312 +1,250 @@
-
 import React, { useState } from 'react';
-import { AppLayout } from '@/components/layout/AppLayout';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-  Calendar,
-  Users,
-  DollarSign,
-  TrendingUp,
-  Clock,
-  User,
+import { 
+  Calendar, 
+  Users, 
+  Clock, 
+  TrendingUp, 
   Plus,
   Filter,
-  Search,
-  Target,
-  Waves
+  Download,
+  Eye,
+  Edit,
+  Trash2,
+  CheckCircle,
+  XCircle,
+  AlertCircle
 } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-export default function BookingDashboard() {
+export function BookingDashboard() {
   const { isRTL, t } = useLanguage();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [selectedPeriod, setSelectedPeriod] = useState('today');
 
-  // Mock data
-  const stats = [
-    {
-      title: t('dashboard.totalBookings'),
-      value: '2,345',
-      change: '+12%',
-      icon: Calendar,
-    },
-    {
-      title: t('dashboard.activeClients'),
-      value: '1,234',
-      change: '+8%',
-      icon: Users,
-    },
-    {
-      title: t('dashboard.monthlyRevenue'),
-      value: '$45,234',
-      change: '+15%',
-      icon: DollarSign,
-    },
-    {
-      title: t('dashboard.occupancyRate'),
-      value: '78%',
-      change: '+3%',
-      icon: TrendingUp,
-    }
-  ];
-
-  const recentBookings = [
+  const mockBookings = [
     {
       id: 1,
-      client: t('dashboard.sampleClient1'),
-      facility: t('dashboard.sampleFacility1'),
+      clientName: t('dashboard.sampleClient1', 'أحمد محمد'),
+      activity: t('dashboard.tennisActivity', 'ملعب تنس'),
       time: '10:00 AM',
       date: '2024-01-15',
-      status: 'confirmed'
+      status: 'confirmed',
+      duration: '1 ساعة',
+      price: '150 ريال'
     },
     {
       id: 2,
-      client: t('dashboard.sampleClient2'),
-      facility: t('dashboard.sampleFacility2'),
-      time: '2:00 PM',
+      clientName: t('dashboard.sampleClient2', 'ليلى خالد'),
+      activity: t('dashboard.swimmingActivity', 'مسبح'),
+      time: '03:30 PM',
       date: '2024-01-15',
-      status: 'pending'
+      status: 'pending',
+      duration: '30 دقيقة',
+      price: '75 ريال'
     },
     {
       id: 3,
-      client: t('dashboard.sampleClient3'),
-      facility: t('dashboard.sampleFacility3'),
-      time: '4:00 PM',
-      date: '2024-01-15',
-      status: 'confirmed'
+      clientName: t('dashboard.sampleClient3', 'عبدالله سالم'),
+      activity: t('dashboard.footballActivity', 'ملعب كرة قدم'),
+      time: '06:00 PM',
+      date: '2024-01-16',
+      status: 'cancelled',
+      duration: '2 ساعة',
+      price: '200 ريال'
+    },
+    {
+      id: 4,
+      clientName: t('dashboard.sampleClient4', 'نورة علي'),
+      activity: t('dashboard.basketballActivity', 'ملعب كرة سلة'),
+      time: '08:00 AM',
+      date: '2024-01-16',
+      status: 'confirmed',
+      duration: '1.5 ساعة',
+      price: '180 ريال'
+    },
+    {
+      id: 5,
+      clientName: t('dashboard.sampleClient5', 'يوسف محمد'),
+      activity: t('dashboard.volleyballActivity', 'ملعب كرة طائرة'),
+      time: '04:00 PM',
+      date: '2024-01-17',
+      status: 'confirmed',
+      duration: '1 ساعة',
+      price: '120 ريال'
+    }
+  ];
+
+  const stats = [
+    { 
+      title: t('dashboard.todayBookings', 'حجوزات اليوم'), 
+      value: mockBookings.filter(b => b.status === 'confirmed').length, 
+      icon: Calendar, 
+      trend: '+12%' 
+    },
+    { 
+      title: t('dashboard.totalClients', 'إجمالي العملاء'), 
+      value: 248, 
+      icon: Users, 
+      trend: '+8%' 
+    },
+    { 
+      title: t('dashboard.revenue', 'الإيرادات'), 
+      value: '12,450 ريال', 
+      icon: TrendingUp, 
+      trend: '+15%' 
+    },
+    { 
+      title: t('dashboard.pendingBookings', 'الحجوزات المعلقة'), 
+      value: mockBookings.filter(b => b.status === 'pending').length, 
+      icon: Clock, 
+      trend: '-5%' 
     }
   ];
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      confirmed: { 
-        label: t('dashboard.confirmed'), 
-        color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
-      },
-      pending: { 
-        label: t('dashboard.pending'), 
-        color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' 
-      },
-      cancelled: { 
-        label: t('dashboard.cancelled'), 
-        color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' 
-      }
+      confirmed: { color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200', icon: CheckCircle },
+      pending: { color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200', icon: AlertCircle },
+      cancelled: { color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200', icon: XCircle }
     };
     
     const config = statusConfig[status as keyof typeof statusConfig];
+    const StatusIcon = config.icon;
+    
     return (
-      <Badge className={config.color}>
-        {config.label}
+      <Badge className={`${config.color} ${isRTL ? 'flex-row-reverse' : ''} flex items-center gap-1`}>
+        <StatusIcon className="h-3 w-3" />
+        {t(`status.${status}`, status)}
       </Badge>
     );
   };
 
   return (
-    <AppLayout>
-      <div className={`space-y-8 p-6 animate-fade-in ${isRTL ? 'text-right' : 'text-left'}`}>
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="animate-slide-up">
-            <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} mb-4`}>
-              <Button className="gradient-primary text-white shadow-lg hover:shadow-xl transition-all duration-300">
-                <Plus className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                {t('dashboard.newBooking')}
-              </Button>
-              <Button variant="outline" size="sm" className="hover:bg-accent transition-all duration-200">
-                <Filter className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                {t('dashboard.filter')}
-              </Button>
-            </div>
-          </div>
-        </div>
+    <div className={`space-y-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+      {/* Dashboard Title */}
+      <div className="flex flex-col space-y-2">
+        <h1 className="text-3xl font-bold text-foreground">
+          {t('dashboard.title', 'لوحة التحكم')}
+        </h1>
+        <p className="text-muted-foreground">
+          {t('dashboard.subtitle', 'نظرة عامة على النشاط والحجوزات')}
+        </p>
+      </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
-            <Card key={index} className="hover:shadow-lg transition-all duration-300 gradient-card animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-              <CardContent className="p-6">
-                <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <div className={isRTL ? 'text-right' : 'text-left'}>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {stat.title}
-                    </p>
-                    <p className="text-2xl font-bold text-foreground">
-                      {stat.value}
-                    </p>
-                    <p className={`text-sm ${stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
-                      {stat.change} {t('dashboard.fromLastMonth')}
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-full bg-primary/10">
-                    <stat.icon className="h-6 w-6 text-primary" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+      {/* Period Selection */}
+      <div className={`flex items-center justify-between flex-wrap gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
+          {['today', 'week', 'month'].map((period) => (
+            <Button
+              key={period}
+              variant={selectedPeriod === period ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSelectedPeriod(period)}
+              className="transition-all duration-200"
+            >
+              {t(`dashboard.${period}`, period)}
+            </Button>
           ))}
         </div>
-
-        {/* Main Content Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-muted">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              {t('dashboard.overview')}
-            </TabsTrigger>
-            <TabsTrigger value="bookings" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              {t('dashboard.bookings')}
-            </TabsTrigger>
-            <TabsTrigger value="facilities" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              {t('dashboard.facilities')}
-            </TabsTrigger>
-            <TabsTrigger value="reports" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              {t('dashboard.reports')}
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="space-y-6 animate-fade-in">
-            {/* Recent Bookings */}
-            <Card className="shadow-lg">
-              <CardHeader>
-                <CardTitle className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
-                  <Clock className="h-5 w-5 text-primary" />
-                  <span>{t('dashboard.recentBookings')}</span>
-                </CardTitle>
-                <CardDescription>
-                  {t('dashboard.recentBookingsDesc')}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {recentBookings.map((booking, index) => (
-                    <div 
-                      key={booking.id} 
-                      className={`flex items-center justify-between p-4 border rounded-lg hover:bg-accent transition-all duration-200 animate-slide-up ${isRTL ? 'flex-row-reverse' : ''}`}
-                      style={{animationDelay: `${index * 0.1}s`}}
-                    >
-                      <div className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''}`}>
-                        <div className="w-10 h-10 gradient-primary rounded-full flex items-center justify-center">
-                          <User className="h-5 w-5 text-white" />
-                        </div>
-                        <div className={isRTL ? 'text-right' : 'text-left'}>
-                          <p className="font-medium text-foreground">{booking.client}</p>
-                          <p className="text-sm text-muted-foreground">{booking.facility}</p>
-                        </div>
-                      </div>
-                      <div className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''}`}>
-                        <div className={isRTL ? 'text-right' : 'text-left'}>
-                          <p className="text-sm font-medium text-foreground">{booking.time}</p>
-                          <p className="text-sm text-muted-foreground">{booking.date}</p>
-                        </div>
-                        {getStatusBadge(booking.status)}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="bookings" className="space-y-6 animate-fade-in">
-            <Card className="shadow-lg">
-              <CardHeader>
-                <CardTitle>{t('dashboard.allBookings')}</CardTitle>
-                <CardDescription>
-                  {t('dashboard.allBookingsDesc')}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className={`flex items-center space-x-4 mb-6 ${isRTL ? 'space-x-reverse' : ''}`}>
-                  <div className="relative flex-1">
-                    <Search className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground`} />
-                    <input
-                      type="text"
-                      placeholder={t('dashboard.searchBookings')}
-                      className={`w-full ${isRTL ? 'pr-10 pl-4 text-right' : 'pl-10 pr-4'} py-2 border rounded-lg bg-background text-foreground focus:ring-2 focus:ring-ring transition-all duration-200`}
-                    />
-                  </div>
-                  <Button variant="outline" className="hover:bg-accent">
-                    <Filter className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                    {t('dashboard.filter')}
-                  </Button>
-                </div>
-                <p className="text-muted-foreground text-center py-8">
-                  {t('dashboard.bookingsContent')}
-                </p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="facilities" className="space-y-6 animate-fade-in">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="hover:shadow-lg transition-all duration-300 gradient-card">
-                <CardHeader>
-                  <CardTitle className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
-                    <Target className="h-5 w-5 text-primary" />
-                    <span>{t('dashboard.sportsCourts')}</span>
-                  </CardTitle>
-                  <CardDescription>
-                    {t('dashboard.sportsCountsDesc')}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <span className="text-sm text-muted-foreground">{t('dashboard.available')}</span>
-                      <span className="text-sm font-medium text-green-600">8/10</span>
-                    </div>
-                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <span className="text-sm text-muted-foreground">{t('dashboard.occupied')}</span>
-                      <span className="text-sm font-medium text-orange-600">2/10</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-all duration-300 gradient-card">
-                <CardHeader>
-                  <CardTitle className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
-                    <Waves className="h-5 w-5 text-primary" />
-                    <span>{t('dashboard.swimmingPools')}</span>
-                  </CardTitle>
-                  <CardDescription>
-                    {t('dashboard.swimmingPoolsDesc')}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <span className="text-sm text-muted-foreground">{t('dashboard.available')}</span>
-                      <span className="text-sm font-medium text-green-600">3/4</span>
-                    </div>
-                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <span className="text-sm text-muted-foreground">{t('dashboard.occupied')}</span>
-                      <span className="text-sm font-medium text-orange-600">1/4</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="reports" className="space-y-6 animate-fade-in">
-            <Card className="shadow-lg">
-              <CardHeader>
-                <CardTitle>{t('dashboard.analyticsReports')}</CardTitle>
-                <CardDescription>
-                  {t('dashboard.analyticsReportsDesc')}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-center py-8">
-                  {t('dashboard.reportsContent')}
-                </p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        
+        <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
+          <Button variant="outline" size="sm">
+            <Filter className="h-4 w-4 mr-2" />
+            {t('dashboard.filter', 'تصفية')}
+          </Button>
+          <Button variant="outline" size="sm">
+            <Download className="h-4 w-4 mr-2" />
+            {t('dashboard.export', 'تصدير')}
+          </Button>
+          <Button size="sm" className="gradient-primary text-white">
+            <Plus className="h-4 w-4 mr-2" />
+            {t('dashboard.newBooking', 'حجز جديد')}
+          </Button>
+        </div>
       </div>
-    </AppLayout>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat, index) => (
+          <Card key={index} className="hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-card to-accent/20">
+            <CardContent className="p-6">
+              <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className={isRTL ? 'text-right' : 'text-left'}>
+                  <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
+                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-xs text-green-600 font-medium mt-1">{stat.trend}</p>
+                </div>
+                <div className="p-3 bg-primary/10 rounded-full">
+                  <stat.icon className="h-6 w-6 text-primary" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Recent Bookings */}
+      <Card className="border-0 shadow-xl bg-gradient-to-br from-card to-accent/10">
+        <CardHeader className="pb-4">
+          <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className={isRTL ? 'text-right' : 'text-left'}>
+              <CardTitle className="text-xl font-bold text-foreground">
+                {t('dashboard.recentBookings', 'الحجوزات الأخيرة')}
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">
+                {t('dashboard.recentBookingsDesc', 'آخر الحجوزات والأنشطة')}
+              </CardDescription>
+            </div>
+            <Button variant="ghost" size="sm">
+              {t('dashboard.viewAll', 'عرض الكل')}
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {mockBookings.slice(0, 5).map((booking) => (
+              <div 
+                key={booking.id} 
+                className={`flex items-center justify-between p-4 rounded-xl bg-background/50 hover:bg-accent/20 transition-all duration-200 ${isRTL ? 'flex-row-reverse' : ''}`}
+              >
+                <div className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse text-right' : 'text-left'}`}>
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Calendar className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">{booking.clientName}</p>
+                    <p className="text-sm text-muted-foreground">{booking.activity}</p>
+                    <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} mt-1`}>
+                      <Clock className="h-3 w-3 text-muted-foreground" />
+                      <span className="text-xs text-muted-foreground">{booking.time}</span>
+                      <span className="text-xs text-muted-foreground">•</span>
+                      <span className="text-xs text-muted-foreground">{booking.duration}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
+                  {getStatusBadge(booking.status)}
+                  <span className="font-bold text-primary">{booking.price}</span>
+                  <div className={`flex items-center space-x-1 ${isRTL ? 'space-x-reverse' : ''}`}>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:text-destructive">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

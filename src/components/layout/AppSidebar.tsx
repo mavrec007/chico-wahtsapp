@@ -9,7 +9,6 @@ import {
   CreditCard, 
   Shield, 
   Home,
-  Plus,
   Clock,
   Waves,
   Target
@@ -35,46 +34,39 @@ export function AppSidebar() {
 
   const navigationItems = [
     {
-      title: t('nav.home'),
+      title: t('sidebar.dashboard'),
       url: '/',
       icon: Home,
-      gradient: 'from-blue-500 to-purple-600'
     },
     {
-      title: t('nav.bookings'),
+      title: t('sidebar.bookings'),
       url: '/bookings',
       icon: Calendar,
-      gradient: 'from-emerald-500 to-teal-600'
     },
     {
       title: t('nav.courts'),
       url: '/courts',
       icon: Target,
-      gradient: 'from-orange-500 to-red-600'
     },
     {
       title: t('nav.swimming'),
       url: '/swimming',
       icon: Waves,
-      gradient: 'from-cyan-500 to-blue-600'
     },
     {
       title: t('nav.accounting'),
       url: '/accounting',
       icon: CreditCard,
-      gradient: 'from-green-500 to-emerald-600'
     },
     {
-      title: t('nav.clients'),
+      title: t('sidebar.clients'),
       url: '/clients',
       icon: Users,
-      gradient: 'from-purple-500 to-pink-600'
     },
     {
-      title: t('nav.reports'),
+      title: t('sidebar.reports'),
       url: '/reports',
       icon: BarChart3,
-      gradient: 'from-indigo-500 to-purple-600'
     }
   ];
 
@@ -83,17 +75,15 @@ export function AppSidebar() {
       title: t('nav.users'),
       url: '/admin/users',
       icon: Shield,
-      gradient: 'from-red-500 to-pink-600'
     },
     {
-      title: t('nav.settings'),
+      title: t('sidebar.settings'),
       url: '/settings',
       icon: Settings,
-      gradient: 'from-gray-500 to-slate-600'
     }
   ];
 
-  const NavItem = ({ item, isActive }: { item: any; isActive: boolean }) => (
+  const NavItem = ({ item }: { item: any }) => (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>
         <NavLink
@@ -102,8 +92,8 @@ export function AppSidebar() {
             cn(
               `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-3 rounded-xl transition-all duration-300 group relative overflow-hidden`,
               isActive
-                ? `bg-gradient-to-${isRTL ? 'l' : 'r'} ${item.gradient} text-white shadow-lg transform scale-105`
-                : 'hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 dark:hover:from-gray-800 dark:hover:to-gray-700 text-gray-700 dark:text-gray-300'
+                ? 'bg-primary text-primary-foreground shadow-md'
+                : 'hover:bg-accent text-foreground'
             )
           }
         >
@@ -113,23 +103,17 @@ export function AppSidebar() {
                 'p-2 rounded-lg transition-all duration-300',
                 isActive 
                   ? 'bg-white/20 backdrop-blur-sm' 
-                  : 'group-hover:bg-white/10'
+                  : 'group-hover:bg-background/50'
               )}>
-                <item.icon className={cn(
-                  'h-5 w-5 transition-all duration-300',
-                  isActive ? 'text-white' : 'text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200'
-                )} />
+                <item.icon className="h-5 w-5" />
               </div>
               {!isCollapsed && (
-                <span className={cn(
-                  'font-medium transition-all duration-300',
-                  isActive ? 'text-white' : 'group-hover:text-gray-800 dark:group-hover:text-gray-200'
-                )}>
+                <span className="font-medium transition-all duration-300">
                   {item.title}
                 </span>
               )}
-              {isActive && (
-                <div className={`absolute inset-0 bg-gradient-to-${isRTL ? 'l' : 'r'} from-white/20 to-transparent animate-pulse`} />
+              {isActive && !isCollapsed && (
+                <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent animate-pulse" />
               )}
             </>
           )}
@@ -142,15 +126,14 @@ export function AppSidebar() {
     <Sidebar 
       side={isRTL ? "right" : "left"}
       className={cn(
-        'transition-all duration-300 border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md',
-        isRTL ? 'border-l' : 'border-r',
+        'transition-all duration-300 border-border bg-sidebar/95 backdrop-blur-md fixed inset-y-0 z-50',
         isCollapsed ? 'w-16' : 'w-72'
       )}
     >
       <SidebarContent className="p-4">
         <div className="mb-8">
           <div className={cn(
-            `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-4 rounded-2xl bg-gradient-to-${isRTL ? 'l' : 'r'} from-blue-600 to-purple-700 text-white shadow-xl`,
+            `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-4 rounded-2xl gradient-primary text-white shadow-xl`,
             isCollapsed && 'justify-center'
           )}>
             <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
@@ -158,8 +141,8 @@ export function AppSidebar() {
             </div>
             {!isCollapsed && (
               <div className={isRTL ? 'text-right' : 'text-left'}>
-                <h1 className="text-xl font-bold">{t('sidebar.appTitle')}</h1>
-                <p className="text-blue-100 text-sm">{t('sidebar.appSubtitle')}</p>
+                <h1 className="text-xl font-bold">نظام الحجوزات</h1>
+                <p className="text-white/80 text-sm">إدارة متكاملة</p>
               </div>
             )}
           </div>
@@ -167,7 +150,7 @@ export function AppSidebar() {
 
         <SidebarGroup>
           <SidebarGroupLabel className={cn(
-            'text-gray-500 dark:text-gray-400 font-semibold mb-4 px-2',
+            'text-muted-foreground font-semibold mb-4 px-2',
             isCollapsed ? 'text-center' : (isRTL ? 'text-right' : 'text-left')
           )}>
             {isCollapsed ? '•' : t('sidebar.mainMenu')}
@@ -175,7 +158,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2">
               {navigationItems.map((item) => (
-                <NavItem key={item.url} item={item} isActive={false} />
+                <NavItem key={item.url} item={item} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -183,7 +166,7 @@ export function AppSidebar() {
 
         <SidebarGroup className="mt-8">
           <SidebarGroupLabel className={cn(
-            'text-gray-500 dark:text-gray-400 font-semibold mb-4 px-2',
+            'text-muted-foreground font-semibold mb-4 px-2',
             isCollapsed ? 'text-center' : (isRTL ? 'text-right' : 'text-left')
           )}>
             {isCollapsed ? '⚙' : t('sidebar.systemAdmin')}
@@ -191,19 +174,19 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu className="space-y-2">
               {adminItems.map((item) => (
-                <NavItem key={item.url} item={item} isActive={false} />
+                <NavItem key={item.url} item={item} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
         {!isCollapsed && (
-          <div className={`mt-8 p-4 rounded-2xl bg-gradient-to-${isRTL ? 'l' : 'r'} from-emerald-500 to-teal-600 text-white`}>
+          <div className="mt-8 p-4 rounded-2xl bg-accent text-accent-foreground animate-fade-in">
             <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} mb-2`}>
               <Clock className="h-5 w-5" />
               <span className="font-semibold">{t('sidebar.currentTime')}</span>
             </div>
-            <p className="text-emerald-100 text-sm">
+            <p className="text-muted-foreground text-sm">
               {new Date().toLocaleTimeString(isRTL ? 'ar-SA' : 'en-US')}
             </p>
           </div>

@@ -1,389 +1,281 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Calendar, Users, DollarSign, TrendingUp, Search, Filter, Plus, Target, Waves, BarChart3, Activity, Eye, Edit, Trash2 } from 'lucide-react';
+import { 
+  Calendar, 
+  Users, 
+  Clock, 
+  TrendingUp, 
+  Plus,
+  Filter,
+  Download,
+  Eye,
+  Edit,
+  Trash2,
+  CheckCircle,
+  XCircle,
+  AlertCircle
+} from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useSidebar } from '@/components/ui/sidebar';
 
 export function BookingDashboard() {
   const { isRTL, t } = useLanguage();
-  const { state } = useSidebar();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPeriod, setSelectedPeriod] = useState('today');
 
-  // Calculate dynamic margin class
-  const getContentMarginClass = () => {
-    const isExpanded = state === 'expanded';
-    if (isRTL) {
-      return isExpanded ? 'content-margin-rtl-expanded' : 'content-margin-rtl-collapsed';
-    } else {
-      return isExpanded ? 'content-margin-ltr-expanded' : 'content-margin-ltr-collapsed';
+  const mockBookings = [
+    {
+      id: 1,
+      clientName: t('dashboard.sampleClient1', 'أحمد محمد'),
+      activity: t('dashboard.tennisActivity', 'ملعب تنس'),
+      time: '10:00 AM',
+      date: '2024-01-15',
+      status: 'confirmed',
+      duration: '1 ساعة',
+      price: '150 ريال'
+    },
+    {
+      id: 2,
+      clientName: t('dashboard.sampleClient2', 'ليلى خالد'),
+      activity: t('dashboard.swimmingActivity', 'مسبح'),
+      time: '03:30 PM',
+      date: '2024-01-15',
+      status: 'pending',
+      duration: '30 دقيقة',
+      price: '75 ريال'
+    },
+    {
+      id: 3,
+      clientName: t('dashboard.sampleClient3', 'عبدالله سالم'),
+      activity: t('dashboard.footballActivity', 'ملعب كرة قدم'),
+      time: '06:00 PM',
+      date: '2024-01-16',
+      status: 'cancelled',
+      duration: '2 ساعة',
+      price: '200 ريال'
+    },
+    {
+      id: 4,
+      clientName: t('dashboard.sampleClient4', 'نورة علي'),
+      activity: t('dashboard.basketballActivity', 'ملعب كرة سلة'),
+      time: '08:00 AM',
+      date: '2024-01-16',
+      status: 'confirmed',
+      duration: '1.5 ساعة',
+      price: '180 ريال'
+    },
+    {
+      id: 5,
+      clientName: t('dashboard.sampleClient5', 'يوسف محمد'),
+      activity: t('dashboard.volleyballActivity', 'ملعب كرة طائرة'),
+      time: '04:00 PM',
+      date: '2024-01-17',
+      status: 'confirmed',
+      duration: '1 ساعة',
+      price: '120 ريال'
     }
-  };
+  ];
 
   const stats = [
-    {
-      title: t('dashboard.totalBookings', 'إجمالي الحجوزات'),
-      value: '1,234',
-      change: '+12%',
-      icon: Calendar,
-      color: 'text-primary',
-      trend: 'up'
+    { 
+      title: t('dashboard.todayBookings', 'حجوزات اليوم'), 
+      value: mockBookings.filter(b => b.status === 'confirmed').length, 
+      icon: Calendar, 
+      trend: '+12%',
+      color: 'from-blue-500 to-blue-600'
     },
-    {
-      title: t('dashboard.activeClients', 'العملاء النشطون'),
-      value: '856',
-      change: '+8%',
-      icon: Users,
-      color: 'text-green-600',
-      trend: 'up'
+    { 
+      title: t('dashboard.totalClients', 'إجمالي العملاء'), 
+      value: 248, 
+      icon: Users, 
+      trend: '+8%',
+      color: 'from-green-500 to-green-600'
     },
-    {
-      title: t('dashboard.monthlyRevenue', 'الإيرادات الشهرية'),
-      value: '45,678 ر.س',
-      change: '+15%',
-      icon: DollarSign,
-      color: 'text-accent',
-      trend: 'up'
+    { 
+      title: t('dashboard.revenue', 'الإيرادات'), 
+      value: '12,450 ريال', 
+      icon: TrendingUp, 
+      trend: '+15%',
+      color: 'from-purple-500 to-purple-600'
     },
-    {
-      title: t('dashboard.occupancyRate', 'معدل الإشغال'),
-      value: '78%',
-      change: '+5%',
-      icon: TrendingUp,
-      color: 'text-purple-600',
-      trend: 'up'
+    { 
+      title: t('dashboard.pendingBookings', 'الحجوزات المعلقة'), 
+      value: mockBookings.filter(b => b.status === 'pending').length, 
+      icon: Clock, 
+      trend: '-5%',
+      color: 'from-orange-500 to-orange-600'
     }
   ];
 
-  const recentBookings = [
-    { 
-      id: 1, 
-      client: 'أحمد محمد علي', 
-      facility: 'ملعب تنس رقم 1', 
-      date: '2024-01-15',
-      time: '14:00 - 15:00', 
-      status: 'confirmed',
-      amount: '150 ر.س'
-    },
-    { 
-      id: 2, 
-      client: 'سارة أحمد الزهراني', 
-      facility: 'مسبح الأطفال', 
-      date: '2024-01-15',
-      time: '16:30 - 17:30', 
-      status: 'pending',
-      amount: '80 ر.س'
-    },
-    { 
-      id: 3, 
-      client: 'محمد علي السعدي', 
-      facility: 'ملعب كرة سلة', 
-      date: '2024-01-16',
-      time: '18:00 - 19:00', 
-      status: 'confirmed',
-      amount: '120 ر.س'
-    },
-    { 
-      id: 4, 
-      client: 'فاطمة عبدالله', 
-      facility: 'ملعب كرة قدم', 
-      date: '2024-01-16',
-      time: '19:00 - 20:00', 
-      status: 'cancelled',
-      amount: '200 ر.س'
-    },
-    { 
-      id: 5, 
-      client: 'خالد عبدالعزيز', 
-      facility: 'المسبح الرئيسي', 
-      date: '2024-01-17',
-      time: '07:00 - 08:00', 
-      status: 'confirmed',
-      amount: '100 ر.س'
-    }
-  ];
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'status-badge-active';
-      case 'pending': return 'status-badge-pending';
-      case 'cancelled': return 'status-badge-inactive';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'confirmed': return t('dashboard.confirmed', 'مؤكد');
-      case 'pending': return t('dashboard.pending', 'في الانتظار');
-      case 'cancelled': return t('dashboard.cancelled', 'ملغي');
-      default: return status;
-    }
+  const getStatusBadge = (status: string) => {
+    const statusConfig = {
+      confirmed: { 
+        color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800', 
+        icon: CheckCircle 
+      },
+      pending: { 
+        color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800', 
+        icon: AlertCircle 
+      },
+      cancelled: { 
+        color: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800', 
+        icon: XCircle 
+      }
+    };
+    
+    const config = statusConfig[status as keyof typeof statusConfig];
+    const StatusIcon = config.icon;
+    
+    return (
+      <Badge className={`${config.color} ${isRTL ? 'flex-row-reverse' : ''} flex items-center gap-1 border px-3 py-1`}>
+        <StatusIcon className="h-3 w-3" />
+        {t(`status.${status}`, status)}
+      </Badge>
+    );
   };
 
   return (
-    <div className={`min-h-screen ${getContentMarginClass()} animate-fade-in`}>
-      <div className="p-4 md:p-6 lg:p-8 space-y-8 max-w-7xl mx-auto">
-        {/* Header Section */}
-        <div className={`flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 ${isRTL ? 'lg:flex-row-reverse' : ''} animate-slide-up`}>
-          <div className={isRTL ? 'text-right' : 'text-left'}>
-            <h1 className="text-3xl lg:text-4xl font-bold text-gradient mb-2">
-              {t('dashboard.title', 'لوحة تحكم المرافق الرياضية')}
+    <div className={`space-y-8 ${isRTL ? 'text-right' : 'text-left'} max-w-full`}>
+      {/* Dashboard Header */}
+      <div className="flex flex-col space-y-4 animate-fade-in">
+        <div className={`flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
+          <div>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gradient mb-2">
+              {t('dashboard.title', 'لوحة التحكم')}
             </h1>
-            <p className="text-muted-foreground text-lg">
-              {t('dashboard.subtitle', 'إدارة شاملة ومتطورة لجميع المرافق والحجوزات')}
+            <p className="text-muted-foreground text-sm md:text-base">
+              {t('dashboard.subtitle', 'نظرة عامة على النشاط والحجوزات')}
             </p>
           </div>
           
-          <div className={`flex flex-col sm:flex-row gap-3 ${isRTL ? 'sm:flex-row-reverse' : ''} animate-slide-in-right`}>
-            <Button className="gradient-primary text-white hover:shadow-xl hover:scale-105 transition-all duration-300 shadow-lg">
-              <Plus className="w-4 h-4 mr-2" />
-              {t('dashboard.newBooking', 'حجز جديد')}
-            </Button>
-            <Button variant="outline" className="hover:bg-primary/10 hover:border-primary transition-all duration-300 hover:scale-105">
-              <Filter className="w-4 h-4 mr-2" />
-              {t('dashboard.filter', 'تصفية النتائج')}
-            </Button>
+          <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} flex-wrap gap-2`}>
+            {['today', 'week', 'month'].map((period) => (
+              <Button
+                key={period}
+                variant={selectedPeriod === period ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedPeriod(period)}
+                className="transition-all duration-200 hover-lift"
+              >
+                {t(`dashboard.${period}`, period)}
+              </Button>
+            ))}
           </div>
         </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
-            <Card 
-              key={stat.title} 
-              className="glass-card hover-glow hover-lift transition-all duration-500 animate-scale-in border-0 shadow-lg"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <CardHeader className="pb-3">
-                <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <div className={`p-3.5 rounded-xl bg-gradient-to-br from-primary/15 to-accent/15 ${stat.color} shadow-lg`}>
-                    <stat.icon className="w-6 h-6" />
-                  </div>
-                  <Badge variant="secondary" className={`${stat.trend === 'up' ? 'text-green-700 bg-green-100 dark:bg-green-900/20' : ''} animate-pulse font-medium`}>
-                    {stat.change}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className={isRTL ? 'text-right' : 'text-left'}>
-                  <p className="text-2xl lg:text-3xl font-bold text-gradient mb-1">{stat.value}</p>
-                  <p className="text-muted-foreground text-sm">{stat.title}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+        
+        <div className={`flex items-center justify-between flex-wrap gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} flex-wrap gap-2`}>
+            <Button variant="outline" size="sm" className="hover-lift">
+              <Filter className="h-4 w-4 mr-2" />
+              {t('dashboard.filter', 'تصفية')}
+            </Button>
+            <Button variant="outline" size="sm" className="hover-lift">
+              <Download className="h-4 w-4 mr-2" />
+              {t('dashboard.export', 'تصدير')}
+            </Button>
+          </div>
+          
+          <Button size="sm" className="gradient-primary text-white hover-glow">
+            <Plus className="h-4 w-4 mr-2" />
+            {t('dashboard.newBooking', 'حجز جديد')}
+          </Button>
         </div>
-
-        {/* Main Content Tabs */}
-        <Tabs defaultValue="overview" className={`space-y-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-          <TabsList className="grid w-full grid-cols-4 glass-effect p-1.5 animate-slide-up h-auto">
-            <TabsTrigger value="overview" className="transition-all duration-300 hover:scale-105 data-[state=active]:gradient-primary data-[state=active]:text-white py-3 text-sm font-medium">
-              {t('dashboard.overview', 'نظرة عامة')}
-            </TabsTrigger>
-            <TabsTrigger value="bookings" className="transition-all duration-300 hover:scale-105 data-[state=active]:gradient-primary data-[state=active]:text-white py-3 text-sm font-medium">
-              {t('dashboard.bookings', 'الحجوزات')}
-            </TabsTrigger>
-            <TabsTrigger value="facilities" className="transition-all duration-300 hover:scale-105 data-[state=active]:gradient-primary data-[state=active]:text-white py-3 text-sm font-medium">
-              {t('dashboard.facilities', 'المرافق')}
-            </TabsTrigger>
-            <TabsTrigger value="reports" className="transition-all duration-300 hover:scale-105 data-[state=active]:gradient-primary data-[state=active]:text-white py-3 text-sm font-medium">
-              {t('dashboard.reports', 'التقارير')}
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview" className="space-y-8 animate-fade-in">
-            {/* Recent Bookings Table */}
-            <Card className="glass-card hover-glow border-0 shadow-lg">
-              <CardHeader>
-                <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
-                  <div>
-                    <CardTitle className="text-gradient text-xl mb-2">{t('dashboard.recentBookings', 'الحجوزات الأخيرة')}</CardTitle>
-                    <CardDescription className="text-base">
-                      {t('dashboard.recentBookingsDesc', 'آخر الحجوزات المسجلة في النظام')}
-                    </CardDescription>
-                  </div>
-                  <div className="p-3 rounded-xl gradient-primary text-white shadow-lg">
-                    <Calendar className="w-6 h-6" />
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="table-professional rounded-lg overflow-hidden">
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="table-header">
-                        <TableHead className={`font-semibold ${isRTL ? 'text-right' : 'text-left'}`}>العميل</TableHead>
-                        <TableHead className={`font-semibold ${isRTL ? 'text-right' : 'text-left'}`}>المرفق</TableHead>
-                        <TableHead className={`font-semibold ${isRTL ? 'text-right' : 'text-left'}`}>التاريخ</TableHead>
-                        <TableHead className={`font-semibold ${isRTL ? 'text-right' : 'text-left'}`}>الوقت</TableHead>
-                        <TableHead className={`font-semibold ${isRTL ? 'text-right' : 'text-left'}`}>المبلغ</TableHead>
-                        <TableHead className={`font-semibold ${isRTL ? 'text-right' : 'text-left'}`}>الحالة</TableHead>
-                        <TableHead className={`font-semibold ${isRTL ? 'text-right' : 'text-left'}`}>الإجراءات</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {recentBookings.map((booking, index) => (
-                        <TableRow 
-                          key={booking.id} 
-                          className="table-row animate-slide-in-left"
-                          style={{ animationDelay: `${index * 50}ms` }}
-                        >
-                          <TableCell className="font-medium">
-                            <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
-                              <div className="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center text-white font-semibold text-sm">
-                                {booking.client.charAt(0)}
-                              </div>
-                              <span>{booking.client}</span>
-                            </div>
-                          </TableCell>
-                          <TableCell>{booking.facility}</TableCell>
-                          <TableCell className="text-muted-foreground">{booking.date}</TableCell>
-                          <TableCell className="font-medium">{booking.time}</TableCell>
-                          <TableCell className="font-semibold text-accent">{booking.amount}</TableCell>
-                          <TableCell>
-                            <Badge className={getStatusColor(booking.status)}>
-                              {getStatusText(booking.status)}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>
-                            <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
-                              <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-primary/10">
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                              <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-primary/10">
-                                <Edit className="h-4 w-4" />
-                              </Button>
-                              <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-destructive/10 text-destructive">
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="bookings" className="space-y-6 animate-fade-in">
-            <Card className="glass-card hover-glow">
-              <CardHeader>
-                <CardTitle className="text-gradient">{t('dashboard.allBookings', 'جميع الحجوزات')}</CardTitle>
-                <CardDescription>{t('dashboard.allBookingsDesc', 'إدارة وعرض جميع الحجوزات')}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center space-x-4 mb-6">
-                  <div className="relative flex-1">
-                    <Search className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground`} />
-                    <Input
-                      placeholder={t('dashboard.searchBookings', 'البحث في الحجوزات...')}
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className={`${isRTL ? 'pr-10' : 'pl-10'} glass-effect transition-all duration-300 focus:scale-105`}
-                    />
-                  </div>
-                </div>
-                <div className="text-center py-12 text-muted-foreground">
-                  <Calendar className="w-16 h-16 mx-auto mb-4 opacity-50 animate-float" />
-                  <p>{t('dashboard.bookingsContent', 'محتوى إدارة الحجوزات سيتم إضافته هنا')}</p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="facilities" className="space-y-6 animate-fade-in">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="glass-card hover-glow hover-lift">
-                <CardHeader>
-                  <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
-                    <div className="p-3 rounded-xl gradient-primary text-white">
-                      <Target className="w-6 h-6" />
-                    </div>
-                    <div className={isRTL ? 'text-right' : 'text-left'}>
-                      <CardTitle className="text-gradient">{t('dashboard.sportsCourts', 'الملاعب الرياضية')}</CardTitle>
-                      <CardDescription>{t('dashboard.sportsCountsDesc', 'إدارة ملاعب التنس وكرة السلة والقدم')}</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <span>{t('dashboard.available', 'متاح')}</span>
-                      <Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">12</Badge>
-                    </div>
-                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <span>{t('dashboard.occupied', 'مشغول')}</span>
-                      <Badge className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">5</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="glass-card hover-glow hover-lift">
-                <CardHeader>
-                  <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
-                    <div className="p-3 rounded-xl gradient-primary text-white">
-                      <Waves className="w-6 h-6" />
-                    </div>
-                    <div className={isRTL ? 'text-right' : 'text-left'}>
-                      <CardTitle className="text-gradient">{t('dashboard.swimmingPools', 'المسابح')}</CardTitle>
-                      <CardDescription>{t('dashboard.swimmingPoolsDesc', 'إدارة المسابح ومرافق السباحة')}</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <span>{t('dashboard.available', 'متاح')}</span>
-                      <Badge className="bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">3</Badge>
-                    </div>
-                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
-                      <span>{t('dashboard.occupied', 'مشغول')}</span>
-                      <Badge className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">1</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="reports" className="space-y-6 animate-fade-in">
-            <Card className="glass-card hover-glow">
-              <CardHeader>
-                <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
-                  <div className="p-3 rounded-xl gradient-primary text-white">
-                    <BarChart3 className="w-6 h-6" />
-                  </div>
-                  <div className={isRTL ? 'text-right' : 'text-left'}>
-                    <CardTitle className="text-gradient">{t('dashboard.analyticsReports', 'التقارير والتحليلات')}</CardTitle>
-                    <CardDescription>{t('dashboard.analyticsReportsDesc', 'تقارير مفصلة عن الأداء والإحصائيات')}</CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center py-12 text-muted-foreground">
-                  <BarChart3 className="w-16 h-16 mx-auto mb-4 opacity-50 animate-float" />
-                  <p>{t('dashboard.reportsContent', 'محتوى التقارير والتحليلات سيتم إضافته هنا')}</p>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
       </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        {stats.map((stat, index) => (
+          <Card 
+            key={index} 
+            className="glass-card border-0 hover-lift animate-slide-up"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <CardContent className="p-4 md:p-6">
+              <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className={isRTL ? 'text-right' : 'text-left'}>
+                  <p className="text-xs md:text-sm font-medium text-muted-foreground mb-2">{stat.title}</p>
+                  <p className="text-xl md:text-2xl font-bold text-foreground mb-1">{stat.value}</p>
+                  <p className={`text-xs font-medium ${
+                    stat.trend.startsWith('+') ? 'text-emerald-600' : 'text-red-600'
+                  }`}>
+                    {stat.trend}
+                  </p>
+                </div>
+                <div className={`p-3 bg-gradient-to-br ${stat.color} rounded-xl shadow-lg animate-glow`}>
+                  <stat.icon className="h-5 w-5 md:h-6 md:w-6 text-white" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Recent Bookings */}
+      <Card className="glass-card border-0 animate-slide-up">
+        <CardHeader className="pb-4">
+          <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className={isRTL ? 'text-right' : 'text-left'}>
+              <CardTitle className="text-lg md:text-xl font-bold text-foreground">
+                {t('dashboard.recentBookings', 'الحجوزات الأخيرة')}
+              </CardTitle>
+              <CardDescription className="text-muted-foreground text-sm">
+                {t('dashboard.recentBookingsDesc', 'آخر الحجوزات والأنشطة')}
+              </CardDescription>
+            </div>
+            <Button variant="ghost" size="sm" className="hover-glow">
+              {t('dashboard.viewAll', 'عرض الكل')}
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {mockBookings.slice(0, 5).map((booking, index) => (
+              <div 
+                key={booking.id} 
+                className={`
+                  flex items-center justify-between p-4 rounded-xl glass-effect hover:bg-accent/40 
+                  transition-all duration-200 hover-lift animate-slide-in-left
+                  ${isRTL ? 'flex-row-reverse' : ''}
+                `}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse text-right' : 'text-left'} flex-1 min-w-0`}>
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center animate-float">
+                    <Calendar className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-foreground truncate">{booking.clientName}</p>
+                    <p className="text-sm text-muted-foreground truncate">{booking.activity}</p>
+                    <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} mt-1`}>
+                      <Clock className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+                      <span className="text-xs text-muted-foreground">{booking.time}</span>
+                      <span className="text-xs text-muted-foreground">•</span>
+                      <span className="text-xs text-muted-foreground truncate">{booking.duration}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} flex-shrink-0`}>
+                  {getStatusBadge(booking.status)}
+                  <span className="font-bold text-primary hidden sm:inline">{booking.price}</span>
+                  <div className={`flex items-center space-x-1 ${isRTL ? 'space-x-reverse' : ''}`}>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-primary/10">
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-primary/10">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

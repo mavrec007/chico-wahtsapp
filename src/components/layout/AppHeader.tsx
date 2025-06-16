@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/sidebar';
 import {
   Bell,
+  Plus,
   Search,
   Settings,
   User,
@@ -25,20 +26,17 @@ import {
   Users,
   Target,
   Waves,
-  Languages,
-  Palette
+  Languages
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { AppointmentModal } from '@/components/modals/AppointmentModal';
-import { StyleControlPanel } from '@/components/panels/StyleControlPanel';
 
 export function AppHeader() {
   const { theme, setTheme } = useTheme();
   const { language, setLanguage, isRTL, t } = useLanguage();
   const { toggleSidebar } = useSidebar();
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
-  const [isStylePanelOpen, setIsStylePanelOpen] = useState(false);
 
   const quickActions = [
     {
@@ -64,19 +62,15 @@ export function AppHeader() {
     setLanguage(language === 'ar' ? 'en' : 'ar');
   };
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
-
   return (
     <>
-      <header className={`h-16 border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md sticky top-0 z-40 ${isRTL ? 'border-l' : 'border-r'}`}>
-        <div className={`flex items-center justify-between h-full px-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+      <header className="h-16 border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md sticky top-0 z-50">
+        <div className="flex items-center justify-between h-full px-6">
           {/* Left section */}
-          <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
+          <div className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''}`}>
             <SidebarTrigger className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" />
             
-            <div className={`hidden md:flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
+            <div className={`hidden md:flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
               {quickActions.map((action, index) => (
                 <Button
                   key={index}
@@ -85,7 +79,7 @@ export function AppHeader() {
                   onClick={action.action}
                   className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg"
                 >
-                  <action.icon className={`h-4 w-4 ${isRTL ? 'ml-1' : 'mr-1'}`} />
+                  <action.icon className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
                   {action.title}
                 </Button>
               ))}
@@ -99,23 +93,13 @@ export function AppHeader() {
               <input
                 type="text"
                 placeholder={t('header.searchPlaceholder')}
-                className={`w-full ${isRTL ? 'pr-10 pl-4 text-right' : 'pl-10 pr-4'} py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300`}
+                className={`w-full ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300`}
               />
             </div>
           </div>
 
           {/* Right section */}
-          <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
-            {/* Style Control Panel */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsStylePanelOpen(true)}
-              className="hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
-            >
-              <Palette className="h-5 w-5 text-gray-600 dark:text-gray-400" />
-            </Button>
-
+          <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
             {/* Language toggle */}
             <Button
               variant="ghost"
@@ -138,7 +122,7 @@ export function AppHeader() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={toggleTheme}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full"
             >
               {theme === 'dark' ? (
@@ -184,11 +168,6 @@ export function AppHeader() {
       <AppointmentModal
         isOpen={isAppointmentModalOpen}
         onClose={() => setIsAppointmentModalOpen(false)}
-      />
-
-      <StyleControlPanel
-        isOpen={isStylePanelOpen}
-        onClose={() => setIsStylePanelOpen(false)}
       />
     </>
   );

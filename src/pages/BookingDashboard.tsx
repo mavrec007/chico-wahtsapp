@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -81,40 +82,53 @@ export function BookingDashboard() {
       title: t('dashboard.todayBookings', 'حجوزات اليوم'), 
       value: mockBookings.filter(b => b.status === 'confirmed').length, 
       icon: Calendar, 
-      trend: '+12%' 
+      trend: '+12%',
+      color: 'from-blue-500 to-blue-600'
     },
     { 
       title: t('dashboard.totalClients', 'إجمالي العملاء'), 
       value: 248, 
       icon: Users, 
-      trend: '+8%' 
+      trend: '+8%',
+      color: 'from-green-500 to-green-600'
     },
     { 
       title: t('dashboard.revenue', 'الإيرادات'), 
       value: '12,450 ريال', 
       icon: TrendingUp, 
-      trend: '+15%' 
+      trend: '+15%',
+      color: 'from-purple-500 to-purple-600'
     },
     { 
       title: t('dashboard.pendingBookings', 'الحجوزات المعلقة'), 
       value: mockBookings.filter(b => b.status === 'pending').length, 
       icon: Clock, 
-      trend: '-5%' 
+      trend: '-5%',
+      color: 'from-orange-500 to-orange-600'
     }
   ];
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      confirmed: { color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200', icon: CheckCircle },
-      pending: { color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200', icon: AlertCircle },
-      cancelled: { color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200', icon: XCircle }
+      confirmed: { 
+        color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800', 
+        icon: CheckCircle 
+      },
+      pending: { 
+        color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800', 
+        icon: AlertCircle 
+      },
+      cancelled: { 
+        color: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800', 
+        icon: XCircle 
+      }
     };
     
     const config = statusConfig[status as keyof typeof statusConfig];
     const StatusIcon = config.icon;
     
     return (
-      <Badge className={`${config.color} ${isRTL ? 'flex-row-reverse' : ''} flex items-center gap-1`}>
+      <Badge className={`${config.color} ${isRTL ? 'flex-row-reverse' : ''} flex items-center gap-1 border px-3 py-1`}>
         <StatusIcon className="h-3 w-3" />
         {t(`status.${status}`, status)}
       </Badge>
@@ -122,43 +136,47 @@ export function BookingDashboard() {
   };
 
   return (
-    <div className={`space-y-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-      {/* Dashboard Title */}
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold text-foreground">
-          {t('dashboard.title', 'لوحة التحكم')}
-        </h1>
-        <p className="text-muted-foreground">
-          {t('dashboard.subtitle', 'نظرة عامة على النشاط والحجوزات')}
-        </p>
-      </div>
-
-      {/* Period Selection */}
-      <div className={`flex items-center justify-between flex-wrap gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-        <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
-          {['today', 'week', 'month'].map((period) => (
-            <Button
-              key={period}
-              variant={selectedPeriod === period ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setSelectedPeriod(period)}
-              className="transition-all duration-200"
-            >
-              {t(`dashboard.${period}`, period)}
-            </Button>
-          ))}
+    <div className={`space-y-8 ${isRTL ? 'text-right' : 'text-left'} max-w-full`}>
+      {/* Dashboard Header */}
+      <div className="flex flex-col space-y-4 animate-fade-in">
+        <div className={`flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 ${isRTL ? 'lg:flex-row-reverse' : ''}`}>
+          <div>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gradient mb-2">
+              {t('dashboard.title', 'لوحة التحكم')}
+            </h1>
+            <p className="text-muted-foreground text-sm md:text-base">
+              {t('dashboard.subtitle', 'نظرة عامة على النشاط والحجوزات')}
+            </p>
+          </div>
+          
+          <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} flex-wrap gap-2`}>
+            {['today', 'week', 'month'].map((period) => (
+              <Button
+                key={period}
+                variant={selectedPeriod === period ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setSelectedPeriod(period)}
+                className="transition-all duration-200 hover-lift"
+              >
+                {t(`dashboard.${period}`, period)}
+              </Button>
+            ))}
+          </div>
         </div>
         
-        <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
-          <Button variant="outline" size="sm">
-            <Filter className="h-4 w-4 mr-2" />
-            {t('dashboard.filter', 'تصفية')}
-          </Button>
-          <Button variant="outline" size="sm">
-            <Download className="h-4 w-4 mr-2" />
-            {t('dashboard.export', 'تصدير')}
-          </Button>
-          <Button size="sm" className="gradient-primary text-white">
+        <div className={`flex items-center justify-between flex-wrap gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} flex-wrap gap-2`}>
+            <Button variant="outline" size="sm" className="hover-lift">
+              <Filter className="h-4 w-4 mr-2" />
+              {t('dashboard.filter', 'تصفية')}
+            </Button>
+            <Button variant="outline" size="sm" className="hover-lift">
+              <Download className="h-4 w-4 mr-2" />
+              {t('dashboard.export', 'تصدير')}
+            </Button>
+          </div>
+          
+          <Button size="sm" className="gradient-primary text-white hover-glow">
             <Plus className="h-4 w-4 mr-2" />
             {t('dashboard.newBooking', 'حجز جديد')}
           </Button>
@@ -166,18 +184,26 @@ export function BookingDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {stats.map((stat, index) => (
-          <Card key={index} className="hover:shadow-lg transition-all duration-300 border-0 bg-gradient-to-br from-card to-accent/20">
-            <CardContent className="p-6">
+          <Card 
+            key={index} 
+            className="glass-card border-0 hover-lift animate-slide-up"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <CardContent className="p-4 md:p-6">
               <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <div className={isRTL ? 'text-right' : 'text-left'}>
-                  <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                  <p className="text-xs text-green-600 font-medium mt-1">{stat.trend}</p>
+                  <p className="text-xs md:text-sm font-medium text-muted-foreground mb-2">{stat.title}</p>
+                  <p className="text-xl md:text-2xl font-bold text-foreground mb-1">{stat.value}</p>
+                  <p className={`text-xs font-medium ${
+                    stat.trend.startsWith('+') ? 'text-emerald-600' : 'text-red-600'
+                  }`}>
+                    {stat.trend}
+                  </p>
                 </div>
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <stat.icon className="h-6 w-6 text-primary" />
+                <div className={`p-3 bg-gradient-to-br ${stat.color} rounded-xl shadow-lg animate-glow`}>
+                  <stat.icon className="h-5 w-5 md:h-6 md:w-6 text-white" />
                 </div>
               </div>
             </CardContent>
@@ -186,56 +212,61 @@ export function BookingDashboard() {
       </div>
 
       {/* Recent Bookings */}
-      <Card className="border-0 shadow-xl bg-gradient-to-br from-card to-accent/10">
+      <Card className="glass-card border-0 animate-slide-up">
         <CardHeader className="pb-4">
           <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
             <div className={isRTL ? 'text-right' : 'text-left'}>
-              <CardTitle className="text-xl font-bold text-foreground">
+              <CardTitle className="text-lg md:text-xl font-bold text-foreground">
                 {t('dashboard.recentBookings', 'الحجوزات الأخيرة')}
               </CardTitle>
-              <CardDescription className="text-muted-foreground">
+              <CardDescription className="text-muted-foreground text-sm">
                 {t('dashboard.recentBookingsDesc', 'آخر الحجوزات والأنشطة')}
               </CardDescription>
             </div>
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="hover-glow">
               {t('dashboard.viewAll', 'عرض الكل')}
             </Button>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            {mockBookings.slice(0, 5).map((booking) => (
+          <div className="space-y-3">
+            {mockBookings.slice(0, 5).map((booking, index) => (
               <div 
                 key={booking.id} 
-                className={`flex items-center justify-between p-4 rounded-xl bg-background/50 hover:bg-accent/20 transition-all duration-200 ${isRTL ? 'flex-row-reverse' : ''}`}
+                className={`
+                  flex items-center justify-between p-4 rounded-xl glass-effect hover:bg-accent/40 
+                  transition-all duration-200 hover-lift animate-slide-in-left
+                  ${isRTL ? 'flex-row-reverse' : ''}
+                `}
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse text-right' : 'text-left'}`}>
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                <div className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse text-right' : 'text-left'} flex-1 min-w-0`}>
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center animate-float">
                     <Calendar className="h-5 w-5 text-primary" />
                   </div>
-                  <div>
-                    <p className="font-semibold text-foreground">{booking.clientName}</p>
-                    <p className="text-sm text-muted-foreground">{booking.activity}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-foreground truncate">{booking.clientName}</p>
+                    <p className="text-sm text-muted-foreground truncate">{booking.activity}</p>
                     <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} mt-1`}>
-                      <Clock className="h-3 w-3 text-muted-foreground" />
+                      <Clock className="h-3 w-3 text-muted-foreground flex-shrink-0" />
                       <span className="text-xs text-muted-foreground">{booking.time}</span>
                       <span className="text-xs text-muted-foreground">•</span>
-                      <span className="text-xs text-muted-foreground">{booking.duration}</span>
+                      <span className="text-xs text-muted-foreground truncate">{booking.duration}</span>
                     </div>
                   </div>
                 </div>
                 
-                <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
+                <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} flex-shrink-0`}>
                   {getStatusBadge(booking.status)}
-                  <span className="font-bold text-primary">{booking.price}</span>
+                  <span className="font-bold text-primary hidden sm:inline">{booking.price}</span>
                   <div className={`flex items-center space-x-1 ${isRTL ? 'space-x-reverse' : ''}`}>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-primary/10">
                       <Eye className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-primary/10">
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:text-destructive">
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>

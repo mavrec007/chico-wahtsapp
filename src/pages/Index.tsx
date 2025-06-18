@@ -1,14 +1,9 @@
 
 import React from 'react';
-import { AppLayout } from '@/components/layout/AppLayout';
-import BookingDashboard from './BookingDashboard';
+import { Navigate } from 'react-router-dom';
 
 const Index = () => {
-  return (
-    <AppLayout>
-      <BookingDashboard />
-    </AppLayout>
-  );
+  return <Navigate to="/" replace />;
 };
 
 export default Index;

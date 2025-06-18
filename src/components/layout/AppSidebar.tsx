@@ -15,17 +15,7 @@ import {
   Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from '@/components/ui/sidebar';
+import { useAppStore } from '@/stores/useAppStore';
 
 const navigationItems = [
   {
@@ -88,63 +78,65 @@ const adminItems = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
-  const isCollapsed = state === 'collapsed';
+  const { language, sidebarOpen } = useAppStore();
+  const isCollapsed = !sidebarOpen;
+  const isRTL = language === 'ar';
 
-  const NavItem = ({ item, isActive }: { item: any; isActive: boolean }) => (
-    <SidebarMenuItem>
-      <SidebarMenuButton asChild>
-        <NavLink
-          to={item.url}
-          className={({ isActive }) =>
-            cn(
-              'flex items-center space-x-3 space-x-reverse p-3 rounded-xl transition-all duration-300 group relative overflow-hidden',
-              isActive
-                ? `bg-gradient-to-r ${item.gradient} text-white shadow-lg transform scale-105`
-                : 'hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 dark:hover:from-gray-800 dark:hover:to-gray-700 text-gray-700 dark:text-gray-300'
-            )
-          }
-        >
-          {({ isActive }) => (
-            <>
-              <div className={cn(
-                'p-2 rounded-lg transition-all duration-300',
-                isActive 
-                  ? 'bg-white/20 backdrop-blur-sm' 
-                  : 'group-hover:bg-white/10'
+  const NavItem = ({ item }: { item: any }) => (
+    <div className="mb-2">
+      <NavLink
+        to={item.url}
+        className={({ isActive }) =>
+          cn(
+            'flex items-center space-x-3 space-x-reverse p-3 rounded-xl transition-all duration-300 group relative overflow-hidden',
+            isActive
+              ? `bg-gradient-to-${isRTL ? 'l' : 'r'} ${item.gradient} text-white shadow-lg transform scale-105`
+              : 'hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 dark:hover:from-gray-800 dark:hover:to-gray-700 text-gray-700 dark:text-gray-300'
+          )
+        }
+      >
+        {({ isActive }) => (
+          <>
+            <div className={cn(
+              'p-2 rounded-lg transition-all duration-300',
+              isActive 
+                ? 'bg-white/20 backdrop-blur-sm' 
+                : 'group-hover:bg-white/10'
+            )}>
+              <item.icon className={cn(
+                'h-5 w-5 transition-all duration-300',
+                isActive ? 'text-white' : 'text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200'
+              )} />
+            </div>
+            {!isCollapsed && (
+              <span className={cn(
+                'font-medium transition-all duration-300',
+                isActive ? 'text-white' : 'group-hover:text-gray-800 dark:group-hover:text-gray-200'
               )}>
-                <item.icon className={cn(
-                  'h-5 w-5 transition-all duration-300',
-                  isActive ? 'text-white' : 'text-gray-600 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200'
-                )} />
-              </div>
-              {!isCollapsed && (
-                <span className={cn(
-                  'font-medium transition-all duration-300',
-                  isActive ? 'text-white' : 'group-hover:text-gray-800 dark:group-hover:text-gray-200'
-                )}>
-                  {item.title}
-                </span>
-              )}
-              {isActive && (
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-pulse" />
-              )}
-            </>
-          )}
-        </NavLink>
-      </SidebarMenuButton>
-    </SidebarMenuItem>
+                {item.title}
+              </span>
+            )}
+            {isActive && (
+              <div className={`absolute inset-0 bg-gradient-to-${isRTL ? 'l' : 'r'} from-white/20 to-transparent animate-pulse`} />
+            )}
+          </>
+        )}
+      </NavLink>
+    </div>
   );
 
   return (
-    <Sidebar className={cn(
-      'transition-all duration-300 border-r border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md',
-      isCollapsed ? 'w-16' : 'w-72'
-    )}>
-      <SidebarContent className="p-4">
+    <aside 
+      className={cn(
+        'transition-all duration-300 border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md h-screen sticky top-0',
+        isRTL ? 'border-l' : 'border-r',
+        isCollapsed ? 'w-16' : 'w-72'
+      )}
+    >
+      <div className="p-4 h-full flex flex-col">
         <div className="mb-8">
           <div className={cn(
-            'flex items-center space-x-3 space-x-reverse p-4 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-700 text-white shadow-xl',
+            `flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-4 rounded-2xl bg-gradient-to-${isRTL ? 'l' : 'r'} from-blue-600 to-purple-700 text-white shadow-xl`,
             isCollapsed && 'justify-center'
           )}>
             <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
@@ -159,41 +151,39 @@ export function AppSidebar() {
           </div>
         </div>
 
-        <SidebarGroup>
-          <SidebarGroupLabel className={cn(
-            'text-gray-500 dark:text-gray-400 font-semibold mb-4 px-2',
-            isCollapsed && 'text-center'
-          )}>
-            {isCollapsed ? '•' : 'القائمة الرئيسية'}
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
+        <div className="flex-1 overflow-y-auto">
+          <div className="mb-6">
+            <h3 className={cn(
+              'text-gray-500 dark:text-gray-400 font-semibold mb-4 px-2',
+              isCollapsed && 'text-center text-xs'
+            )}>
+              {isCollapsed ? '•' : 'القائمة الرئيسية'}
+            </h3>
+            <div className="space-y-2">
               {navigationItems.map((item) => (
-                <NavItem key={item.url} item={item} isActive={false} />
+                <NavItem key={item.url} item={item} />
               ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+            </div>
+          </div>
 
-        <SidebarGroup className="mt-8">
-          <SidebarGroupLabel className={cn(
-            'text-gray-500 dark:text-gray-400 font-semibold mb-4 px-2',
-            isCollapsed && 'text-center'
-          )}>
-            {isCollapsed ? '⚙' : 'إدارة النظام'}
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
+          <div className="mb-6">
+            <h3 className={cn(
+              'text-gray-500 dark:text-gray-400 font-semibold mb-4 px-2',
+              isCollapsed && 'text-center text-xs'
+            )}>
+              {isCollapsed ? '⚙' : 'إدارة النظام'}
+            </h3>
+            <div className="space-y-2">
               {adminItems.map((item) => (
-                <NavItem key={item.url} item={item} isActive={false} />
+                <NavItem key={item.url} item={item} />
               ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+            </div>
+          </div>
+        </div>
 
         {!isCollapsed && (
-          <div className="mt-8 p-4 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white">
-            <div className="flex items-center space-x-2 space-x-reverse mb-2">
+          <div className={`mt-auto p-4 rounded-2xl bg-gradient-to-${isRTL ? 'l' : 'r'} from-emerald-500 to-teal-600 text-white`}>
+            <div className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} mb-2`}>
               <Clock className="h-5 w-5" />
               <span className="font-semibold">الوقت الحالي</span>
             </div>
@@ -202,7 +192,7 @@ export function AppSidebar() {
             </p>
           </div>
         )}
-      </SidebarContent>
-    </Sidebar>
+      </div>
+    </aside>
   );
 }

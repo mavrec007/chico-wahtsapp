@@ -1,484 +1,313 @@
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Calendar, Clock, Users, MapPin, Phone, Check, X, Moon, Sun, Waves, Target, TrendingUp, AlertCircle } from "lucide-react";
+import React, { useState } from 'react';
+import { AppLayout } from '@/components/layout/AppLayout';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import {
+  Calendar,
+  Users,
+  DollarSign,
+  TrendingUp,
+  Clock,
+  MapPin,
+  User,
+  Phone,
+  Mail,
+  Plus,
+  Filter,
+  Search,
+  Target,
+  Waves
+} from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
 
-interface Booking {
-  id: string;
-  customerPhone: string;
-  activityType: 'courts' | 'swimming';
-  selectedTime: string;
-  selectedDate: string;
-  status: 'pending' | 'confirmed' | 'cancelled';
-  paymentConfirmed: boolean;
-  createdAt: string;
-  details?: {
-    courtType?: string;
-    poolType?: 'free' | 'private';
-    duration: number;
-    price: number;
-  };
-}
+export default function BookingDashboard() {
+  const { isRTL, t } = useLanguage();
+  const [activeTab, setActiveTab] = useState('overview');
 
-const BookingDashboard = () => {
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [stats, setStats] = useState({
-    totalBookings: 0,
-    pendingBookings: 0,
-    confirmedBookings: 0,
-    todayRevenue: 0,
-    courtsBookings: 0,
-    swimmingBookings: 0
-  });
+  // Mock data
+  const stats = [
+    {
+      title: t('dashboard.totalBookings'),
+      value: '2,345',
+      change: '+12%',
+      icon: Calendar,
+      color: 'text-blue-600'
+    },
+    {
+      title: t('dashboard.activeClients'),
+      value: '1,234',
+      change: '+8%',
+      icon: Users,
+      color: 'text-green-600'
+    },
+    {
+      title: t('dashboard.monthlyRevenue'),
+      value: '$45,234',
+      change: '+15%',
+      icon: DollarSign,
+      color: 'text-purple-600'
+    },
+    {
+      title: t('dashboard.occupancyRate'),
+      value: '78%',
+      change: '+3%',
+      icon: TrendingUp,
+      color: 'text-orange-600'
+    }
+  ];
 
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
+  const recentBookings = [
+    {
+      id: 1,
+      client: t('dashboard.sampleClient1'),
+      facility: t('dashboard.sampleFacility1'),
+      time: '10:00 AM',
+      date: '2024-01-15',
+      status: 'confirmed'
+    },
+    {
+      id: 2,
+      client: t('dashboard.sampleClient2'),
+      facility: t('dashboard.sampleFacility2'),
+      time: '2:00 PM',
+      date: '2024-01-15',
+      status: 'pending'
+    },
+    {
+      id: 3,
+      client: t('dashboard.sampleClient3'),
+      facility: t('dashboard.sampleFacility3'),
+      time: '4:00 PM',
+      date: '2024-01-15',
+      status: 'confirmed'
+    }
+  ];
 
-  // Simulate real-time data updates
-  useEffect(() => {
-    const mockBookings: Booking[] = [
-      {
-        id: '1',
-        customerPhone: '+966512345678',
-        activityType: 'courts',
-        selectedTime: '10:00',
-        selectedDate: '2024-06-16',
-        status: 'pending',
-        paymentConfirmed: false,
-        createdAt: new Date().toISOString(),
-        details: {
-          courtType: 'ملعب كرة قدم',
-          duration: 2,
-          price: 200
-        }
+  const getStatusBadge = (status: string) => {
+    const statusConfig = {
+      confirmed: { 
+        label: t('dashboard.confirmed'), 
+        color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' 
       },
-      {
-        id: '2',
-        customerPhone: '+966587654321',
-        activityType: 'swimming',
-        selectedTime: '14:00',
-        selectedDate: '2024-06-16',
-        status: 'confirmed',
-        paymentConfirmed: true,
-        createdAt: new Date().toISOString(),
-        details: {
-          poolType: 'private',
-          duration: 1,
-          price: 150
-        }
+      pending: { 
+        label: t('dashboard.pending'), 
+        color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' 
       },
-      {
-        id: '3',
-        customerPhone: '+966501234567',
-        activityType: 'courts',
-        selectedTime: '16:00',
-        selectedDate: '2024-06-16',
-        status: 'confirmed',
-        paymentConfirmed: true,
-        createdAt: new Date().toISOString(),
-        details: {
-          courtType: 'ملعب كرة سلة',
-          duration: 1,
-          price: 150
-        }
-      },
-      {
-        id: '4',
-        customerPhone: '+966598765432',
-        activityType: 'swimming',
-        selectedTime: '18:00',
-        selectedDate: '2024-06-16',
-        status: 'pending',
-        paymentConfirmed: false,
-        createdAt: new Date().toISOString(),
-        details: {
-          poolType: 'free',
-          duration: 2,
-          price: 100
-        }
+      cancelled: { 
+        label: t('dashboard.cancelled'), 
+        color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' 
       }
-    ];
-
-    setBookings(mockBookings);
-    setStats({
-      totalBookings: mockBookings.length,
-      pendingBookings: mockBookings.filter(b => b.status === 'pending').length,
-      confirmedBookings: mockBookings.filter(b => b.status === 'confirmed').length,
-      todayRevenue: mockBookings.filter(b => b.status === 'confirmed').reduce((sum, b) => sum + (b.details?.price || 0), 0),
-      courtsBookings: mockBookings.filter(b => b.activityType === 'courts').length,
-      swimmingBookings: mockBookings.filter(b => b.activityType === 'swimming').length
-    });
-  }, []);
-
-  const handleConfirmBooking = (bookingId: string) => {
-    setBookings(prev => prev.map(booking => 
-      booking.id === bookingId 
-        ? { ...booking, status: 'confirmed' as const, paymentConfirmed: true }
-        : booking
-    ));
-    console.log(`تأكيد الحجز ${bookingId} - سيتم إرسال التأكيد للعميل عبر واتساب`);
+    };
+    
+    const config = statusConfig[status as keyof typeof statusConfig];
+    return (
+      <Badge className={config.color}>
+        {config.label}
+      </Badge>
+    );
   };
-
-  const handleCancelBooking = (bookingId: string) => {
-    setBookings(prev => prev.map(booking => 
-      booking.id === bookingId 
-        ? { ...booking, status: 'cancelled' as const }
-        : booking
-    ));
-    console.log(`إلغاء الحجز ${bookingId} - سيتم إرسال الإلغاء للعميل عبر واتساب`);
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'pending': return 'bg-amber-500 dark:bg-amber-600';
-      case 'confirmed': return 'bg-emerald-500 dark:bg-emerald-600';
-      case 'cancelled': return 'bg-red-500 dark:bg-red-600';
-      default: return 'bg-gray-500 dark:bg-gray-600';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'pending': return 'معلق';
-      case 'confirmed': return 'مؤكد';
-      case 'cancelled': return 'ملغي';
-      default: return 'غير محدد';
-    }
-  };
-
-  const getActivityTypeArabic = (type: string) => {
-    return type === 'courts' ? 'الملاعب' : 'حمام السباحة';
-  };
-
-  const filterBookingsByType = (type: 'courts' | 'swimming') => {
-    return bookings.filter(booking => booking.activityType === type);
-  };
-
-  const BookingTable = ({ bookings: tableBookings }: { bookings: Booking[] }) => (
-    <div className="rounded-lg border border-slate-200 dark:border-slate-800">
-      <Table>
-        <TableHeader>
-          <TableRow className="bg-slate-50 dark:bg-slate-900">
-            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">العميل</TableHead>
-            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">النوع</TableHead>
-            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">التاريخ والوقت</TableHead>
-            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">المدة</TableHead>
-            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">السعر</TableHead>
-            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">الحالة</TableHead>
-            <TableHead className="text-right font-semibold text-slate-900 dark:text-slate-100">الإجراءات</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {tableBookings.map((booking) => (
-            <TableRow key={booking.id} className="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-              <TableCell className="font-medium">
-                <div className="flex items-center space-x-2 space-x-reverse">
-                  <Phone className="h-4 w-4 text-slate-500 dark:text-slate-400" />
-                  <span className="text-slate-900 dark:text-slate-100">{booking.customerPhone}</span>
-                </div>
-              </TableCell>
-              <TableCell>
-                <span className="text-slate-700 dark:text-slate-300">
-                  {booking.activityType === 'courts' ? booking.details?.courtType : 
-                   booking.details?.poolType === 'private' ? 'برايفت' : 'فترة حرة'}
-                </span>
-              </TableCell>
-              <TableCell>
-                <div className="flex items-center space-x-2 space-x-reverse text-slate-700 dark:text-slate-300">
-                  <Calendar className="h-4 w-4" />
-                  <span>{booking.selectedDate}</span>
-                  <Clock className="h-4 w-4 mr-1" />
-                  <span>{booking.selectedTime}</span>
-                </div>
-              </TableCell>
-              <TableCell>
-                <span className="text-slate-700 dark:text-slate-300">{booking.details?.duration} ساعة</span>
-              </TableCell>
-              <TableCell>
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{booking.details?.price} ريال</span>
-              </TableCell>
-              <TableCell>
-                <Badge className={`${getStatusColor(booking.status)} text-white`}>
-                  {getStatusText(booking.status)}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                {booking.status === 'pending' && (
-                  <div className="flex space-x-2 space-x-reverse">
-                    <Button 
-                      onClick={() => handleConfirmBooking(booking.id)}
-                      size="sm"
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white"
-                    >
-                      <Check className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      variant="destructive"
-                      onClick={() => handleCancelBooking(booking.id)}
-                      size="sm"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                )}
-                {booking.status === 'confirmed' && (
-                  <Badge className="bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
-                    مؤكد
-                  </Badge>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  );
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-slate-900' : 'bg-gradient-to-br from-blue-50 to-indigo-100'}`} dir="rtl">
-      <div className="max-w-7xl mx-auto p-6">
+    <AppLayout>
+      <div className={`space-y-6 ${isRTL ? 'text-right' : 'text-left'}`}>
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-              لوحة تحكم الحجوزات الرياضية
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+              {t('dashboard.title')}
             </h1>
-            <p className="text-slate-600 dark:text-slate-400">إدارة حجوزات الملاعب وحمامات السباحة بكل سهولة</p>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              {t('dashboard.subtitle')}
+            </p>
           </div>
-          <Button
-            onClick={toggleDarkMode}
-            variant="outline"
-            size="icon"
-            className="rounded-full border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800"
-          >
-            {isDarkMode ? 
-              <Sun className="h-5 w-5 text-yellow-500" /> : 
-              <Moon className="h-5 w-5 text-slate-600" />
-            }
-          </Button>
+          <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
+            <Button variant="outline" size="sm">
+              <Filter className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+              {t('dashboard.filter')}
+            </Button>
+            <Button className="bg-gradient-to-r from-blue-600 to-purple-700 hover:from-blue-700 hover:to-purple-800">
+              <Plus className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+              {t('dashboard.newBooking')}
+            </Button>
+          </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0 shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">إجمالي الحجوزات</CardTitle>
-              <Calendar className="h-5 w-5 opacity-80" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{stats.totalBookings}</div>
-              <p className="text-xs opacity-80 mt-1">جميع الحجوزات</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-amber-500 to-orange-500 text-white border-0 shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">حجوزات معلقة</CardTitle>
-              <AlertCircle className="h-5 w-5 opacity-80" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{stats.pendingBookings}</div>
-              <p className="text-xs opacity-80 mt-1">تحتاج موافقة</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-emerald-500 to-green-500 text-white border-0 shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">حجوزات مؤكدة</CardTitle>
-              <Check className="h-5 w-5 opacity-80" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{stats.confirmedBookings}</div>
-              <p className="text-xs opacity-80 mt-1">تم التأكيد</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-purple-500 to-pink-500 text-white border-0 shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium opacity-90">إيرادات اليوم</CardTitle>
-              <TrendingUp className="h-5 w-5 opacity-80" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{stats.todayRevenue}</div>
-              <p className="text-xs opacity-80 mt-1">ريال سعودي</p>
-            </CardContent>
-          </Card>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {stats.map((stat, index) => (
+            <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+              <CardContent className="p-6">
+                <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <div className={isRTL ? 'text-right' : 'text-left'}>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                      {stat.title}
+                    </p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                      {stat.value}
+                    </p>
+                    <p className={`text-sm ${stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                      {stat.change} {t('dashboard.fromLastMonth')}
+                    </p>
+                  </div>
+                  <div className={`p-3 rounded-full bg-gray-100 dark:bg-gray-800 ${stat.color}`}>
+                    <stat.icon className="h-6 w-6" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
 
-        {/* Activity Type Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
-            <CardHeader>
-              <div className="flex items-center space-x-3 space-x-reverse">
-                <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                  <Target className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div>
-                  <CardTitle className="text-slate-900 dark:text-slate-100">الملاعب الرياضية</CardTitle>
-                  <CardDescription className="text-slate-600 dark:text-slate-400">حجوزات الملاعب</CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.courtsBookings}</div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
-            <CardHeader>
-              <div className="flex items-center space-x-3 space-x-reverse">
-                <div className="p-2 bg-cyan-100 dark:bg-cyan-900 rounded-lg">
-                  <Waves className="h-6 w-6 text-cyan-600 dark:text-cyan-400" />
-                </div>
-                <div>
-                  <CardTitle className="text-slate-900 dark:text-slate-100">حمام السباحة</CardTitle>
-                  <CardDescription className="text-slate-600 dark:text-slate-400">حجوزات السباحة</CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">{stats.swimmingBookings}</div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Bookings Sections */}
-        <Tabs defaultValue="all" className="space-y-6">
-          <TabsList className="bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700">
-            <TabsTrigger value="all" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-              جميع الحجوزات
-            </TabsTrigger>
-            <TabsTrigger value="courts" className="data-[state=active]:bg-blue-500 data-[state=active]:text-white">
-              <Target className="h-4 w-4 mr-2" />
-              الملاعب
-            </TabsTrigger>
-            <TabsTrigger value="swimming" className="data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
-              <Waves className="h-4 w-4 mr-2" />
-              حمام السباحة
-            </TabsTrigger>
-            <TabsTrigger value="pending" className="data-[state=active]:bg-amber-500 data-[state=active]:text-white">
-              <AlertCircle className="h-4 w-4 mr-2" />
-              معلقة
-            </TabsTrigger>
+        {/* Main Content Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="overview">{t('dashboard.overview')}</TabsTrigger>
+            <TabsTrigger value="bookings">{t('dashboard.bookings')}</TabsTrigger>
+            <TabsTrigger value="facilities">{t('dashboard.facilities')}</TabsTrigger>
+            <TabsTrigger value="reports">{t('dashboard.reports')}</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="all" className="space-y-6">
-            <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
+          <TabsContent value="overview" className="space-y-6">
+            {/* Recent Bookings */}
+            <Card>
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center">
-                  <Calendar className="h-5 w-5 mr-2" />
-                  جميع الحجوزات
+                <CardTitle className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
+                  <Clock className="h-5 w-5" />
+                  <span>{t('dashboard.recentBookings')}</span>
                 </CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400">
-                  عرض شامل لجميع حجوزات الملاعب وحمام السباحة
+                <CardDescription>
+                  {t('dashboard.recentBookingsDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <BookingTable bookings={bookings} />
+                <div className="space-y-4">
+                  {recentBookings.map((booking) => (
+                    <div key={booking.id} className={`flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <div className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''}`}>
+                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                          <User className="h-5 w-5 text-white" />
+                        </div>
+                        <div className={isRTL ? 'text-right' : 'text-left'}>
+                          <p className="font-medium text-gray-900 dark:text-gray-100">{booking.client}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{booking.facility}</p>
+                        </div>
+                      </div>
+                      <div className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''}`}>
+                        <div className={isRTL ? 'text-right' : 'text-left'}>
+                          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{booking.time}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{booking.date}</p>
+                        </div>
+                        {getStatusBadge(booking.status)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="courts" className="space-y-6">
-            <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
+          <TabsContent value="bookings" className="space-y-6">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center">
-                  <Target className="h-5 w-5 mr-2 text-blue-600" />
-                  حجوزات الملاعب الرياضية
-                </CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400">
-                  إدارة حجوزات ملاعب كرة القدم وكرة السلة والتنس
+                <CardTitle>{t('dashboard.allBookings')}</CardTitle>
+                <CardDescription>
+                  {t('dashboard.allBookingsDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <BookingTable bookings={filterBookingsByType('courts')} />
+                <div className={`flex items-center space-x-4 mb-6 ${isRTL ? 'space-x-reverse' : ''}`}>
+                  <div className="relative flex-1">
+                    <Search className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400`} />
+                    <input
+                      type="text"
+                      placeholder={t('dashboard.searchBookings')}
+                      className={`w-full ${isRTL ? 'pr-10 pl-4 text-right' : 'pl-10 pr-4'} py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`}
+                    />
+                  </div>
+                  <Button variant="outline">
+                    <Filter className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+                    {t('dashboard.filter')}
+                  </Button>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400 text-center py-8">
+                  {t('dashboard.bookingsContent')}
+                </p>
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="swimming" className="space-y-6">
-            <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center">
-                  <Waves className="h-5 w-5 mr-2 text-cyan-600" />
-                  حجوزات حمام السباحة
-                </CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400">
-                  إدارة حجوزات الفترات الحرة والجلسات الخاصة
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <BookingTable bookings={filterBookingsByType('swimming')} />
-              </CardContent>
-            </Card>
+          <TabsContent value="facilities" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <CardTitle className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
+                    <Target className="h-5 w-5 text-orange-600" />
+                    <span>{t('dashboard.sportsCourts')}</span>
+                  </CardTitle>
+                  <CardDescription>
+                    {t('dashboard.sportsCountsDesc')}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">{t('dashboard.available')}</span>
+                      <span className="text-sm font-medium text-green-600">8/10</span>
+                    </div>
+                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">{t('dashboard.occupied')}</span>
+                      <span className="text-sm font-medium text-orange-600">2/10</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <CardTitle className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
+                    <Waves className="h-5 w-5 text-blue-600" />
+                    <span>{t('dashboard.swimmingPools')}</span>
+                  </CardTitle>
+                  <CardDescription>
+                    {t('dashboard.swimmingPoolsDesc')}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">{t('dashboard.available')}</span>
+                      <span className="text-sm font-medium text-green-600">3/4</span>
+                    </div>
+                    <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">{t('dashboard.occupied')}</span>
+                      <span className="text-sm font-medium text-orange-600">1/4</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
-          <TabsContent value="pending" className="space-y-6">
-            <Card className="bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
+          <TabsContent value="reports" className="space-y-6">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-slate-900 dark:text-slate-100 flex items-center">
-                  <AlertCircle className="h-5 w-5 mr-2 text-amber-600" />
-                  الحجوزات المعلقة
-                </CardTitle>
-                <CardDescription className="text-slate-600 dark:text-slate-400">
-                  الحجوزات التي تحتاج لمراجعة وتأكيد
+                <CardTitle>{t('dashboard.analyticsReports')}</CardTitle>
+                <CardDescription>
+                  {t('dashboard.analyticsReportsDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <BookingTable bookings={bookings.filter(b => b.status === 'pending')} />
+                <p className="text-gray-600 dark:text-gray-400 text-center py-8">
+                  {t('dashboard.reportsContent')}
+                </p>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
-
-        {/* Bot Status */}
-        <Card className="mt-8 bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700">
-          <CardHeader>
-            <CardTitle className="text-slate-900 dark:text-slate-100">حالة البوتات</CardTitle>
-            <CardDescription className="text-slate-600 dark:text-slate-400">
-              معلومات الاتصال مع بوتات واتساب وتليجرام
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                <div className="flex items-center space-x-3 space-x-reverse">
-                  <div className="p-2 bg-green-100 dark:bg-green-900 rounded-lg">
-                    <Phone className="h-5 w-5 text-green-600 dark:text-green-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-green-900 dark:text-green-100">بوت واتساب</p>
-                    <p className="text-sm text-green-700 dark:text-green-300">للتفاعل مع العملاء</p>
-                  </div>
-                </div>
-                <Badge className="bg-green-500 text-white">متصل</Badge>
-              </div>
-              <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-                <div className="flex items-center space-x-3 space-x-reverse">
-                  <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                    <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-blue-900 dark:text-blue-100">بوت تليجرام</p>
-                    <p className="text-sm text-blue-700 dark:text-blue-300">لإدارة الحجوزات</p>
-                  </div>
-                </div>
-                <Badge className="bg-blue-500 text-white">متصل</Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
-    </div>
+    </AppLayout>
   );
-};
-
-export default BookingDashboard;
+}

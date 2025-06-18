@@ -1,131 +1,170 @@
 
--- Sports Activity Booking Platform Database Schema
+-- Sports Hub Database Schema
+-- MySQL/MariaDB Database Schema for Sports Booking Platform
 
--- Drop tables if they exist (for clean setup)
-DROP TABLE IF EXISTS payments;
-DROP TABLE IF EXISTS confirmed_bookings;
-DROP TABLE IF EXISTS pending_bookings;
-DROP TABLE IF EXISTS field_activities;
-DROP TABLE IF EXISTS swimming_activities;
-DROP TABLE IF EXISTS clients;
+CREATE DATABASE IF NOT EXISTS sports_hub CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE sports_hub;
 
--- Clients table: store client details
+-- Users table for authentication
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'manager', 'user') DEFAULT 'user',
+    phone VARCHAR(20),
+    avatar_url VARCHAR(255),
+    is_active BOOLEAN DEFAULT TRUE,
+    email_verified_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Clients table for customer management
 CREATE TABLE clients (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    phone_number VARCHAR(20) UNIQUE NOT NULL,
-    name VARCHAR(100),
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100),
+    phone VARCHAR(20) NOT NULL,
+    date_of_birth DATE,
+    gender ENUM('male', 'female'),
     address TEXT,
-    national_id VARCHAR(20),
-    is_registered BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX idx_phone (phone_number),
-    INDEX idx_national_id (national_id)
-);
-
--- Swimming Activities table: store swimming pool activity types and schedules
-CREATE TABLE swimming_activities (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    activity_type ENUM('open_session', 'private_session') NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    price_per_hour DECIMAL(10, 2) NOT NULL,
-    available_hours JSON NOT NULL, -- Store available time slots as JSON array
-    duration_minutes INT DEFAULT 60,
-    max_participants INT,
+    emergency_contact VARCHAR(20),
+    notes TEXT,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Field Activities table: store sports fields and their rental details
-CREATE TABLE field_activities (
+-- Activities table for sports activities
+CREATE TABLE activities (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    field_type ENUM('football', 'basketball', 'tennis', 'volleyball') NOT NULL,
     name VARCHAR(100) NOT NULL,
+    type ENUM('swimming', 'field') NOT NULL,
+    category VARCHAR(50), -- e.g., 'private', 'group', 'school'
     description TEXT,
-    price_per_hour DECIMAL(10, 2) NOT NULL,
-    available_hours JSON NOT NULL, -- Store available time slots as JSON array
-    duration_minutes INT DEFAULT 60,
-    max_participants INT,
+    duration_minutes INT NOT NULL DEFAULT 60,
+    capacity INT NOT NULL DEFAULT 1,
+    price DECIMAL(10,2) NOT NULL,
+    requirements TEXT,
+    location VARCHAR(100),
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Pending Bookings table: store bookings awaiting payment confirmation
-CREATE TABLE pending_bookings (
+-- Bookings table for reservation management
+CREATE TABLE bookings (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    booking_reference VARCHAR(20) UNIQUE NOT NULL,
     client_id INT NOT NULL,
-    activity_type ENUM('field', 'swimming') NOT NULL,
-    activity_id INT NOT NULL, -- References either field_activities.id or swimming_activities.id
+    activity_id INT NOT NULL,
     booking_date DATE NOT NULL,
-    booking_time TIME NOT NULL,
-    duration_minutes INT NOT NULL,
-    total_price DECIMAL(10, 2) NOT NULL,
-    status ENUM('pending_payment', 'payment_submitted', 'expired') DEFAULT 'pending_payment',
-    expires_at TIMESTAMP,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    duration_hours DECIMAL(3,1) NOT NULL DEFAULT 1.0,
+    status ENUM('pending', 'confirmed', 'in_progress', 'completed', 'cancelled') DEFAULT 'pending',
+    total_amount DECIMAL(10,2) NOT NULL,
+    paid_amount DECIMAL(10,2) DEFAULT 0.00,
+    payment_status ENUM('unpaid', 'partial', 'paid', 'refunded') DEFAULT 'unpaid',
+    notes TEXT,
+    booking_reference VARCHAR(20) UNIQUE,
+    created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
-    INDEX idx_client (client_id),
-    INDEX idx_booking_date (booking_date),
-    INDEX idx_status (status),
-    INDEX idx_reference (booking_reference)
+    FOREIGN KEY (activity_id) REFERENCES activities(id) ON DELETE CASCADE,
+    FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Confirmed Bookings table: store confirmed bookings
-CREATE TABLE confirmed_bookings (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    booking_reference VARCHAR(20) UNIQUE NOT NULL,
-    client_id INT NOT NULL,
-    activity_type ENUM('field', 'swimming') NOT NULL,
-    activity_id INT NOT NULL, -- References either field_activities.id or swimming_activities.id
-    booking_date DATE NOT NULL,
-    booking_time TIME NOT NULL,
-    duration_minutes INT NOT NULL,
-    total_price DECIMAL(10, 2) NOT NULL,
-    payment_id INT,
-    confirmed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
-    INDEX idx_client (client_id),
-    INDEX idx_booking_date (booking_date),
-    INDEX idx_reference (booking_reference)
-);
-
--- Payments table: store client payment transfers with transaction details
+-- Payments table for financial transactions
 CREATE TABLE payments (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    pending_booking_id INT NOT NULL,
+    booking_id INT NOT NULL,
     client_id INT NOT NULL,
-    transaction_reference VARCHAR(100) NOT NULL,
-    amount DECIMAL(10, 2) NOT NULL,
-    payment_method ENUM('bank_transfer', 'card', 'cash', 'other') DEFAULT 'bank_transfer',
-    status ENUM('submitted', 'verified', 'confirmed', 'rejected') DEFAULT 'submitted',
-    bank_name VARCHAR(100),
-    account_number VARCHAR(50),
-    payment_date TIMESTAMP,
-    verified_by_admin INT, -- Admin user ID who verified the payment
-    admin_notes TEXT,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_type ENUM('cash', 'card', 'bank_transfer', 'online') NOT NULL,
+    payment_method VARCHAR(50), -- e.g., 'visa', 'mastercard', 'stc_pay'
+    transaction_id VARCHAR(100),
+    status ENUM('pending', 'completed', 'failed', 'refunded') DEFAULT 'pending',
+    notes TEXT,
+    processed_by INT,
+    processed_at TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (pending_booking_id) REFERENCES pending_bookings(id) ON DELETE CASCADE,
+    FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE CASCADE,
     FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
-    INDEX idx_pending_booking (pending_booking_id),
-    INDEX idx_client (client_id),
-    INDEX idx_status (status),
-    INDEX idx_transaction_ref (transaction_reference)
+    FOREIGN KEY (processed_by) REFERENCES users(id) ON DELETE SET NULL
 );
 
--- Insert sample swimming activities
-INSERT INTO swimming_activities (activity_type, name, description, price_per_hour, available_hours, max_participants) VALUES
-('open_session', 'فترة حرة', 'فترة سباحة حرة للجميع', 50.00, '["10:00", "12:00", "14:00", "16:00", "18:00"]', 20),
-('private_session', 'جلسة خاصة', 'جلسة سباحة خاصة', 150.00, '["09:00", "11:00", "13:00", "15:00", "17:00", "19:00", "21:00"]', 5);
+-- Notifications table for tracking sent messages
+CREATE TABLE notifications (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type ENUM('telegram', 'whatsapp', 'email', 'sms') NOT NULL,
+    recipient VARCHAR(100) NOT NULL, -- phone number, email, or chat_id
+    subject VARCHAR(200),
+    message TEXT NOT NULL,
+    status ENUM('pending', 'sent', 'failed', 'delivered') DEFAULT 'pending',
+    booking_id INT NULL,
+    client_id INT NULL,
+    sent_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE SET NULL,
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL
+);
 
--- Insert sample field activities
-INSERT INTO field_activities (field_type, name, description, price_per_hour, available_hours, max_participants) VALUES
-('football', 'ملعب كرة قدم', 'ملعب كرة قدم بحجم قانوني', 200.00, '["08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00"]', 22),
-('basketball', 'ملعب كرة سلة', 'ملعب كرة سلة داخلي', 150.00, '["09:00", "11:00", "13:00", "15:00", "17:00", "19:00"]', 10),
-('tennis', 'ملعب تنس', 'ملعب تنس مع إضاءة', 100.00, '["08:00", "10:00", "12:00", "14:00", "16:00", "18:00"]', 4);
+-- Settings table for application configuration
+CREATE TABLE settings (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    key_name VARCHAR(100) UNIQUE NOT NULL,
+    value_text TEXT,
+    value_number DECIMAL(15,4),
+    value_boolean BOOLEAN,
+    description TEXT,
+    category VARCHAR(50) DEFAULT 'general',
+    updated_by INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (updated_by) REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- Indexes for better performance
+CREATE INDEX idx_bookings_date ON bookings(booking_date);
+CREATE INDEX idx_bookings_status ON bookings(status);
+CREATE INDEX idx_bookings_client ON bookings(client_id);
+CREATE INDEX idx_payments_booking ON payments(booking_id);
+CREATE INDEX idx_payments_status ON payments(status);
+CREATE INDEX idx_notifications_type ON notifications(type);
+CREATE INDEX idx_notifications_status ON notifications(status);
+
+-- Insert default admin user
+INSERT INTO users (name, email, password_hash, role) VALUES 
+('مدير النظام', 'admin@sportshub.com', '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+
+-- Insert sample activities
+INSERT INTO activities (name, type, category, description, duration_minutes, capacity, price) VALUES 
+('سباحة خاصة', 'swimming', 'private', 'حصة سباحة خاصة مع مدرب', 60, 1, 100.00),
+('سباحة حرة', 'swimming', 'free', 'سباحة حرة في الحوض العام', 60, 20, 30.00),
+('مدرسة سباحة', 'swimming', 'school', 'دروس سباحة للمبتدئين', 45, 8, 80.00),
+('ملعب كرة قدم', 'field', 'football', 'ملعب كرة قدم عشبي', 90, 22, 200.00),
+('ملعب كرة سلة', 'field', 'basketball', 'ملعب كرة سلة مغطى', 60, 10, 120.00),
+('ملعب تنس', 'field', 'tennis', 'ملعب تنس احترافي', 60, 4, 150.00);
+
+-- Insert sample settings
+INSERT INTO settings (key_name, value_text, description, category) VALUES 
+('site_name', 'Sports Hub', 'اسم الموقع', 'general'),
+('contact_phone', '+966501234567', 'رقم التواصل الرئيسي', 'contact'),
+('contact_email', 'info@sportshub.com', 'البريد الإلكتروني للتواصل', 'contact'),
+('working_hours', '06:00-23:00', 'ساعات العمل', 'general'),
+('advance_payment_percentage', NULL, 50.0, 'نسبة الدفع المقدم', 'payment'),
+('cancellation_hours', NULL, 24.0, 'عدد الساعات المسموحة للإلغاء', 'booking');
+
+-- Sample client data
+INSERT INTO clients (name, email, phone, gender) VALUES 
+('أحمد محمد علي', 'ahmed@example.com', '+966501111111', 'male'),
+('فاطمة سالم', 'fatima@example.com', '+966502222222', 'female'),
+('خالد عبدالله', 'khaled@example.com', '+966503333333', 'male'),
+('نورا أحمد', 'nora@example.com', '+966504444444', 'female');
+
+-- Grant privileges (adjust as needed)
+-- GRANT ALL PRIVILEGES ON sports_hub.* TO 'sports_user'@'localhost' IDENTIFIED BY 'sports_password';
+-- FLUSH PRIVILEGES;

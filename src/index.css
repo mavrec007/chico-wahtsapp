@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -133,6 +134,21 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
 
+  /* Arabic font optimization */
+  html[lang="ar"] {
+    font-family: 'Cairo', 'Amiri', 'Segoe UI', 'Tahoma', sans-serif;
+  }
+
+  html[lang="ar"] h1,
+  html[lang="ar"] h2,
+  html[lang="ar"] h3,
+  html[lang="ar"] h4,
+  html[lang="ar"] h5,
+  html[lang="ar"] h6 {
+    font-family: 'Cairo', 'Amiri', sans-serif;
+    font-weight: 600;
+  }
+
   /* Headings */
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold text-foreground;
@@ -241,6 +257,24 @@
   .nav-link-inactive {
     @apply text-gray-700 dark:text-gray-300 hover:bg-gray-100/70 dark:hover:bg-gray-800/70 hover:scale-105;
   }
+
+  /* Sidebar specific styles */
+  .sidebar-rail {
+    @apply w-16 transition-all duration-300 ease-in-out;
+  }
+
+  .sidebar-expanded {
+    @apply w-64 transition-all duration-300 ease-in-out;
+  }
+
+  /* Scrollbar styles */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thumb-sidebar-accent\/30::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--sidebar-accent) / 0.3);
+  }
 }
 
 /* RTL specific overrides */
@@ -280,4 +314,20 @@
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .nav-link-active {
+    @apply ring-2 ring-primary;
+  }
 }

@@ -31,6 +31,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { AppointmentModal } from '@/components/modals/AppointmentModal';
 import { StyleControlPanel } from '@/components/panels/StyleControlPanel';
+import { useLoadingStore } from '@/stores/useLoadingStore';
 
 export function AppHeader() {
   const { theme, setTheme } = useTheme();
@@ -38,6 +39,7 @@ export function AppHeader() {
   const { language, setLanguage, user, logout } = useAppStore();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const showLoading = useLoadingStore((state) => state.showLoading);
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [isStylePanelOpen, setIsStylePanelOpen] = useState(false);
 
@@ -71,9 +73,10 @@ export function AppHeader() {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    showLoading();
     authService.logout();
-    logout();
+    await logout();
     toast({
       title: "تم تسجيل الخروج",
       description: "تم تسجيل خروجك بنجاح",
@@ -103,7 +106,7 @@ export function AppHeader() {
                   variant="outline"
                   size="sm"
                   onClick={action.action}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                  className="bg-gradient-to-r from-primary to-accent text-white border-0 hover:from-primary/80 hover:to-accent/80 transition-all duration-300 shadow-md hover:shadow-lg"
                 >
                   <action.icon className={`h-4 w-4 ${isRTL ? 'ml-1' : 'mr-1'}`} />
                   {action.title}
@@ -171,8 +174,8 @@ export function AppHeader() {
             {/* User menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2 space-x-reverse hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl p-2">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                <Button variant="ghost" className="flex items-center space-x-2 space-x-reverse hover:bg-background-desktop rounded-xl p-2">
+                  <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
                     <User className="h-4 w-4 text-white" />
                   </div>
                   <div className="hidden md:block text-right">

@@ -8,8 +8,17 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
-  },
+    "preview": "vite preview",
+ 
+  "db:create-db": "node scripts/db.js create-db",
+  "db:check": "node scripts/db.js check",
+  "db:migrate": "node scripts/db.js migrate",
+  "db:seed": "node scripts/db.js seed",
+  "db:reset": "node scripts/db.js reset",
+  "db:tables": "node scripts/db.js tables",
+  "db:query": "node scripts/db.js query"
+},
+
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-accordion": "^1.2.0",
@@ -45,13 +54,14 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
+    "dotenv": "^16.4.5",
     "embla-carousel-react": "^8.3.0",
     "framer-motion": "^12.18.1",
     "i18next": "^25.2.1",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.462.0",
+    "mysql2": "^3.14.1",
     "next-themes": "^0.3.0",
-    "qrcode-terminal": "^0.12.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",

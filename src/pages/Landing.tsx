@@ -2,12 +2,14 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/stores/useAppStore';
+import { useAuth } from '@/context/AuthContext';
 import { Target, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AuthModal from '@/components/auth/AuthModal';
 
 const Landing = () => {
-  const { isAuthenticated, setShowAuthModal } = useAppStore();
+  const { setShowAuthModal } = useAppStore();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

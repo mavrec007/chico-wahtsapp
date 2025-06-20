@@ -59,7 +59,8 @@ const Hero = ({ onLoginClick }: HeroProps) => {
             <Button
               onClick={onLoginClick}
               size="lg"
-              className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white text-lg px-8 py-6 shadow-2xl hover:shadow-yellow-500/25 transition-all duration-300 transform hover:scale-105"
+              variant="gradient"
+              className="text-lg px-8 py-6 shadow-2xl hover:shadow-primary/25 transition-all duration-300 transform hover:scale-105"
             >
               <ArrowRight className="ml-2 h-6 w-6" />
               ابدأ الآن - مجاناً

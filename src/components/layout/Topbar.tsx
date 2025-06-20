@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '@/stores/useAppStore';
 import { useAuth } from '@/context/AuthContext';
+import { useLoadingStore } from '@/stores/useLoadingStore';
 import { cn } from '@/lib/utils';
 import { Menu, Sun, Moon, Globe, User, LogOut, Settings, UserCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -27,9 +28,11 @@ const Topbar = () => {
     toggleTheme,
     language,
     setLanguage,
+    setShowAuthModal,
   } = useAppStore();
   
   const { user, logout, isAuthenticated } = useAuth();
+  const showLoading = useLoadingStore((state) => state.showLoading);
 
   const handleLanguageToggle = () => {
     const newLang = language === 'en' ? 'ar' : 'en';
@@ -37,14 +40,15 @@ const Topbar = () => {
     i18n.changeLanguage(newLang);
   };
 
-  const handleLogout = () => {
-    logout();
-    
+  const handleLogout = async () => {
+    showLoading();
+    await logout();
+
     toast({
       title: "تم تسجيل الخروج",
       description: "تم تسجيل خروجك بنجاح",
     });
-    
+
     navigate('/');
   };
 
@@ -149,7 +153,7 @@ const Topbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button onClick={() => navigate('/login')} className="btn-primary">
+            <Button onClick={() => setShowAuthModal(true)} className="btn-primary">
               <span className="hidden sm:inline">تسجيل الدخول</span>
               <span className="inline sm:hidden"><User className="w-4 h-4" /></span>
             </Button>

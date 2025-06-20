@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,8 +8,20 @@
 /* CSS Custom Properties for theming */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Unified color palette */
+    --primary-color: 224.3 76.3% 48%;
+    --primary-color-foreground: 0 0% 100%;
+    --secondary-color: 271.5 81.3% 56%;
+    --secondary-color-foreground: 0 0% 100%;
+    --accent-color: 160.1 84% 39.4%;
+    --accent-foreground-color: 0 0% 100%;
+    --background-color: 210 20% 98%;
+    --background-color-desktop: 210 20% 98%;
+    --text-color: 215 28% 17%;
+
+    /* Existing tokens mapped to the new palette */
+    --background: var(--background-color);
+    --foreground: var(--text-color);
 
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -15,17 +29,17 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: var(--primary-color);
+    --primary-foreground: var(--primary-color-foreground);
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: var(--secondary-color);
+    --secondary-foreground: var(--secondary-color-foreground);
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: var(--accent-color);
+    --accent-foreground: var(--accent-foreground-color);
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -53,8 +67,13 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background-color: 221 39% 11%;
+    --background-color-desktop: 215 28% 17%;
+    --text-color: 210 20% 98%;
+
+    /* Map existing tokens */
+    --background: var(--background-color);
+    --foreground: var(--text-color);
 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
@@ -62,17 +81,17 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: var(--primary-color);
+    --primary-foreground: var(--primary-color-foreground);
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: var(--secondary-color);
+    --secondary-foreground: var(--secondary-color-foreground);
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: var(--accent-color);
+    --accent-foreground: var(--accent-foreground-color);
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
@@ -109,15 +128,15 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased lg:bg-[hsl(var(--background-color-desktop))];
     font-feature-settings: "rlig" 1, "calt" 1;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
 
   /* Headings */
   h1, h2, h3, h4, h5, h6 {
     @apply font-semibold text-foreground;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }
 
   h1 {
@@ -198,16 +217,16 @@
   }
 
   .text-accent {
-    @apply text-blue-600 dark:text-blue-400;
+    @apply text-[hsl(var(--accent-color))] dark:text-[hsl(var(--accent-color))];
   }
 
   /* Button variants */
   .btn-primary {
-    @apply bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply bg-primary text-primary-foreground font-medium px-4 py-2 rounded-lg transition-all duration-200 hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-primary;
   }
 
   .btn-secondary {
-    @apply bg-gradient-to-r from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply bg-secondary text-secondary-foreground font-medium px-4 py-2 rounded-lg transition-all duration-200 hover:bg-secondary/90 focus-visible:ring-2 focus-visible:ring-secondary;
   }
 
   /* Navigation styles */
@@ -216,7 +235,7 @@
   }
 
   .nav-link-active {
-    @apply bg-gradient-to-r from-blue-500/10 to-blue-600/10 text-blue-600 dark:text-blue-500 shadow-lg shadow-blue-500/20;
+    @apply bg-primary/10 text-primary shadow-lg shadow-primary/20;
   }
 
   .nav-link-inactive {

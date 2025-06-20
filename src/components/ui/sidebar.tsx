@@ -26,6 +26,7 @@ const Sidebar = () => {
       ]
     },
     { icon: Users, label: t('clients'), href: '/clients' },
+    { icon: Users, label: t('users'), href: '/users' },
     { icon: CreditCard, label: t('payments'), href: '/payments' },
     { icon: Shield, label: t('roles'), href: '/roles' },
     { icon: BarChart3, label: t('reports'), href: '/reports' },

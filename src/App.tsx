@@ -3,16 +3,19 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import { AuthLayout } from "@/layouts/AuthLayout";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import RouteChangeListener from "@/components/RouteChangeListener";
 import Layout from "./components/layout/Layout";
 import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
+import Users from "./pages/Users";
+import Roles from "./pages/Roles";
+import Settings from "./pages/Settings";
 import Bookings from "./pages/Bookings";
 import Activities from "./pages/Activities";
 import Swimming from "./pages/Swimming";  
@@ -27,14 +30,14 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <LoadingOverlay />
       <AuthProvider>
         <BrowserRouter>
+          <RouteChangeListener />
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Landing />} />
             <Route path="/landing" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             
             {/* Admin Routes */}
@@ -130,15 +133,16 @@ const App = () => (
               </AuthLayout>
             } />
             
+
             <Route path="/users" element={
               <AuthLayout requiredRole="admin">
-                <Layout><Dashboard /></Layout>
+                <Layout><Users /></Layout>
               </AuthLayout>
             } />
             
             <Route path="/roles" element={
               <AuthLayout requiredRole="admin">
-                <Layout><Dashboard /></Layout>
+                <Layout><Roles /></Layout>
               </AuthLayout>
             } />
             
@@ -150,7 +154,7 @@ const App = () => (
             
             <Route path="/settings" element={
               <AuthLayout>
-                <Layout><Dashboard /></Layout>
+                <Layout><Settings /></Layout>
               </AuthLayout>
             } />
             

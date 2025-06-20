@@ -19,7 +19,7 @@ function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   // Check role-based access if requiredRole is specified

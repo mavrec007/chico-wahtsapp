@@ -1,6 +1,7 @@
+
 import React, { useEffect } from 'react';
 import { useAppStore } from '@/stores/useAppStore';
-import Sidebar from './Sidebar';
+import { ModernSidebar } from './modernSidebar';
 import Topbar from './Topbar';
 import AuthModal from '@/components/auth/AuthModal';
 import { cn } from '@/lib/utils';
@@ -19,25 +20,32 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className={cn(
-      'min-h-screen flex flex-col lg:flex-row transition-all duration-300 ease-in-out',
+      'min-h-screen flex bg-background transition-all duration-300 ease-in-out',
       isRTL ? 'flex-row-reverse' : 'flex-row'
     )}>
-      {/* Sidebar - ثابت على الشاشات الكبيرة */}
-      <Sidebar />
+      {/* Modern Sidebar */}
+      <ModernSidebar />
 
-      {/* Main content: topbar + children */}
-      <div
-        className={cn(
-          'flex-1 flex flex-col transition-all duration-300 ease-in-out',
-          sidebarOpen ? (isRTL ? 'lg:mr-72 ' : 'lg:ml-72') : ''
-        )}
-      >
+      {/* Main Content Area */}
+      <div className={cn(
+        'flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out',
+        // Desktop spacing adjustment when sidebar is expanded
+        sidebarOpen ? 'lg:ml-64' : 'lg:ml-16',
+        isRTL && sidebarOpen && 'lg:ml-0 lg:mr-64',
+        isRTL && !sidebarOpen && 'lg:ml-0 lg:mr-16'
+      )}>
+        {/* Topbar */}
         <Topbar />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-white dark:bg-gray-950 transition-all">
-          {children}
+        
+        {/* Page Content */}
+        <main className="flex-1 overflow-auto bg-gradient-to-br from-background to-muted/20">
+          <div className="container mx-auto p-6 max-w-7xl">
+            {children}
+          </div>
         </main>
       </div>
 
+      {/* Auth Modal */}
       <AuthModal />
     </div>
   );

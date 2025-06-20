@@ -1,11 +1,23 @@
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 const resources = {
   en: {
     translation: {
-      // Navigation
+      // App info
+      'app.name': 'Sports Hub',
+      'app.tagline': 'Sports Management System',
+      'app.version': 'Version',
+      
+      // Navigation groups
+      'navigation.main': 'Main',
+      'navigation.activities': 'Activities',
+      'navigation.management': 'Management', 
+      'navigation.system': 'System',
+      'navigation.mainNavigation': 'Main Navigation',
+      'navigation.closeSidebar': 'Close Sidebar',
+      
+      // Navigation items
       dashboard: "Dashboard",
       bookings: "Bookings",
       activities: "Activities",
@@ -134,7 +146,20 @@ const resources = {
   },
   ar: {
     translation: {
-      // Navigation
+      // App info
+      'app.name': 'سبورتس هَب',
+      'app.tagline': 'نظام إدارة المرافق الرياضية',
+      'app.version': 'الإصدار',
+      
+      // Navigation groups
+      'navigation.main': 'الرئيسية',
+      'navigation.activities': 'الأنشطة',
+      'navigation.management': 'الإدارة',
+      'navigation.system': 'النظام',
+      'navigation.mainNavigation': 'التنقل الرئيسي',
+      'navigation.closeSidebar': 'إغلاق الشريط الجانبي',
+      
+      // Navigation items
       dashboard: "لوحة التحكم",
       bookings: "الحجوزات",
       activities: "الأنشطة",

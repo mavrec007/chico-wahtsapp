@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -7,8 +8,9 @@ import { Edit, Trash2 } from 'lucide-react';
 interface Profile {
   id: string;
   name: string | null;
-  email: string | null;
   role: string | null;
+  created_at: string | null;
+  updated_at: string | null;
 }
 
 const UserList: React.FC = () => {
@@ -17,7 +19,7 @@ const UserList: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const { data, error } = await supabase.from('profiles').select('*');
-      if (!error && data) setUsers(data as Profile[]);
+      if (!error && data) setUsers(data);
     };
     fetchUsers();
   }, []);
@@ -28,8 +30,8 @@ const UserList: React.FC = () => {
         <TableRow>
           <TableHead>ID</TableHead>
           <TableHead>Name</TableHead>
-          <TableHead>Email</TableHead>
           <TableHead>Role</TableHead>
+          <TableHead>Created At</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -38,8 +40,8 @@ const UserList: React.FC = () => {
           <TableRow key={user.id}>
             <TableCell>{user.id}</TableCell>
             <TableCell>{user.name}</TableCell>
-            <TableCell>{user.email}</TableCell>
             <TableCell>{user.role}</TableCell>
+            <TableCell>{user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</TableCell>
             <TableCell className="text-right">
               <div className="flex justify-end gap-2">
                 <Button size="sm" variant="outline">

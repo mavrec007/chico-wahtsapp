@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAppStore } from '@/stores/useAppStore';
@@ -18,11 +18,11 @@ export function ModernSidebar() {
   const isRTL = language === 'ar';
 
   // Animation variants for sidebar
-  const sidebarVariants = {
+  const sidebarVariants: Variants = {
     open: {
       x: 0,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 300,
         damping: 30,
         duration: 0.3
@@ -31,7 +31,7 @@ export function ModernSidebar() {
     closed: {
       x: isRTL ? 280 : -280,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         stiffness: 300,
         damping: 30,
         duration: 0.3
@@ -39,7 +39,7 @@ export function ModernSidebar() {
     }
   };
 
-  const overlayVariants = {
+  const overlayVariants: Variants = {
     open: { opacity: 1 },
     closed: { opacity: 0 }
   };

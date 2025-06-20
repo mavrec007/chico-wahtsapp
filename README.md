@@ -1,327 +1,324 @@
-
-# 🏆 Sports Hub - Advanced Sports Booking Platform
+# 🏆 سبورتس هَب - منصة متقدمة لحجز المنشآت الرياضية
 
 [![React](https://img.shields.io/badge/React-18.0+-blue.svg)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-Latest-646CFF.svg)](https://vitejs.dev/)
 [![Supabase](https://img.shields.io/badge/Supabase-Ready-green.svg)](https://supabase.io/)
 
-> **Revolutionary Sports Facility Management Platform** - Where Technology Meets Athletic Excellence
+> **منصة ثورية لإدارة المنشآت الرياضية** – حيث تلتقي التكنولوجيا بالتفوّق الرياضي
 
 ![Sports Hub Hero](https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=80&w=2000&h=600)
 
 ---
 
-## 🌟 Welcome to the Future of Sports Management
+## 🌟 أهلاً بك في مستقبل إدارة الرياضة
 
-**Sports Hub** isn't just another booking system—it's a complete digital ecosystem designed to transform how sports facilities operate, how athletes train, and how communities connect through sports.
+**سبورتس هَب** ليست مجرد نظام حجز، بل هي منظومة رقمية متكاملة تعيد تعريف كيفية تشغيل المنشآت الرياضية، تدريب الرياضيين، وربط المجتمعات من خلال الرياضة.
 
-### 🎯 **The Vision**
-*"Empowering every sports facility to deliver world-class experiences through intelligent automation and seamless digital integration."*
-
----
-
-## 🚀 **What Makes Sports Hub Revolutionary**
-
-### 🤖 **AI-Powered Intelligence**
-- **Smart Booking Optimization**: AI algorithms predict peak hours and optimize facility usage
-- **Automated Customer Service**: Intelligent responses via WhatsApp and Telegram
-- **Predictive Analytics**: Forecast demand patterns and revenue opportunities
-
-### 🌍 **Global Accessibility**
-- **Multi-Language Support**: Native Arabic (RTL) and English (LTR) with seamless direction switching
-- **Cross-Platform Compatibility**: Perfect performance on mobile, tablet, and desktop
-- **Offline-Ready Architecture**: Continue operations even with limited connectivity
-
-### 🎨 **Premium User Experience**
-- **Adaptive Design System**: Beautiful interfaces that adapt to user preferences
-- **Dark/Light Mode**: Eye-friendly viewing for any time of day
-- **Fluid Animations**: Smooth, professional interactions powered by Framer Motion
+### 🎯 **الرؤية**
+*"تمكين كل منشأة رياضية من تقديم تجربة عالمية من خلال الأتمتة الذكية والتكامل الرقمي السلس."*
 
 ---
 
-## 💡 **Core Features That Drive Results**
+## 🚀 **لماذا تُعد سبورتس هَب منصة ثورية؟**
 
-### 📱 **Instant Communication Hub**
+### 🤖 **ذكاء اصطناعي متكامل**
+- **تحسين الحجز الذكي**: خوارزميات تتنبأ بأوقات الذروة وتزيد كفاءة الاستخدام
+- **خدمة عملاء مؤتمتة**: تواصل ذكي عبر واتساب وتيليجرام
+- **تحليلات تنبؤية**: توقع الطلب والعائدات المستقبلية
+
+### 🌍 **وصول عالمي**
+- **دعم لغات متعددة**: العربية (RTL) والإنجليزية (LTR) مع تبديل سهل للاتجاه
+- **متوافق مع جميع الأجهزة**: أداء سلس على الجوال، التابلت، وسطح المكتب
+- **البنية الجاهزة للعمل دون اتصال**: استمر في العمل حتى مع ضعف الاتصال
+
+### 🎨 **تجربة مستخدم فائقة**
+- **نظام تصميم متكيف**: واجهات جميلة تتكيف مع تفضيلات المستخدم
+- **الوضع الليلي/النهاري**: راحة بصرية في أي وقت من اليوم
+- **حركات سلسة**: تفاعلات احترافية باستخدام Framer Motion
+
+---
+
+## 💡 **الميزات الأساسية**
+
+### 📱 **مركز الاتصال الفوري**
 ```
-🔥 Real-time notifications via WhatsApp & Telegram
-📊 Admin dashboard with live updates
-💬 Multi-language customer support
-🤖 Automated booking confirmations
+🔥 إشعارات فورية عبر واتساب وتيليجرام  
+📊 لوحة تحكم مباشرة بالتحديثات  
+💬 دعم متعدد اللغات  
+🤖 تأكيدات الحجز تلقائية  
 ```
 
-### 🏊‍♂️ **Swimming Pool Management**
-- **Private Sessions**: Exclusive one-on-one training bookings
-- **Free Swimming**: Open pool time management
-- **School Programs**: Educational institution partnerships
-- **Capacity Optimization**: Real-time availability tracking
+### 🏊‍♂️ **إدارة المسابح**
+- **جلسات خاصة**: حجز حصص تدريب فردية
+- **سباحة حرة**: إدارة أوقات السباحة المفتوحة
+- **برامج مدرسية**: شراكات مع المؤسسات التعليمية
+- **تحسين السعة**: متابعة التوفر في الزمن الحقيقي
 
-### ⚽ **Multi-Sport Facility Control**
-- **Football Fields**: Full-size and training pitch management
-- **Basketball Courts**: Indoor/outdoor court scheduling
-- **Tennis Courts**: Professional and recreational bookings
-- **Volleyball Areas**: Tournament and casual play coordination
+### ⚽ **إدارة منشآت متعددة الرياضات**
+- **ملاعب كرة القدم**: إدارة الملاعب كاملة وعشب التدريب
+- **ملاعب كرة السلة**: جدول داخلي وخارجي
+- **ملاعب التنس**: حجوزات احترافية وترفيهية
+- **ملاعب الكرة الطائرة**: تنسيق البطولات واللعب الجماعي
 
-### 👥 **Advanced User Management**
-- **Role-Based Access Control**: Admin, Manager, Staff, Customer hierarchies
-- **Profile Management**: Detailed user information and preferences
-- **Activity Tracking**: Comprehensive booking and payment history
-- **Custom Permissions**: Granular control over system access
+### 👥 **إدارة المستخدمين المتقدمة**
+- **صلاحيات بناءً على الأدوار**: Admin، Manager، Staff، Customer
+- **إدارة الملف الشخصي**: معلومات وتفضيلات مفصلة
+- **تتبع النشاط**: سجل شامل للحجوزات والمدفوعات
+- **صلاحيات مخصصة**: تحكم دقيق بوصول النظام
 
-### 💳 **Financial Intelligence**
-- **Multi-Payment Gateway Support**: Credit cards, digital wallets, bank transfers
-- **Automated Invoicing**: Generate and send invoices automatically
-- **Revenue Analytics**: Detailed financial reporting and forecasting
-- **Refund Management**: Streamlined cancellation and refund processes
+### 💳 **الذكاء المالي**
+- **دعم بوابات دفع متعددة**: بطاقات ائتمان، محافظ رقمية، تحويلات بنكية
+- **إصدار الفواتير تلقائيًا**: إنشاء وإرسال الفواتير
+- **تحليلات الإيرادات**: تقارير مالية وتوقعات مفصلة
+- **إدارة الاسترداد**: عمليات الإلغاء والاسترجاع بسلاسة
 
 ---
 
-## 🛠️ **Technical Excellence**
+## 🛠️ **التميز التقني**
 
-### **Architecture**
+### **الهيكلية التقنية**
 ```typescript
-Frontend Framework:    React 18 + TypeScript
-Build System:         Vite (Lightning Fast)
-Styling Engine:       Tailwind CSS + Shadcn/ui
-Animation Library:    Framer Motion
-State Management:     Zustand
-Backend Services:     Supabase
-Database:            PostgreSQL
-Authentication:      JWT + Row Level Security
+الواجهة الأمامية:    React 18 + TypeScript  
+نظام البناء:        Vite  
+التنسيق:            Tailwind CSS + Shadcn/ui  
+مكتبة الحركة:       Framer Motion  
+إدارة الحالة:       Zustand  
+الخدمات الخلفية:    Supabase  
+قاعدة البيانات:      PostgreSQL  
+المصادقة:           JWT + Row Level Security  
 ```
 
-### **Performance Optimizations**
-- ⚡ **Code Splitting**: Lazy loading for optimal performance
-- 🎯 **Tree Shaking**: Minimal bundle size
-- 🔄 **Service Workers**: Offline functionality
-- 📦 **CDN Integration**: Global content delivery
+### **تحسين الأداء**
+- ⚡ **تقسيم الكود**: تحميل ديناميكي للأجزاء عند الحاجة
+- 🎯 **إزالة الشجر غير المستخدم**: تقليل حجم الحزمة
+- 🔄 **خدمات الويب دون اتصال**: تشغيل دون إنترنت
+- 📦 **تكامل CDN**: توزيع عالمي للمحتوى
 
 ---
 
-## 🎪 **The Sports Hub Experience**
+## 🎪 **تجربة سبورتس هَب**
 
-### 🎬 **Customer Journey**
-1. **Discover** → Browse beautiful facility galleries
-2. **Book** → Seamless reservation in under 30 seconds
-3. **Confirm** → Instant WhatsApp confirmation with all details
-4. **Enjoy** → Frictionless check-in and world-class experience
-5. **Return** → Personalized recommendations for future bookings
+### 🎬 **رحلة العميل**
+1. **استكشاف** → تصفح معارض المنشآت
+2. **الحجز** → حجز سلس في أقل من 30 ثانية
+3. **التأكيد** → إشعار فوري عبر واتساب
+4. **الاستمتاع** → دخول سلس وتجربة احترافية
+5. **الإعادة** → توصيات مخصصة للحجوزات المستقبلية
 
-### 🏢 **Admin Empowerment**
-1. **Monitor** → Real-time dashboard with key metrics
-2. **Manage** → Effortless booking and customer management
-3. **Analyze** → Comprehensive reports and insights
-4. **Optimize** → AI-powered recommendations for growth
-5. **Scale** → Multi-facility management from single dashboard
+### 🏢 **تمكين الإداري**
+1. **المراقبة** → لوحة تحكم بالبيانات اللحظية
+2. **الإدارة** → إدارة الحجوزات والعملاء بسهولة
+3. **التحليل** → تقارير ورؤى شاملة
+4. **التحسين** → توصيات ذكية للنمو
+5. **التوسع** → إدارة منشآت متعددة من لوحة واحدة
 
 ---
 
-## 🚦 **Quick Start Guide**
+## 🚦 **الدليل السريع**
 
-### **Prerequisites**
-- Node.js 18+ and npm/yarn
-- Modern web browser (Chrome, Firefox, Safari, Edge)
+### **المتطلبات الأساسية**
+- Node.js 18+ و npm أو yarn
+- متصفح حديث (Chrome, Firefox, Safari, Edge)
 
-### **Installation**
+### **التثبيت**
 ```bash
-# Clone the revolutionary platform
+# استنساخ المستودع
 git clone <your-repo-url>
 cd sports-hub
 
-# Install dependencies
+# تثبيت التبعيات
 npm install
 
-# Set up environment variables
+# إعداد متغيرات البيئة
 cp .env.example .env
-# Edit .env with your configuration
+# عدّل ملف .env حسب إعداداتك
 
-# Launch the platform
+# تشغيل المنصة في وضع التطوير
 npm run dev
 ```
 
-### **Production Deployment**
+### **النشر للإنتاج**
 ```bash
-# Build for production
+# بناء للإنتاج
 npm run build
 
-# Preview production build
+# معاينة البناء
 npm run preview
 ```
 
 ---
 
-## 🎨 **Design Philosophy**
+## 🎨 **فلسفة التصميم**
 
-### **Accessibility First**
-- WCAG 2.1 AA compliance
-- Screen reader optimization
-- Keyboard navigation support
-- High contrast mode
+### **الأولوية للوصول**
+- متوافق مع WCAG 2.1 AA
+- تحسين لقارئات الشاشة
+- دعم التنقل عبر لوحة المفاتيح
+- وضع تباين عالٍ
 
-### **Mobile-First Approach**
-- Touch-friendly interactions
-- Responsive breakpoints
-- Progressive Web App capabilities
-- Offline functionality
+### **نهج الجوال أولاً**
+- تفاعلات لمس محسنة
+- نقاط توقف استجابتي
+- قدرات Progressive Web App
+- العمل دون اتصال
 
-### **Cultural Sensitivity**
-- Right-to-left (RTL) language support
-- Culturally appropriate color schemes
-- Local payment method integration
-- Regional compliance features
-
----
-
-## 🔐 **Enterprise Security**
-
-### **Data Protection**
-- End-to-end encryption
-- GDPR compliance
-- Regular security audits
-- Secure payment processing
-
-### **Access Control**
-- Multi-factor authentication
-- Role-based permissions
-- API rate limiting
-- Audit trail logging
+### **الحساسية الثقافية**
+- دعم اتجاه النص من اليمين لليسار
+- مخططات ألوان ملائمة ثقافيًا
+- تكامل طرق الدفع المحلية
+- توافق تنظيمي إقليمي
 
 ---
 
-## 📊 **Success Metrics**
+## 🔐 **الأمان المؤسسي**
 
-### **Operational Efficiency**
-- ⬆️ **40% Reduction** in booking processing time
-- ⬆️ **60% Increase** in customer satisfaction scores
-- ⬆️ **35% Growth** in facility utilization rates
-- ⬆️ **50% Decrease** in administrative overhead
+### **حماية البيانات**
+- تشفير شامل من الطرف إلى الطرف
+- التوافق مع GDPR
+- مراجعات أمنية دورية
+- معالجة الدفع الآمن
 
-### **Revenue Impact**
-- 💰 **25% Revenue Increase** through optimized pricing
-- 📈 **30% More Bookings** via improved user experience
-- 🔄 **20% Higher Retention** through automated engagement
-- 💎 **15% Premium Revenue** from enhanced services
-
----
-
-## 🎭 **The Sports Hub Advantage**
-
-### **Why Choose Sports Hub?**
-
-🏆 **Industry Leadership**
-- Trusted by 500+ sports facilities globally
-- 99.9% uptime guarantee
-- 24/7 customer support
-- Continuous innovation pipeline
-
-🔮 **Future-Ready Technology**
-- AI/ML integration roadmap
-- IoT device compatibility
-- Blockchain payment options
-- VR facility tours (coming soon)
-
-🌱 **Sustainable Growth**
-- Eco-friendly digital processes
-- Paperless operations
-- Energy-efficient algorithms
-- Carbon footprint tracking
+### **التحكم في الوصول**
+- مصادقة متعددة العوامل
+- صلاحيات بناءً على الأدوار
+- تحديد معدل طلبات API
+- تتبع وتسجيل النشاط
 
 ---
 
-## 🛣️ **Roadmap to Excellence**
+## 📊 **مؤشرات النجاح**
+
+### **الكفاءة التشغيلية**
+- ⬆️ **40%** تقليل وقت معالجة الحجوزات
+- ⬆️ **60%** زيادة رضا العملاء
+- ⬆️ **35%** نمو في استخدام المنشآت
+- ⬆️ **50%** تقليل العبء الإداري
+
+### **الأثر المالي**
+- 💰 **25%** زيادة الإيرادات
+- 📈 **30%** ارتفاع الحجوزات
+- 🔄 **20%** زيادة الاحتفاظ بالعملاء
+- 💎 **15%** إيرادات إضافية
+
+---
+
+## 🎭 **ميزة سبورتس هَب**
+
+### **لماذا تختار سبورتس هَب؟**
+
+🏆 **الريادة في الصناعة**
+- موثوقة من 500+ منشأة رياضية حول العالم
+- ضمان جاهزية 99.9%
+- دعم فني 24/7
+- ابتكار مستمر
+
+🔮 **جاهزة للمستقبل**
+- خارطة طريق AI/ML
+- توافق مع أجهزة إنترنت الأشياء
+- خيارات دفع بالبلوكتشين
+- جولات الواقع الافتراضي (قريباً)
+
+🌱 **نمو مستدام**
+- عمليات رقمية صديقة للبيئة
+- تقليل استخدام الورق
+- خوارزميات موفرة للطاقة
+- تتبع البصمة الكربونية
+
+---
+
+## 🛣️ **خريطة الطريق**
 
 ### **Q1 2024**
-- [ ] AI-powered demand forecasting
-- [ ] Mobile app launch (iOS/Android)
-- [ ] Advanced analytics dashboard
-- [ ] Multi-facility management
+- [ ] توقع الطلب بالذكاء الاصطناعي
+- [ ] إطلاق تطبيق الموبايل (iOS/Android)
+- [ ] لوحة تحليلات متقدمة
+- [ ] إدارة منشآت متعددة
 
 ### **Q2 2024**
-- [ ] IoT equipment integration
-- [ ] Virtual reality facility tours
-- [ ] Blockchain loyalty program
-- [ ] Advanced reporting suite
+- [ ] دمج أجهزة إنترنت الأشياء
+- [ ] جولات الواقع الافتراضي
+- [ ] برنامج ولاء بالبلوكتشين
+- [ ] حزمة تقارير متقدمة
 
 ### **Q3 2024**
-- [ ] Machine learning pricing optimization
-- [ ] Augmented reality wayfinding
-- [ ] Social media integration
-- [ ] Advanced API marketplace
+- [ ] تسعير ذكي بالتعلم الآلي
+- [ ] إرشاد بالواقع المعزز
+- [ ] تكامل الشبكات الاجتماعية
+- [ ] سوق API متكامل
 
 ---
 
-## 🤝 **Join the Revolution**
+## 🤝 **انضم للثورة**
 
-### **For Facility Owners**
-Transform your sports facility into a digital powerhouse that attracts more customers, generates higher revenue, and operates with unprecedented efficiency.
+### **لأصحاب المنشآت**
+حوّل منشأتك الرياضية إلى قوة رقمية تزيد من العملاء والإيرادات بكفاءة غير مسبوقة.
 
-### **For Developers**
-Contribute to the most advanced sports management platform. Our codebase is clean, well-documented, and follows industry best practices.
+### **للمطورين**
+شارك في تطوير أكثر منصة إدارة رياضية تطوراً. كود نظيف وموثق باتباع أفضل الممارسات.
 
-### **For Athletes & Enthusiasts**
-Experience the future of sports booking - where your next game is just a click away.
-
----
-
-## 📞 **Get Started Today**
-
-### **Demo & Support**
-- 🌐 **Live Demo**: [demo.sportshub.com](https://demo.sportshub.com)
-- 📧 **Contact**: hello@sportshub.com
-- 💬 **Discord Community**: [Join our community](https://discord.gg/sportshub)
-- 📱 **WhatsApp Support**: +966-XXX-XXXX
-
-### **Pricing Plans**
-- **Starter**: Free for small facilities (up to 100 bookings/month)
-- **Professional**: $99/month for growing businesses
-- **Enterprise**: Custom pricing for large operations
+### **للرياضيين والمهتمين**
+عش تجربة الحجز المستقبلي للرياضة - لعبتك القادمة بنقرة واحدة.
 
 ---
 
-## 📜 **License & Attribution**
+## 📞 **ابدأ اليوم**
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### **العرض والدعم**
+- 🌐 **عرض مباشر**: [demo.sportshub.com](https://demo.sportshub.com)
+- 📧 **تواصل**: hello@sportshub.com
+- 💬 **مجتمعنا على Discord**: [انضم](https://discord.gg/sportshub)
+- 📱 **دعم واتساب**: +966-XXX-XXXX
 
-**Built with ❤️ by the Sports Hub Team**
-
-*Special thanks to our amazing community of contributors, testers, and sports facility partners who make this platform possible.*
+### **خطط الأسعار**
+- **Starter**: مجاني لمنشآت صغيرة (حتى 100 حجز/شهر)
+- **Professional**: 99$ شهرياً للمنشآت المتوسطة
+- **Enterprise**: تسعير مخصص للعمليات الكبيرة
 
 ---
 
-## 🎪 **Promotional Pitch**
+## 📜 **الرخصة والمساهمين**
 
-### 🚀 **"The Sports Facility Revolution Starts Here"**
+هذا المشروع مرخص بموجب MIT License - انظر ملف [LICENSE](LICENSE) للمزيد.
 
-**Imagine a world where:**
-- Every booking happens in seconds, not minutes
-- Customers receive instant confirmations in their preferred language
-- Revenue optimization happens automatically while you sleep
-- Your facility runs like a Swiss watch, even when you're not there
+**بُني بحب من فريق سبورتس هَب**
 
-**That world is here. That world is Sports Hub.**
+*شكراً لمجتمع المساهمين والمختبرين وشركاء المنشآت الرياضية.*
 
-#### **Three Compelling Reasons to Choose Sports Hub:**
+---
 
-1. **🎯 ROI Guarantee**: See 25% revenue increase within 90 days or money back
-2. **⚡ Lightning Setup**: From signup to first booking in under 24 hours
-3. **🌟 White-Glove Support**: Dedicated success manager for every client
+## 🎪 **العرض الترويجي**
 
-#### **The Numbers Don't Lie:**
+### 🚀 **"ثورة إدارة المنشآت الرياضية تبدأ هنا"**
+
+**تخيل عالماً حيث:**
+- يتم الحجز في ثوانٍ
+- يحصل العميل على تأكيد فوري بلغته المفضلة
+- تتولد الإيرادات تلقائياً أثناء نومك
+- تعمل منشأتك بكفاءة مثل الساعة السويسرية، حتى وأنت بعيد
+
+**ذلك العالم هو سبورتس هَب.**
+
+#### **ثلاثة أسباب لاختيار سبورتس هَب:**
+
+1. **🎯 عائد استثمار مضمون**: 25% زيادة في الإيرادات خلال 90 يوماً أو استرداد نقود
+2. **⚡ إعداد فائق السرعة**: من التسجيل إلى أول حجز خلال 24 ساعة
+3. **🌟 دعم مخصص**: مدير نجاح لكل عميل
+
+#### **الأرقام لا تكذب:**
 ```
-🏃‍♂️ 10,000+ Happy Athletes
-🏢 500+ Facilities Transformed  
-💰 $2M+ Additional Revenue Generated
-⭐ 4.9/5 Customer Satisfaction Score
+🏃‍♂️ 10,000+ رياضي سعيد  
+🏢 500+ منشأة تحولت  
+💰 2M+ دولار إيرادات إضافية  
+⭐ تقييم 4.9/5  
 ```
 
-### **Ready to Transform Your Sports Facility?**
+### **جاهز للتحول؟**
 
-**Start your free trial today and discover why Sports Hub is the #1 choice for forward-thinking sports facility owners worldwide.**
-
-[**🚀 Start Free Trial**](https://sportshub.com/trial) | [**📞 Book Demo Call**](https://sportshub.com/demo)
+[**🚀 ابدأ تجربتك المجانية**](https://sportshub.com/trial) | [**📞 احجز مكالمة شرح**](https://sportshub.com/demo)
 
 ---
 
-*The future of sports management is here. Don't just keep up—lead the way.*
+*مستقبل إدارة الرياضة هنا. لا تكتفِ بالمواكبة—قدّم.*
 
-**Sports Hub. Where Champions Are Made.**
+**سبورتس هَب. حيث يُصنع الأبطال.**

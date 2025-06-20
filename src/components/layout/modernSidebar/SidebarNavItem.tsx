@@ -69,7 +69,7 @@ export function SidebarNavItem({ item, isCollapsed, isActive, isRTL }: SidebarNa
           )}>
             {item.badge}
           </div>
-        </span>
+        </div>
       )}
 
       {/* Active Indicator */}

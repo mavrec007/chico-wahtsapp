@@ -1,3 +1,4 @@
+
 // Sidebar.tsx
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
@@ -63,7 +64,7 @@ const Sidebar = () => {
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-600 to-purple-600">
-            <AppLogo location="sidebar" />
+            <AppLogo />
             <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-2 rounded-md hover:bg-white/10">
               <X className="w-5 h-5 text-white" />
             </button>

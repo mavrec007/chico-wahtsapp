@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -175,11 +174,19 @@ export function AppointmentModal({ isOpen, onClose, appointment, mode = 'create'
   const onSubmit = (data: AppointmentFormData) => {
     console.log('Creating appointment:', data);
     
-    // Auto-appointment logic
-    const newAppointment = {
+    // Create properly typed appointment object
+    const newAppointment: Appointment = {
       id: Date.now().toString(),
-      ...data,
+      clientName: data.clientName,
+      clientPhone: data.clientPhone,
+      activityType: data.activityType,
+      selectedType: data.selectedType,
+      selectedDate: data.selectedDate,
+      selectedTime: data.selectedTime,
+      duration: data.duration,
+      price: data.price,
       status: 'confirmed',
+      notes: data.notes,
       createdAt: new Date(),
     };
 

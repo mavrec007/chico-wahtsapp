@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
 
@@ -46,6 +47,7 @@ export default {
                                 sans: ["Inter", "ui-sans-serif", "system-ui"],
                         },
                         colors: {
+                            // Premium Brand Colors
                             brand: {
                                         primary: "#1D4ED8",
                                         "primary-dark": "#2563EB",
@@ -59,6 +61,33 @@ export default {
                                                 light: "#1F2937",
                                                 dark: "#F9FAFB",
                                         },
+                                },
+                                // Premium Color Palette
+                                premium: {
+                                        blue: {
+                                                50: "#eff6ff",
+                                                500: "#3b82f6",
+                                                600: "#2563eb",
+                                                900: "#1e3a8a"
+                                        },
+                                        emerald: {
+                                                50: "#ecfdf5",
+                                                500: "#10b981",
+                                                600: "#059669",
+                                                900: "#064e3b"
+                                        },
+                                        purple: {
+                                                50: "#faf5ff",
+                                                500: "#a855f7",
+                                                600: "#9333ea",
+                                                900: "#581c87"
+                                        },
+                                        orange: {
+                                                50: "#fff7ed",
+                                                500: "#f97316",
+                                                600: "#ea580c",
+                                                900: "#9a3412"
+                                        }
                                 },
                                 border: 'hsl(var(--border))',
                                 input: 'hsl(var(--input))',
@@ -114,6 +143,12 @@ export default {
                         },
                         backgroundImage: {
                                 'gradient-primary': 'linear-gradient(to right, #1D4ED8, #9333EA)',
+                                'gradient-premium-light': 'linear-gradient(135deg, #f8fafc 0%, #e0f2fe 25%, #ddd6fe 75%, #fef3c7 100%)',
+                                'gradient-premium-dark': 'linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #312e81 75%, #422006 100%)',
+                                'gradient-chart-blue': 'linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%)',
+                                'gradient-chart-emerald': 'linear-gradient(180deg, #10b981 0%, #059669 100%)',
+                                'gradient-chart-purple': 'linear-gradient(180deg, #a855f7 0%, #9333ea 100%)',
+                                'gradient-chart-orange': 'linear-gradient(180deg, #f97316 0%, #ea580c 100%)'
                         },
                         borderRadius: {
 				lg: 'var(--radius)',
@@ -136,11 +171,26 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+                                'fade-in': {
+                                        '0%': { opacity: '0', transform: 'translateY(10px)' },
+                                        '100%': { opacity: '1', transform: 'translateY(0)' }
+                                },
+                                'slide-up': {
+                                        '0%': { opacity: '0', transform: 'translateY(20px)' },
+                                        '100%': { opacity: '1', transform: 'translateY(0)' }
+                                },
+                                'scale-in': {
+                                        '0%': { opacity: '0', transform: 'scale(0.95)' },
+                                        '100%': { opacity: '1', transform: 'scale(1)' }
+                                }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+                                'fade-in': 'fade-in 0.5s ease-out',
+                                'slide-up': 'slide-up 0.6s ease-out',
+                                'scale-in': 'scale-in 0.4s ease-out'
 			}
 		}
 	},

@@ -1,20 +1,22 @@
 
 {
   "navigation": {
-    "home": "الرئيسية",
+    "main": "الرئيسية",
+    "activities": "الأنشطة",
+    "management": "الإدارة",
+    "system": "النظام",
     "dashboard": "لوحة التحكم",
     "bookings": "الحجوزات",
-    "swimming": "السباحة",
-    "fields": "الملاعب الرياضية",
     "clients": "العملاء",
-    "users": "المستخدمون",
+        "users": "المستخدمون",
     "roles": "أدوار المستخدمين",
     "payments": "المدفوعات",
     "profile": "الملف الشخصي",
-    "whatsappBot": "بوت واتساب",
-    "telegramAdmin": "إدارة تليجرام",
     "settings": "الإعدادات"
+ 
   },
+
+
   "common": {
     "login": "تسجيل الدخول",
     "logout": "تسجيل الخروج",
@@ -67,22 +69,5 @@
     "todaysBookings": "حجوزات اليوم",
     "revenue": "الإيرادات",
     "pendingApprovals": "الموافقات المعلقة"
-  },
-  "bots": {
-    "whatsapp": {
-      "title": "إدارة بوت واتساب",
-      "description": "إدارة التفاعلات الذكية والرسائل التلقائية في واتساب",
-      "autoReply": "الرد التلقائي",
-      "bookingReminders": "تذكيرات الحجز",
-      "smartGreetings": "التحيات الذكية",
-      "paymentConfirmations": "تأكيدات الدفع"
-    },
-    "telegram": {
-      "title": "لوحة إدارة تليجرام",
-      "description": "تأكيدات الدفع والإشعارات الإدارية",
-      "connectionStatus": "حالة الاتصال",
-      "messagesToday": "الرسائل اليوم",
-      "responseTime": "وقت الاستجابة"
-    }
   }
 }

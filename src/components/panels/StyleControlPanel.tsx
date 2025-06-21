@@ -65,7 +65,7 @@ export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent 
         side={isRTL ? "left" : "right"} 
-        className="w-96 overflow-y-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-gray-200 dark:border-gray-800"
+        className="w-62 overflow-y-auto bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-gray-200 dark:border-gray-800"
       >
         <SheetHeader className={isRTL ? 'text-right' : 'text-left'}>
           <SheetTitle className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>

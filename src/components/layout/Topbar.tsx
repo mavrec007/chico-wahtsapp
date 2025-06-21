@@ -7,7 +7,7 @@ import { useAppStore } from '@/stores/useAppStore';
 import { useAuth } from '@/context/AuthContext';
 import { useLoadingStore } from '@/stores/useLoadingStore';
 import { cn } from '@/lib/utils';
-import { Menu, Sun, Moon, Globe, User, LogOut, Settings, UserCircle } from 'lucide-react';
+import { Menu, Sun, Moon, Globe, User, LogOut, Settings, UserCircle, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -18,7 +18,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/hooks/use-toast';
 
-const Topbar = () => {
+interface TopbarProps {
+  className?: string;
+}
+
+const Topbar: React.FC<TopbarProps> = ({ className }) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -62,7 +66,10 @@ const Topbar = () => {
 
   return (
     <motion.header
-      className="sticky top-0 z-30 w-full border-b shadow-sm border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
+      className={cn(
+        'sticky top-0 z-[60] w-full border-b shadow-sm border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900',
+        className
+      )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -71,9 +78,13 @@ const Topbar = () => {
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={toggleSidebar}
-            className={cn(language === 'ar' ? 'ml-auto' : 'mr-auto')}
+            className={cn(
+              language === 'ar' ? 'ml-auto' : 'mr-auto',
+              'rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors'
+            )}
+            aria-label="Toggle sidebar"
           >
             <Menu className="w-5 h-5" />
           </Button>
@@ -83,33 +94,40 @@ const Topbar = () => {
           {/* Language Switch */}
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={handleLanguageToggle}
-            className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
           >
             <Globe className="w-4 h-4" />
-            <span className="text-sm font-medium hidden sm:inline">
-              {language.toUpperCase()}
-            </span>
           </Button>
 
           {/* Theme Switch */}
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={toggleTheme}
-            className="hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
           >
             {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+          </Button>
+
+          {/* Notifications */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
+            aria-label="Notifications"
+          >
+            <Bell className="w-4 h-4" />
           </Button>
 
           {/* User Menu */}
           {isAuthenticated && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  className="flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg p-2"
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-2 rounded-lg px-2 py-1 backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
                 >
                   <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                     <User className="w-4 h-4 text-white" />
@@ -124,9 +142,9 @@ const Topbar = () => {
                   </div>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                align="end" 
-                className="w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+              <DropdownMenuContent
+                align="end"
+                className="z-[70] w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
               >
                 <DropdownMenuItem 
                   onClick={handleProfile}

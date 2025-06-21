@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 export default {
 	darkMode: ["class"],
@@ -18,6 +19,29 @@ export default {
 			}
 		},
                 extend: {
+                        spacing: {
+                                'sidebar-mini': '4rem',
+                                'sidebar-full': '18rem',
+                        },
+                        width: {
+                                'sidebar-mini': '4rem',
+                                'sidebar-full': '18rem',
+                                'spinner-xs': '1rem',
+                                'spinner-sm': '1.5rem',
+                                'spinner-md': '2rem',
+                                'spinner-lg': '3rem',
+                                'spinner-xl': '4rem'
+                        },
+                        transitionProperty: {
+                                sidebar: 'margin,width'
+                        },
+                        height: {
+                                'spinner-xs': '1rem',
+                                'spinner-sm': '1.5rem',
+                                'spinner-md': '2rem',
+                                'spinner-lg': '3rem',
+                                'spinner-xl': '4rem'
+                        },
                         fontFamily: {
                                 sans: ["Inter", "ui-sans-serif", "system-ui"],
                         },
@@ -75,12 +99,18 @@ export default {
                                         DEFAULT: 'hsl(var(--sidebar-background))',
                                         foreground: 'hsl(var(--sidebar-foreground))',
                                         primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-                                }
+                                        'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+                                        accent: 'hsl(var(--sidebar-accent))',
+                                        'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+                                        border: 'hsl(var(--sidebar-border))',
+                                        ring: 'hsl(var(--sidebar-ring))'
+                                },
+                                'color-bg': 'hsl(var(--color-bg))',
+                                'color-surface': 'hsl(var(--color-surface))',
+                                'color-text': 'hsl(var(--color-text))',
+                                'color-muted': 'hsl(var(--color-muted))',
+                                'color-primary': 'hsl(var(--color-primary))',
+                                'color-accent': 'hsl(var(--color-accent))'
                         },
                         backgroundImage: {
                                 'gradient-primary': 'linear-gradient(to right, #1D4ED8, #9333EA)',
@@ -90,7 +120,7 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
-			keyframes: {
+                        keyframes: {
 				'accordion-down': {
 					from: {
 						height: '0'
@@ -114,5 +144,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+        plugins: [animate],
 } satisfies Config;

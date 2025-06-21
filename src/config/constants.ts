@@ -1,7 +1,6 @@
 
 // config/constants.ts
 export const DEFAULT_LANGUAGE = 'ar';
-export const TELEGRAM_BASE_URL = 'https://api.telegram.org';
 
 // Application constants
 export const APP_NAME = 'Sports Hub';
@@ -39,8 +38,6 @@ export const USER_ROLES = {
 
 // Notification types
 export const NOTIFICATION_TYPES = {
-  TELEGRAM: 'telegram',
-  WHATSAPP: 'whatsapp',
   EMAIL: 'email',
   SMS: 'sms'
 } as const;
@@ -75,20 +72,12 @@ export const VALIDATION = {
 
 // Environment variables validation
 export const validateEnvironment = () => {
-  const requiredVars = [
-    'VITE_TELEGRAM_BOT_TOKEN',
-    'VITE_TELEGRAM_CHAT_ID'
-  ];
-  
+  const requiredVars: string[] = [];
   const missing = requiredVars.filter(varName => !import.meta.env[varName]);
-  
+
   if (missing.length > 0) {
     console.warn('Missing environment variables:', missing);
-    console.log('Telegram integration ready - Set VITE_TELEGRAM_BOT_TOKEN and VITE_TELEGRAM_CHAT_ID environment variables');
   }
-  
+
   return missing.length === 0;
 };
-
-// Initialize environment check
-validateEnvironment();

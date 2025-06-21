@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SidebarItem } from './types';
 import { useLoadingStore } from '@/stores/useLoadingStore';
+import { useAppStore } from '@/stores/useAppStore';
 
 interface SidebarNavItemProps {
   item: SidebarItem;
@@ -18,6 +19,7 @@ interface SidebarNavItemProps {
 export function SidebarNavItem({ item, isCollapsed, isActive, isRTL }: SidebarNavItemProps) {
   const { t } = useTranslation();
   const showLoading = useLoadingStore((state) => state.showLoading);
+  const { setSidebarOpen } = useAppStore();
 
   const NavItemContent = (
     <motion.div
@@ -90,7 +92,10 @@ export function SidebarNavItem({ item, isCollapsed, isActive, isRTL }: SidebarNa
   const navLink = (
     <NavLink
       to={item.href}
-      onClick={showLoading}
+      onClick={() => {
+        showLoading();
+        setSidebarOpen(false);
+      }}
       className="block"
       aria-label={t(item.label)}
     >

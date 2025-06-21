@@ -1,3 +1,3 @@
 
 // utils/logger.ts
-export const log = (...args: any[]) => console.log('[LOG]', ...args);
+export const log = (...args: unknown[]) => console.log('[LOG]', ...args);

@@ -10,15 +10,22 @@
 @layer base {
   :root {
     /* Unified color palette */
-    --primary-color: 224.3 76.3% 48%;
+    --color-primary: 224.3 76.3% 48%;
+    --color-accent: 160.1 84% 39.4%;
+    --color-bg: 0 0% 100%;
+    --color-surface: 0 0% 98%;
+    --color-text: 215 28% 17%;
+    --color-muted: 215.4 16.3% 46.9%;
+
+    --primary-color: var(--color-primary);
     --primary-color-foreground: 0 0% 100%;
     --secondary-color: 271.5 81.3% 56%;
     --secondary-color-foreground: 0 0% 100%;
-    --accent-color: 160.1 84% 39.4%;
+    --accent-color: var(--color-accent);
     --accent-foreground-color: 0 0% 100%;
-    --background-color: 210 20% 98%;
-    --background-color-desktop: 210 20% 98%;
-    --text-color: 215 28% 17%;
+    --background-color: var(--color-bg);
+    --background-color-desktop: var(--color-bg);
+    --text-color: var(--color-text);
 
     /* Existing tokens mapped to the new palette */
     --background: var(--background-color);
@@ -36,8 +43,8 @@
     --secondary: var(--secondary-color);
     --secondary-foreground: var(--secondary-color-foreground);
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: var(--color-muted);
+    --muted-foreground: var(--color-text);
 
     --accent: var(--accent-color);
     --accent-foreground: var(--accent-foreground-color);
@@ -68,9 +75,14 @@
   }
 
   .dark {
-    --background-color: 221 39% 11%;
-    --background-color-desktop: 215 28% 17%;
-    --text-color: 210 20% 98%;
+    --color-bg: 221 39% 11%;
+    --color-surface: 240 3.7% 15.9%;
+    --color-text: 210 20% 98%;
+    --color-muted: 215 20.2% 65.1%;
+
+    --background-color: var(--color-bg);
+    --background-color-desktop: var(--color-bg);
+    --text-color: var(--color-text);
 
     /* Map existing tokens */
     --background: var(--background-color);
@@ -88,8 +100,8 @@
     --secondary: var(--secondary-color);
     --secondary-foreground: var(--secondary-color-foreground);
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: var(--color-muted);
+    --muted-foreground: var(--color-text);
 
     --accent: var(--accent-color);
     --accent-foreground: var(--accent-foreground-color);
@@ -126,10 +138,11 @@
   html {
     scroll-behavior: smooth;
     font-feature-settings: "cv03", "cv04", "cv11";
+    transition: background-color 0.3s, color 0.3s;
   }
 
   body {
-    @apply bg-background text-foreground antialiased lg:bg-[hsl(var(--background-color-desktop))];
+    @apply bg-background text-foreground antialiased transition-colors lg:bg-[hsl(var(--background-color-desktop))];
     font-feature-settings: "rlig" 1, "calt" 1;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   }

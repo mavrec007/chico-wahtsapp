@@ -16,72 +16,72 @@ import { SidebarConfig } from './types';
 export const sidebarConfig: SidebarConfig = {
   groups: [
     {
-      label: 'navigation.main',
+      label: 'main',
       items: [
         {
           href: '/',
-          label: 'navigation.dashboard',
+          label: 'dashboard',
           icon: LayoutDashboard
         },
         {
           href: '/bookings',
-          label: 'navigation.bookings',
+          label: 'bookings',
           icon: Calendar,
           badge: '12'
         }
       ]
     },
     {
-      label: 'navigation.activities',
+      label: 'activities',
       items: [
         {
           href: '/activities/swimming',
-          label: 'navigation.swimming',
+          label: 'swimming',
           icon: Waves
         },
         {
           href: '/activities/fields',
-          label: 'navigation.fields',
+          label: 'fields',
           icon: Target
         }
       ]
     },
     {
-      label: 'navigation.management',
+      label: 'management',
       items: [
         {
           href: '/clients',
-          label: 'navigation.clients',
+          label: 'clients',
           icon: Users
         },
         {
           href: '/payments',
-          label: 'navigation.payments',
+          label: 'payments',
           icon: CreditCard
         },
         {
           href: '/reports',
-          label: 'navigation.reports',
+          label: 'reports',
           icon: BarChart3
         }
       ]
     },
     {
-      label: 'navigation.system',
+      label: 'system',
       items: [
         {
           href: '/users',
-          label: 'navigation.users',
+          label: 'users',
           icon: UserCheck
         },
         {
           href: '/roles',
-          label: 'navigation.roles',
+          label: 'roles',
           icon: Shield
         },
         {
           href: '/settings',
-          label: 'navigation.settings',
+          label: 'settings',
           icon: Settings
         }
       ]

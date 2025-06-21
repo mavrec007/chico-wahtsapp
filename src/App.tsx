@@ -22,6 +22,8 @@ import Swimming from "./pages/Swimming";
 import Fields from "./pages/Fields";
 import Clients from "./pages/Clients";
 import NotFound from "./pages/NotFound";
+import { LanguageProvider } from '@/context/LanguageContext';
+
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,7 @@ const App = () => (
       <Sonner />
       <LoadingOverlay />
       <AuthProvider>
+          <LanguageProvider>
         <BrowserRouter>
           <RouteChangeListener />
           <Routes>
@@ -161,6 +164,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        </LanguageProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>

@@ -64,15 +64,10 @@ const Sidebar = () => {
         )}
       >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between p-4 bg-gradient-primary">
-            <AppLogo location="sidebar" className="w-20 h-16" />
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="p-2 text-white rounded-md lg:hidden"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+      <div className="flex items-center space-x-2">
+  <AppLogo variant="primary" className="h-10" />
+  <AppLogo variant="secondary" className="h-8" />
+</div>
 
           <nav className="flex-1 p-4 overflow-y-auto">
             {menuItems.map((item) => {

@@ -15,7 +15,7 @@ export async function getConnection(): Promise<Connection> {
 /**
  * Get all records from a table
  */
-export async function fetchAll<T = Record<string, any>>(table: string): Promise<T[]> {
+export async function fetchAll<T = Record<string, unknown>>(table: string): Promise<T[]> {
   const conn = await getConnection();
   const [rows] = await conn.query<RowDataPacket[]>(`SELECT * FROM \`${table}\``);
   await conn.end();
@@ -25,7 +25,7 @@ export async function fetchAll<T = Record<string, any>>(table: string): Promise<
 /**
  * Insert a record into a table
  */
-export async function insert(table: string, data: Record<string, any>) {
+export async function insert(table: string, data: Record<string, unknown>) {
   const conn = await getConnection();
   const [result] = await conn.query<ResultSetHeader>(
     `INSERT INTO \`${table}\` SET ?`, [data]
@@ -37,7 +37,7 @@ export async function insert(table: string, data: Record<string, any>) {
 /**
  * Update a record by ID
  */
-export async function updateById(table: string, id: number, data: Record<string, any>) {
+export async function updateById(table: string, id: number, data: Record<string, unknown>) {
   const conn = await getConnection();
   const [result] = await conn.query<ResultSetHeader>(
     `UPDATE \`${table}\` SET ? WHERE id = ?`, [data, id]

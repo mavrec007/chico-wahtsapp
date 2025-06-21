@@ -1,8 +1,8 @@
 const validRoles = ['admin', 'manager', 'user'] as const;
 type Role = typeof validRoles[number];
 
-function isRole(value: any): value is Role {
-  return validRoles.includes(value);
+function isRole(value: unknown): value is Role {
+  return typeof value === 'string' && validRoles.includes(value as Role);
 }
 
 

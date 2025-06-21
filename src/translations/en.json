@@ -1,20 +1,19 @@
 
-{
+{ 
   "navigation": {
-    "home": "Home",
+    "main": "Main",
+    "activities": "Activities",
+    "management": "Management",
+    "system": "System",
     "dashboard": "Dashboard",
     "bookings": "Bookings",
-    "swimming": "Swimming",
-    "fields": "Sports Fields",
-    "clients": "Clients",
-    "users": "Users",
-    "roles": "User Roles",
-    "payments": "Payments",
-    "profile": "Profile",
-    "whatsappBot": "WhatsApp Bot",
-    "telegramAdmin": "Telegram Admin",
-    "settings": "Settings"
-  },
+    "clients": "Clients", 
+      "users": "Users",
+      "roles": "User Roles",
+      "payments": "Payments",
+      "profile": "Profile",
+      "settings": "Settings"
+    },
   "common": {
     "login": "Login",
     "logout": "Logout",
@@ -67,22 +66,5 @@
     "todaysBookings": "Today's Bookings",
     "revenue": "Revenue",
     "pendingApprovals": "Pending Approvals"
-  },
-  "bots": {
-    "whatsapp": {
-      "title": "WhatsApp Bot Management",
-      "description": "Manage intelligent WhatsApp interactions and automated messages",
-      "autoReply": "Auto-Reply",
-      "bookingReminders": "Booking Reminders",
-      "smartGreetings": "Smart Greetings",
-      "paymentConfirmations": "Payment Confirmations"
-    },
-    "telegram": {
-      "title": "Telegram Admin Panel",
-      "description": "Payment confirmations and admin notifications",
-      "connectionStatus": "Connection Status",
-      "messagesToday": "Messages Today",
-      "responseTime": "Response Time"
-    }
   }
 }

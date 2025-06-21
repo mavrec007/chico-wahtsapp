@@ -9,7 +9,7 @@ const LoadingOverlay: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/70 dark:bg-black/70">
-      <Spinner size="h-12 w-12" />
+      <Spinner size="xl" />
     </div>
   );
 };

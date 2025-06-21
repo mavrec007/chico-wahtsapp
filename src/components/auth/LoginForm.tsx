@@ -168,7 +168,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onClose, onSwitchToRegister }) =>
           <button
             onClick={() => {
               onClose();
-              onSwitchToRegister && onSwitchToRegister();
+              onSwitchToRegister?.();
             }}
             className="text-primary-500 hover:text-primary-600 font-medium transition-colors duration-300"
           >

@@ -1,13 +1,6 @@
 
 // Environment configuration
 export const env = {
-  // Telegram configuration
-  TELEGRAM_BOT_TOKEN: import.meta.env.VITE_TELEGRAM_BOT_TOKEN || '',
-  TELEGRAM_CHAT_ID: import.meta.env.VITE_TELEGRAM_CHAT_ID || '',
-  
-  // WhatsApp configuration
-  WHATSAPP_SESSION_ID: import.meta.env.VITE_WHATSAPP_SESSION_ID || 'sports_hub_session',
-  WHATSAPP_WEBHOOK_URL: import.meta.env.VITE_WHATSAPP_WEBHOOK_URL || '',
   
   // Database configuration
   DATABASE_URL: import.meta.env.VITE_DATABASE_URL || '',
@@ -27,13 +20,6 @@ export const env = {
 export const validateEnv = () => {
   const warnings: string[] = [];
   
-  if (!env.TELEGRAM_BOT_TOKEN) {
-    warnings.push('TELEGRAM_BOT_TOKEN is not set');
-  }
-  
-  if (!env.TELEGRAM_CHAT_ID) {
-    warnings.push('TELEGRAM_CHAT_ID is not set');
-  }
   
   if (!env.DATABASE_URL) {
     warnings.push('DATABASE_URL is not set');

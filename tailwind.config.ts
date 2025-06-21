@@ -148,7 +148,9 @@ export default {
                                 'gradient-chart-blue': 'linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%)',
                                 'gradient-chart-emerald': 'linear-gradient(180deg, #10b981 0%, #059669 100%)',
                                 'gradient-chart-purple': 'linear-gradient(180deg, #a855f7 0%, #9333ea 100%)',
-                                'gradient-chart-orange': 'linear-gradient(180deg, #f97316 0%, #ea580c 100%)'
+                                'gradient-chart-orange': 'linear-gradient(180deg, #f97316 0%, #ea580c 100%)',
+                                'header-gradient': 'var(--header-gradient)',
+                                'sidebar-gradient': 'var(--sidebar-gradient)'
                         },
                         borderRadius: {
 				lg: 'var(--radius)',

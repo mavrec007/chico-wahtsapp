@@ -10,8 +10,7 @@ import RouteChangeListener from "@/components/RouteChangeListener";
 import Layout from "./components/layout/Layout";
 import Landing from "./pages/Landing";
 import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./pages/Dashboard";
-import PremiumDashboard from "./pages/PremiumDashboard";
+import Dashboard from "./pages/Dashboard"; 
 import AdminDashboard from "./pages/admin/Dashboard";
 import Users from "./pages/Users";
 import Roles from "./pages/Roles";
@@ -38,13 +37,10 @@ const App = () => (
             <RouteChangeListener />
             <Routes>
               {/* Public Routes */}
-              <Route path="/" element={<PremiumDashboard />} />
+              <Route path="/" element={<Landing />} />
               <Route path="/landing" element={<Landing />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              
-              {/* Premium Standalone Dashboard */}
-              <Route path="/premium-dashboard" element={<PremiumDashboard />} />
-              
+               
               {/* Admin Routes */}
               <Route path="/admin/dashboard" element={
                 <AuthLayout>

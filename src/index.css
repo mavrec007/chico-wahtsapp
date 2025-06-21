@@ -67,6 +67,12 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
+    /* Gradient variables */
+    --gradient-direction: to right;
+    --header-gradient: linear-gradient(var(--gradient-direction), #f8fafc, #e0f2fe);
+    --sidebar-gradient: linear-gradient(var(--gradient-direction), #ffffff, #f1f5f9);
+    --neon-glow: 0 0 12px rgba(124, 58, 237, 0.7);
+
     /* Custom surface colors */
     --surface: #ffffff;
     --surface-50: #f8fafc;
@@ -126,6 +132,9 @@
     --surface-50: #1e293b;
     --surface-100: #334155;
     --surface-200: #475569;
+
+    --header-gradient: linear-gradient(var(--gradient-direction), #1f2937, #4b5563);
+    --sidebar-gradient: linear-gradient(var(--gradient-direction), #111827, #1f2937);
   }
 }
 
@@ -200,6 +209,18 @@
   /* Layout utilities */
   .page-container {
     @apply mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .header-gradient {
+    background-image: var(--header-gradient);
+  }
+
+  .sidebar-gradient {
+    background-image: var(--sidebar-gradient);
+  }
+
+  .neon-shadow {
+    box-shadow: var(--neon-glow);
   }
 
   .content-wrapper {
@@ -292,10 +313,12 @@
 
 /* RTL specific overrides */
 [dir="rtl"] {
+  --gradient-direction: to left;
+
   .text-left {
     text-align: right;
   }
-  
+
   .text-right {
     text-align: left;
   }

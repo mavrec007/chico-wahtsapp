@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useAppStore } from '@/stores/useAppStore';
 import SidebarRail from './SidebarRail';
@@ -7,24 +8,40 @@ import { cn } from '@/lib/utils';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { language, theme, sidebarOpen, setSidebarOpen } = useAppStore();
-  const isRTL = language === 'ar';
 
-  // Theme & dir handling
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
-    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
-  }, [theme, isRTL]);
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = language;
+    document.documentElement.style.setProperty(
+      '--gradient-direction',
+      language === 'ar' ? 'to left' : 'to right'
+    );
+    document.documentElement.classList.add('antialiased');
+  }, [theme, language]);
 
-  // Auto-open on Xl screens
+  // set initial sidebar state based on screen width
   useEffect(() => {
-    setSidebarOpen(window.innerWidth >= 1536);
+    const width = window.innerWidth;
+    if (width >= 1536) {
+      setSidebarOpen(true);
+    } else {
+      setSidebarOpen(false);
+    }
   }, [setSidebarOpen]);
 
-  // On large screens: closed = 4rem rail, open = 18rem rail
-  const railWidth = sidebarOpen ? 72 : 16; // in Tailwind units (4 = 1rem)
-  const insetClass = isRTL
-    ? `lg:pr-${railWidth}`
-    : `lg:pl-${railWidth}`;
+  const isRTL = language === 'ar';
+
+  const paddingClasses = cn(
+    'transition-all duration-200 ease-in-out',
+    sidebarOpen
+      ? isRTL
+        ? 'lg:pr-72'
+        : 'lg:pl-72'
+      : isRTL
+        ? 'lg:pr-16'
+        : 'lg:pl-16'
+  );
 
   return (
     <div
@@ -33,32 +50,25 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         isRTL ? 'flex-row-reverse' : 'flex-row'
       )}
     >
-      {/* Rail / mini-sidebar */}
+      {/* Sidebar */}
       <SidebarRail />
 
-      {/* Main area */}
-      <div className="flex-1 flex flex-col min-h-screen transition-all duration-200 ease-in-out">
-        {/* Topbar: sticky, full-width on sm, inset on lg */}
-        <Topbar 
-          className={cn(
-            'sticky top-0 z-30 w-full bg-surface dark:bg-surface-dark transition-all duration-200 ease-in-out',
-            insetClass
-          )}
-        />
-
-        {/* Page content: also inset on lg to align under Topbar */}
-        <main
-          className={cn(
-            'flex-1 overflow-auto bg-background transition-all duration-200 ease-in-out',
-            insetClass
-          )}
-        >
+      {/* Main Content Area */}
+      <div
+        className="flex flex-col flex-1 min-h-screen transition-all duration-200 ease-in-out"
+      >
+        {/* Topbar */}
+        <Topbar className={paddingClasses} />
+        
+        {/* Page Content */}
+        <main className={cn('flex-1 overflow-auto bg-gradient-to-br from-background to-muted/20', paddingClasses)}>
           <div className="container mx-auto p-6 max-w-7xl">
             {children}
           </div>
         </main>
       </div>
 
+      {/* Auth Modal */}
       <AuthModal />
     </div>
   );

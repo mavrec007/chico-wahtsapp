@@ -142,6 +142,25 @@ const resources = {
       lightMode: "Light Mode",
       darkMode: "Dark Mode",
       language: "Language",
+
+      // Admin Dashboard
+      'dashboard.totalBookings': 'Total Bookings',
+      'dashboard.activeMembers': 'Active Members',
+      'dashboard.monthlyRevenue': 'Monthly Revenue',
+      'dashboard.occupancyRate': 'Occupancy Rate',
+      'dashboard.monthlyBookingsTrend': 'Monthly Bookings Trend',
+      'dashboard.bookingVolumeDesc': 'Booking volume over the last 6 months',
+      'dashboard.revenueVsTarget': 'Revenue vs Target',
+      'dashboard.revenuePerformanceDesc': 'Monthly revenue performance against targets',
+      'dashboard.activityDistribution': 'Activity Distribution',
+      'dashboard.bookingDistributionDesc': 'Booking distribution by sport type',
+      'dashboard.weeklyUsagePattern': 'Weekly Usage Pattern',
+      'dashboard.usagePatternDesc': 'Hourly booking patterns throughout the week',
+      'dashboard.exportReport': 'Export Report',
+      'dashboard.filter': 'Filter',
+      'dashboard.morning': 'Morning',
+      'dashboard.afternoon': 'Afternoon',
+      'dashboard.evening': 'Evening',
     }
   },
   ar: {
@@ -284,6 +303,25 @@ const resources = {
       lightMode: "الوضع الفاتح",
       darkMode: "الوضع المظلم",
       language: "اللغة",
+
+      // Admin Dashboard
+      'dashboard.totalBookings': 'إجمالي الحجوزات',
+      'dashboard.activeMembers': 'الأعضاء النشطون',
+      'dashboard.monthlyRevenue': 'الإيرادات الشهرية',
+      'dashboard.occupancyRate': 'معدل الإشغال',
+      'dashboard.monthlyBookingsTrend': 'اتجاه الحجوزات الشهري',
+      'dashboard.bookingVolumeDesc': 'حجم الحجوزات خلال آخر 6 أشهر',
+      'dashboard.revenueVsTarget': 'الإيرادات مقابل الهدف',
+      'dashboard.revenuePerformanceDesc': 'أداء الإيرادات الشهرية مقابل الأهداف',
+      'dashboard.activityDistribution': 'توزيع الأنشطة',
+      'dashboard.bookingDistributionDesc': 'توزيع الحجوزات حسب نوع الرياضة',
+      'dashboard.weeklyUsagePattern': 'نمط الاستخدام الأسبوعي',
+      'dashboard.usagePatternDesc': 'أنماط الحجز حسب ساعات اليوم',
+      'dashboard.exportReport': 'تصدير التقرير',
+      'dashboard.filter': 'تصفية',
+      'dashboard.morning': 'صباحي',
+      'dashboard.afternoon': 'مسائي',
+      'dashboard.evening': 'ليلي',
     }
   }
 };

@@ -67,7 +67,8 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
   return (
     <motion.header
       className={cn(
-        'sticky top-0 z-[60] w-full border-b shadow-sm border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900',
+        'sticky top-0 z-30 w-full border-b border-gray-200 dark:border-gray-700 header-gradient dark:neon-shadow',
+        'shadow-sm',
         className
       )}
       initial={{ y: -100 }}
@@ -86,7 +87,7 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
             )}
             aria-label="Toggle sidebar"
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-5 h-5 dark:text-fuchsia-400" />
           </Button>
         </div>
 
@@ -98,7 +99,7 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
             onClick={handleLanguageToggle}
             className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
           >
-            <Globe className="w-4 h-4" />
+            <Globe className="w-4 h-4 dark:text-fuchsia-400" />
           </Button>
 
           {/* Theme Switch */}
@@ -108,7 +109,7 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
             onClick={toggleTheme}
             className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
           >
-            {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+            {theme === 'light' ? <Moon className="w-4 h-4 dark:text-fuchsia-400" /> : <Sun className="w-4 h-4 dark:text-fuchsia-400" />}
           </Button>
 
           {/* Notifications */}
@@ -118,7 +119,7 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
             className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
             aria-label="Notifications"
           >
-            <Bell className="w-4 h-4" />
+            <Bell className="w-4 h-4 dark:text-fuchsia-400" />
           </Button>
 
           {/* User Menu */}
@@ -142,9 +143,9 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
                   </div>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="z-[70] w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+              <DropdownMenuContent 
+                align="end" 
+                className="w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
               >
                 <DropdownMenuItem 
                   onClick={handleProfile}

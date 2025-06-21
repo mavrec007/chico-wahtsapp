@@ -59,7 +59,7 @@ const Sidebar = () => {
         variants={sidebarVariants}
         animate={sidebarOpen ? "open" : "closed"}
         className={cn(
-          'fixed inset-y-0 flex w-64 flex-col bg-sidebar text-sidebar-foreground shadow-md transition-transform duration-300 lg:sticky lg:left-0 lg:top-0 lg:z-auto lg:translate-x-0',
+          'fixed inset-y-0 flex w-64 flex-col sidebar-gradient text-sidebar-foreground shadow-md transition-transform duration-300 lg:sticky lg:left-0 lg:top-0 lg:z-auto lg:translate-x-0 dark:neon-shadow',
           language === 'ar' ? 'right-0' : 'left-0'
         )}
       >
@@ -85,7 +85,7 @@ const Sidebar = () => {
                       )
                     }
                   >
-                    <Icon className="w-5 h-5" />
+                    <Icon className="w-5 h-5 dark:text-fuchsia-400" />
                     <span>{item.label}</span>
                   </NavLink>
                   {item.subItems && (
@@ -103,7 +103,7 @@ const Sidebar = () => {
                             )
                           }
                         >
-                          <sub.icon className="w-4 h-4" />
+                          <sub.icon className="w-4 h-4 dark:text-fuchsia-400" />
                           {sub.label}
                         </NavLink>
                       ))}

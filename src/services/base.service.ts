@@ -1,6 +1,9 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { BaseEntity, PaginationParams, PaginatedResponse } from '@/types';
+import { Database } from '@/integrations/supabase/types';
+
+type TableName = keyof Database['public']['Tables'];
 
 export class BaseService<T extends BaseEntity> {
   protected tableName: string;
@@ -10,7 +13,7 @@ export class BaseService<T extends BaseEntity> {
   }
 
   async getAll(params?: PaginationParams): Promise<PaginatedResponse<T>> {
-    let query = supabase.from(this.tableName).select('*', { count: 'exact' });
+    let query = supabase.from(this.tableName as TableName).select('*', { count: 'exact' });
 
     // Apply search
     if (params?.search) {
@@ -44,7 +47,7 @@ export class BaseService<T extends BaseEntity> {
     if (error) throw error;
 
     return {
-      data: (data as unknown as T[]) || [],
+      data: (data as T[]) || [],
       total: count || 0,
       page,
       pageSize,
@@ -54,41 +57,41 @@ export class BaseService<T extends BaseEntity> {
 
   async getById(id: string): Promise<T | null> {
     const { data, error } = await supabase
-      .from(this.tableName)
+      .from(this.tableName as TableName)
       .select('*')
       .eq('id', id)
       .single();
 
     if (error) throw error;
-    return data as unknown as T;
+    return data as T;
   }
 
   async create(data: Omit<T, keyof BaseEntity>): Promise<T> {
     const { data: result, error } = await supabase
-      .from(this.tableName)
+      .from(this.tableName as TableName)
       .insert(data as any)
       .select()
       .single();
 
     if (error) throw error;
-    return result as unknown as T;
+    return result as T;
   }
 
   async update(id: string, data: Partial<T>): Promise<T> {
     const { data: result, error } = await supabase
-      .from(this.tableName)
+      .from(this.tableName as TableName)
       .update(data as any)
       .eq('id', id)
       .select()
       .single();
 
     if (error) throw error;
-    return result as unknown as T;
+    return result as T;
   }
 
   async delete(id: string): Promise<void> {
     const { error } = await supabase
-      .from(this.tableName)
+      .from(this.tableName as TableName)
       .delete()
       .eq('id', id);
 
@@ -97,7 +100,7 @@ export class BaseService<T extends BaseEntity> {
 
   async bulkDelete(ids: string[]): Promise<void> {
     const { error } = await supabase
-      .from(this.tableName)
+      .from(this.tableName as TableName)
       .delete()
       .in('id', ids);
 

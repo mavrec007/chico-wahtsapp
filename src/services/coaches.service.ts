@@ -15,7 +15,7 @@ class CoachesService extends BaseService<Coach> {
   async getAvailableCoaches(date: string): Promise<Coach[]> {
     // Implement logic to check coach availability
     const { data, error } = await supabase
-      .from(this.tableName)
+      .from('coaches')
       .select('*');
 
     if (error) throw error;

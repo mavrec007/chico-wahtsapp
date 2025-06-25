@@ -13,45 +13,45 @@ import { SidebarGroup } from './types';
 export const sidebarConfig = {
   groups: [
     {
-      label: 'navigation.main',
+      label: 'main',
       items: [
         {
-          label: 'navigation.dashboard',
+          label: 'Dashboard',
           href: '/dashboard',
           icon: LayoutDashboard,
         },
       ],
     },
     {
-      label: 'navigation.management',
+      label: 'الإدارة',
       items: [
         {
-          label: 'navigation.coaches',
+          label: 'Coaches',
           href: '/coaches',
           icon: UserCheck,
         },
         {
-          label: 'navigation.players',
+          label: 'Players',
           href: '/players',
           icon: User,
         },
         {
-          label: 'navigation.facilities',
+          label: 'Facilities',
           href: '/facilities',
           icon: Building,
         },
         {
-          label: 'navigation.payments',
+          label: 'Payments',
           href: '/payments',
           icon: CreditCard,
         },
         {
-          label: 'navigation.coach-assignments',
+          label: 'Coach Assignments',
           href: '/coach-assignments',
           icon: FileText,
         },
         {
-          label: 'navigation.clients',
+          label: 'Clients',
           href: '/clients',
           icon: Users,
         },

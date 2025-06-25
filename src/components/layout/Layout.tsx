@@ -1,67 +1,70 @@
 
 import React, { useEffect } from 'react';
 import { useAppStore } from '@/stores/useAppStore';
-import SidebarRail from './SidebarRail';
+import { ModernSidebar } from './modernSidebar/ModernSidebar';
 import Topbar from './Topbar';
 import AuthModal from '@/components/auth/AuthModal';
 import { cn } from '@/lib/utils';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { language, theme, sidebarOpen, setSidebarOpen } = useAppStore();
+  const { language, sidebarOpen, setSidebarOpen } = useAppStore();
+
+  // Set initial sidebar state based on screen width
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) { // lg breakpoint
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    };
+
+    // Set initial state
+    handleResize();
+
+    // Listen for resize events
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [setSidebarOpen]);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = language;
-    document.documentElement.style.setProperty(
-      '--gradient-direction',
-      language === 'ar' ? 'to left' : 'to right'
-    );
-    document.documentElement.classList.add('antialiased');
-  }, [theme, language]);
-
-  // set initial sidebar state based on screen width
-  useEffect(() => {
-    const width = window.innerWidth;
-    if (width >= 1536) {
-      setSidebarOpen(true);
-    } else {
-      setSidebarOpen(false);
-    }
-  }, [setSidebarOpen]);
+  }, [language]);
 
   const isRTL = language === 'ar';
 
-  const paddingClasses = cn(
-    'transition-all duration-200 ease-in-out',
-    sidebarOpen
-      ? isRTL
-        ? 'lg:pr-72'
-        : 'lg:pl-72'
-      : isRTL
-        ? 'lg:pr-16'
-        : 'lg:pl-16'
-  );
+  const getMainPadding = () => {
+    if (window.innerWidth >= 1024) { // lg breakpoint
+      return sidebarOpen 
+        ? isRTL ? 'lg:pr-70' : 'lg:pl-70'
+        : isRTL ? 'lg:pr-16' : 'lg:pl-16';
+    }
+    return '';
+  };
 
   return (
     <div
       className={cn(
-        'min-h-screen flex bg-background transition-all duration-200 ease-in-out',
+        'min-h-screen flex bg-slate-50 dark:bg-gray-900 transition-all duration-200 ease-in-out',
         isRTL ? 'flex-row-reverse' : 'flex-row'
       )}
     >
       {/* Sidebar */}
-      <SidebarRail />
+      <ModernSidebar />
 
       {/* Main Content Area */}
-      <div
-        className="flex flex-col flex-1 min-h-screen transition-all duration-200 ease-in-out"
-      >
+      <div className="flex flex-col flex-1 min-h-screen transition-all duration-200 ease-in-out">
         {/* Topbar */}
-        <Topbar className={paddingClasses} />
+        <Topbar className={cn('transition-all duration-200', getMainPadding())} />
         
         {/* Page Content */}
-        <main className={cn('flex-1 overflow-auto bg-gradient-to-br from-background to-muted/20', paddingClasses)}>
+        <main className={cn(
+          'flex-1 overflow-auto bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-gray-900 dark:to-blue-950/20',
+          'transition-all duration-200',
+          getMainPadding()
+        )}>
           <div className="container mx-auto p-6 max-w-7xl">
             {children}
           </div>

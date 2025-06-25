@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -71,13 +72,13 @@ const weeklyData = [
 ];
 
 const stats = [
-  { title: 'Total Bookings', value: '2,847', change: '+12.5%', trend: 'up', icon: Calendar, gradient: 'from-blue-500 to-blue-600', bgGradient: 'from-blue-50 to-blue-100' },
-  { title: 'Active Members', value: '1,234', change: '+8.2%', trend: 'up', icon: Users, gradient: 'from-emerald-500 to-emerald-600', bgGradient: 'from-emerald-50 to-emerald-100' },
-  { title: 'Monthly Revenue', value: '$26,150', change: '+15.3%', trend: 'up', icon: DollarSign, gradient: 'from-purple-500 to-purple-600', bgGradient: 'from-purple-50 to-purple-100' },
-  { title: 'Occupancy Rate', value: '87.3%', change: '+3.1%', trend: 'up', icon: Activity, gradient: 'from-orange-500 to-orange-600', bgGradient: 'from-orange-50 to-orange-100' },
+  { title: 'Total Bookings', value: '2,847', change: '+12.5%', trend: 'up', icon: Calendar, gradient: 'from-blue-500 to-blue-600', bgGradient: 'from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20' },
+  { title: 'Active Members', value: '1,234', change: '+8.2%', trend: 'up', icon: Users, gradient: 'from-emerald-500 to-emerald-600', bgGradient: 'from-emerald-50 to-emerald-100 dark:from-emerald-950/20 dark:to-emerald-900/20' },
+  { title: 'Monthly Revenue', value: '$26,150', change: '+15.3%', trend: 'up', icon: DollarSign, gradient: 'from-purple-500 to-purple-600', bgGradient: 'from-purple-50 to-purple-100 dark:from-purple-950/20 dark:to-purple-900/20' },
+  { title: 'Occupancy Rate', value: '87.3%', change: '+3.1%', trend: 'up', icon: Activity, gradient: 'from-orange-500 to-orange-600', bgGradient: 'from-orange-50 to-orange-100 dark:from-orange-950/20 dark:to-orange-900/20' },
 ];
 
-export default function  Dashboard() {
+export default function Dashboard() {
   const { t } = useTranslation();
   const [showFilter, setShowFilter] = useState(false);
 
@@ -89,7 +90,7 @@ export default function  Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-gray-900 dark:via-blue-950/30 dark:to-indigo-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
 
         {/* Header */}
@@ -99,24 +100,24 @@ export default function  Dashboard() {
           className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
         >
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-900">
-              {getGreeting()}, {t('dashboard.analyticsTitle')}
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-900 dark:from-gray-100 dark:via-blue-200 dark:to-indigo-200">
+              {getGreeting()}, Analytics Dashboard
             </h1>
-            <p className="mt-2 text-sm sm:text-base text-slate-600">
-              {t('dashboard.analyticsSubtitle')}
+            <p className="mt-2 text-sm sm:text-base text-slate-600 dark:text-gray-400">
+              Welcome to your comprehensive sports facility management dashboard
             </p>
           </div>
           <div className="flex items-center gap-3">
             <Button variant="outline" onClick={() => setShowFilter(true)} className="sm:hidden">
               <Filter className="w-4 h-4" />
             </Button>
-            <Button variant="outline" className="hidden sm:flex gap-2">
+            <Button variant="outline" className="hidden sm:flex gap-2 bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700">
               <Filter className="w-4 h-4" />
-              {t('dashboard.filter')}
+              Filter Data
             </Button>
-            <Button className="flex gap-2 bg-gradient-to-r from-blue-600 to-indigo-600">
+            <Button className="flex gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
               <Download className="w-4 h-4" />
-              {t('dashboard.exportReport')}
+              Export Report
             </Button>
           </div>
         </motion.div>
@@ -124,9 +125,9 @@ export default function  Dashboard() {
         {/* Filter Panel */}
         {showFilter && (
           <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex justify-end">
-            <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-white p-4">
+            <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-white dark:bg-gray-800 p-4">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">{t('dashboard.filter')}</h2>
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-gray-100">Filter Data</h2>
                 <Button variant="ghost" onClick={() => setShowFilter(false)}>
                   <X className="w-5 h-5" />
                 </Button>
@@ -143,19 +144,19 @@ export default function  Dashboard() {
             const TrendIcon = stat.trend === 'up' ? ArrowUpRight : ArrowDownRight;
             return (
               <motion.div key={idx} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
-                <Card className="relative group hover:scale-105 transition-transform">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${stat.bgGradient} opacity-0 group-hover:opacity-75`} />
+                <Card className="relative group hover:scale-105 transition-transform bg-white dark:bg-gray-800 border-slate-200 dark:border-gray-700">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${stat.bgGradient} opacity-0 group-hover:opacity-75 rounded-lg transition-opacity`} />
                   <CardContent className="relative p-6 space-y-1">
                     <div className="flex justify-between items-center mb-2">
                       <div className={`p-3 rounded-xl bg-gradient-to-r ${stat.gradient}`}>
                         <Icon className="w-6 h-6 text-white" />
                       </div>
-                      <Badge className="flex items-center gap-1">
+                      <Badge className="flex items-center gap-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400">
                         <TrendIcon className="w-3 h-3" /> {stat.change}
                       </Badge>
                     </div>
-                    <p className="text-sm font-medium text-slate-600">{stat.title}</p>
-                    <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
+                    <p className="text-sm font-medium text-slate-600 dark:text-gray-400">{stat.title}</p>
+                    <p className="text-2xl font-bold text-slate-900 dark:text-gray-100">{stat.value}</p>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -168,15 +169,15 @@ export default function  Dashboard() {
           <ChartCard
             delay={0.3}
             icon={<BarChart3 className="w-5 h-5 text-blue-600" />}
-            title={t('dashboard.monthlyBookingsTrend')}
-            desc={t('dashboard.bookingVolumeDesc')}
+            title="Monthly Bookings Trend"
+            desc="Track booking volume over time"
           >
             <ChartContainer className="w-full h-64" config={{ bookings: { label: 'Bookings' } }}>  
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={bookingData}>
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
+                  <XAxis dataKey="month" className="text-slate-600 dark:text-gray-400" />
+                  <YAxis className="text-slate-600 dark:text-gray-400" />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Bar dataKey="bookings" fill="#3B82F6" radius={[4,4,0,0]} />
                 </BarChart>
@@ -187,15 +188,15 @@ export default function  Dashboard() {
           <ChartCard
             delay={0.4}
             icon={<TrendingUp className="w-5 h-5 text-emerald-600" />}
-            title={t('dashboard.revenueVsTarget')}
-            desc={t('dashboard.revenuePerformanceDesc')}
+            title="Revenue vs Target"
+            desc="Compare actual revenue against targets"
           >
             <ChartContainer className="w-full h-64" config={{ revenue: { label: 'Revenue' }, target: { label: 'Target' } }}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={revenueData}>
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
+                  <XAxis dataKey="month" className="text-slate-600 dark:text-gray-400" />
+                  <YAxis className="text-slate-600 dark:text-gray-400" />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Line type="monotone" dataKey="revenue" stroke="#10B981" strokeWidth={2} dot={{ r:4 }} />
                   <Line type="monotone" dataKey="target" stroke="#6EE7B7" strokeDasharray="5 5" strokeWidth={2} dot={{ r:3 }} />
@@ -207,8 +208,8 @@ export default function  Dashboard() {
           <ChartCard
             delay={0.5}
             icon={<Activity className="w-5 h-5 text-purple-600" />}
-            title={t('dashboard.activityDistribution')}
-            desc={t('dashboard.bookingDistributionDesc')}
+            title="Activity Distribution"
+            desc="Breakdown of facility usage by type"
           >
             <ChartContainer className="w-full h-64" config={{ percentage: { label: '%' } }}>
               <ResponsiveContainer width="100%" height="100%">
@@ -225,15 +226,15 @@ export default function  Dashboard() {
           <ChartCard
             delay={0.6}
             icon={<Calendar className="w-5 h-5 text-orange-600" />}
-            title={t('dashboard.weeklyUsagePattern')}
-            desc={t('dashboard.usagePatternDesc')}
+            title="Weekly Usage Pattern"
+            desc="Peak hours throughout the week"
           >
             <ChartContainer className="w-full h-64" config={{ morning: { label: 'Morning' }, afternoon: { label: 'Afternoon' }, evening: { label: 'Evening' } }}>
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={weeklyData}>
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                  <XAxis dataKey="day" />
-                  <YAxis />
+                  <XAxis dataKey="day" className="text-slate-600 dark:text-gray-400" />
+                  <YAxis className="text-slate-600 dark:text-gray-400" />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Area type="monotone" dataKey="morning" fill="#F59E0B" stackId="1" />
                   <Area type="monotone" dataKey="afternoon" fill="#F97316" stackId="1" />
@@ -252,12 +253,12 @@ export default function  Dashboard() {
 function ChartCard({ delay, icon, title, desc, children }) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay }}>
-      <Card className="bg-white p-4 shadow-lg">
+      <Card className="bg-white dark:bg-gray-800 p-4 shadow-lg border-slate-200 dark:border-gray-700">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg font-semibold">
+          <CardTitle className="flex items-center gap-2 text-lg font-semibold text-slate-900 dark:text-gray-100">
             {icon} {title}
           </CardTitle>
-          <CardDescription className="text-sm text-slate-600">{desc}</CardDescription>
+          <CardDescription className="text-sm text-slate-600 dark:text-gray-400">{desc}</CardDescription>
         </CardHeader>
         <CardContent>{children}</CardContent>
       </Card>

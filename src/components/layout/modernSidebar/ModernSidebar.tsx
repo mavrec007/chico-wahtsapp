@@ -2,14 +2,12 @@
 import React from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useAppStore } from '@/stores/useAppStore';
 import { cn } from '@/lib/utils';
-import { X } from 'lucide-react';
 import { SidebarHeader } from './SidebarHeader';
 import { SidebarNavGroup } from './SidebarNavGroup';
 import { sidebarConfig } from './sidebarConfig';
-import { Button } from '@/components/ui/button';
 
 export function ModernSidebar() {
   const { t } = useTranslation();
@@ -21,8 +19,9 @@ export function ModernSidebar() {
   const sidebarVariants: Variants = {
     open: {
       x: 0,
+      width: 280,
       transition: {
-        type: "spring" as const,
+        type: "spring",
         stiffness: 300,
         damping: 30,
         duration: 0.3
@@ -30,8 +29,19 @@ export function ModernSidebar() {
     },
     closed: {
       x: isRTL ? 280 : -280,
+      width: 280,
       transition: {
-        type: "spring" as const,
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        duration: 0.3
+      }
+    },
+    collapsed: {
+      x: 0,
+      width: 64,
+      transition: {
+        type: "spring",
         stiffness: 300,
         damping: 30,
         duration: 0.3
@@ -44,11 +54,19 @@ export function ModernSidebar() {
     closed: { opacity: 0 }
   };
 
+  // Determine sidebar state
+  const getSidebarState = () => {
+    if (window.innerWidth >= 1024) { // lg breakpoint
+      return sidebarOpen ? 'open' : 'collapsed';
+    }
+    return sidebarOpen ? 'open' : 'closed';
+  };
+
   return (
     <>
       {/* Mobile Overlay */}
       <AnimatePresence>
-        {sidebarOpen && (
+        {sidebarOpen && window.innerWidth < 1024 && (
           <motion.div
             initial="closed"
             animate="open"
@@ -63,13 +81,13 @@ export function ModernSidebar() {
       {/* Sidebar */}
       <motion.aside
         initial="closed"
-        animate={sidebarOpen ? "open" : "closed"}
+        animate={getSidebarState()}
         variants={sidebarVariants}
         className={cn(
-          'fixed top-0 z-50 h-screen bg-sidebar border-sidebar-border shadow-xl lg:static lg:shadow-none',
+          'fixed top-0 z-50 h-screen lg:static lg:z-auto',
+          'bg-white dark:bg-gray-900 border-slate-200 dark:border-gray-700 shadow-xl lg:shadow-lg',
           'flex flex-col transition-all duration-300 ease-out',
-          isRTL ? 'right-0 border-l' : 'left-0 border-r',
-          sidebarOpen ? 'w-72 lg:w-64' : 'w-72 lg:w-16'
+          isRTL ? 'right-0 border-l' : 'left-0 border-r'
         )}
         role="navigation"
         aria-label={t('navigation.mainNavigation')}
@@ -78,13 +96,13 @@ export function ModernSidebar() {
         <SidebarHeader />
 
         {/* Navigation Content */}
-        <div className="flex-1 overflow-y-auto px-3 py-4 scrollbar-thin scrollbar-thumb-sidebar-accent/30">
-          <nav className="space-y-6">
+        <div className="flex-1 overflow-y-auto px-4 py-6 bg-slate-50 dark:bg-gray-850">
+          <nav>
             {sidebarConfig.groups.map((group, index) => (
               <SidebarNavGroup
                 key={group.label}
                 group={group}
-                isCollapsed={!sidebarOpen}
+                isCollapsed={!sidebarOpen && window.innerWidth >= 1024}
                 currentPath={location.pathname}
                 isRTL={isRTL}
               />
@@ -94,32 +112,18 @@ export function ModernSidebar() {
 
         {/* Footer */}
         <div className={cn(
-          'p-4 border-t border-sidebar-border bg-sidebar-accent/5',
-          !sidebarOpen && 'lg:p-2'
+          'p-4 border-t border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900',
+          !sidebarOpen && 'lg:p-2 lg:text-center'
         )}>
           {sidebarOpen ? (
-            <div className="text-xs text-sidebar-foreground/60 text-center">
-              <p className="font-medium">{t('app.name')}</p>
-              <p>{t('app.version')} 2.0</p>
+            <div className="text-xs text-slate-500 dark:text-gray-400 text-center">
+              <p className="font-medium">Sports Hub</p>
+              <p>Version 2.0</p>
             </div>
           ) : (
-            <div className="w-8 h-8 bg-sidebar-primary rounded-lg mx-auto opacity-60" />
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-violet-500 rounded-lg mx-auto opacity-60" />
           )}
         </div>
-
-        {/* Mobile Close Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setSidebarOpen(false)}
-          className={cn(
-            'absolute top-4 z-10 lg:hidden',
-            isRTL ? 'left-4' : 'right-4'
-          )}
-          aria-label={t('navigation.closeSidebar')}
-        >
-          <X className="h-5 w-5" />
-        </Button>
       </motion.aside>
     </>
   );

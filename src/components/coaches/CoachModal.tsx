@@ -1,31 +1,38 @@
 
-import React from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+import React, { useState } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Coach } from '@/types';
 import { CoachForm } from './CoachForm';
-import { useDataStore } from '@/stores/useDataStore';
 
-export function CoachModal() {
-  const { modals, closeModal } = useDataStore();
-  const coachModal = modals['coach-form'];
+interface CoachModalProps {
+  isOpen?: boolean;
+  coach?: Coach | null;
+  onClose?: () => void;
+}
+
+export const CoachModal: React.FC<CoachModalProps> = ({
+  isOpen = false,
+  coach = null,
+  onClose = () => {},
+}) => {
+  const handleSuccess = () => {
+    onClose();
+  };
 
   return (
-    <Dialog 
-      open={coachModal?.open || false} 
-      onOpenChange={() => closeModal('coach-form')}
-    >
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {coachModal?.mode === 'edit' ? 'تعديل المدرب' : 'إضافة مدرب جديد'}
+            {coach ? 'تعديل المدرب' : 'إضافة مدرب جديد'}
           </DialogTitle>
         </DialogHeader>
-        <CoachForm />
+        <CoachForm
+          coach={coach}
+          onSuccess={handleSuccess}
+          onCancel={onClose}
+        />
       </DialogContent>
     </Dialog>
   );
-}
+};

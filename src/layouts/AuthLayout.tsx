@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 
 interface AuthLayoutProps {
@@ -10,7 +10,6 @@ interface AuthLayoutProps {
 
 export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, requiredRole }) => {
   const { isAuthenticated, user, isLoading } = useAuth();
-  const location = useLocation();
 
   if (isLoading) {
     return (
@@ -21,10 +20,10 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, requiredRole }
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to="/login" replace />;
   }
 
-  // Check role-based access
+  // Check role-based access if requiredRole is specified
   if (requiredRole && user) {
     let hasAccess = false;
     
@@ -37,7 +36,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, requiredRole }
     }
     
     if (!hasAccess) {
-      return <Navigate to="/admin/dashboard" replace />;
+      return <Navigate to="/dashboard" replace />;
     }
   }
 

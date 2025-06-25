@@ -1,70 +1,61 @@
 
-import {
-  LayoutDashboard,
-  Users,
-  Shield,
-  Settings,
-  MapPin,
-  CreditCard,
-  User,
+import { 
+  LayoutDashboard, 
+  Users, 
+  Building, 
+  CreditCard, 
+  FileText,
   UserCheck,
-  School,
-  Clock,
-  GraduationCap,
-  DollarSign
+  User
 } from 'lucide-react';
+import { SidebarGroup } from './types';
 
 export const sidebarConfig = {
   groups: [
     {
-      label: 'لوحة التحكم',
+      label: 'navigation.main',
       items: [
         {
+          label: 'navigation.dashboard',
           href: '/dashboard',
-          label: 'لوحة التحكم',
           icon: LayoutDashboard,
-          badge: null
-        }
-      ]
+        },
+      ],
     },
     {
-      label: 'السباحة',
+      label: 'navigation.management',
       items: [
-        { href: '/swimming/schools', label: 'المدارس', icon: School, badge: null },
-        { href: '/swimming/private', label: 'البرايفيت', icon: Users, badge: null },
-        { href: '/swimming/free-time', label: 'الفترة الحرة', icon: Clock, badge: null }
-      ]
+        {
+          label: 'navigation.coaches',
+          href: '/coaches',
+          icon: UserCheck,
+        },
+        {
+          label: 'navigation.players',
+          href: '/players',
+          icon: User,
+        },
+        {
+          label: 'navigation.facilities',
+          href: '/facilities',
+          icon: Building,
+        },
+        {
+          label: 'navigation.payments',
+          href: '/payments',
+          icon: CreditCard,
+        },
+        {
+          label: 'navigation.coach-assignments',
+          href: '/coach-assignments',
+          icon: FileText,
+        },
+        {
+          label: 'navigation.clients',
+          href: '/clients',
+          icon: Users,
+        },
+      ],
     },
-    {
-      label: 'كرة القدم',
-      items: [
-        { href: '/football/academy', label: 'الأكاديمية', icon: GraduationCap, badge: null },
-        { href: '/football/schools', label: 'المدارس', icon: School, badge: null },
-        { href: '/football/fields', label: 'إدارة الملاعب', icon: MapPin, badge: null }
-      ]
-    },
-    {
-      label: 'العملاء والأفراد',
-      items: [
-        { href: '/clients', label: 'العملاء', icon: Users, badge: null },
-        { href: '/coaches', label: 'المدربين', icon: UserCheck, badge: null },
-        { href: '/players', label: 'اللاعبين', icon: User, badge: null }
-      ]
-    },
-    {
-      label: 'التطبيق',
-      items: [
-        { href: '/settings', label: 'الإعدادات', icon: Settings, badge: null },
-        { href: '/roles', label: 'الصلاحيات والأدوار', icon: Shield, badge: null },
-        { href: '/users', label: 'المستخدمين', icon: User, badge: null }
-      ]
-    },
-    {
-      label: 'الشؤون المالية',
-      items: [
-        { href: '/finance/collections', label: 'التحصيل', icon: CreditCard, badge: null },
-        { href: '/finance/pricing', label: 'تسعير الخدمات', icon: DollarSign, badge: null }
-      ]
-    }
-  ]
+  ] as SidebarGroup[],
 };

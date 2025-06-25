@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,6 +22,11 @@ import Activities from "./pages/Activities";
 import Swimming from "./pages/Swimming";
 import Fields from "./pages/Fields";
 import Clients from "./pages/Clients";
+import Players from "./pages/Players";
+import Coaches from "./pages/Coaches";
+import Facilities from "./pages/Facilities";
+import Payments from "./pages/Payments";
+import CoachAssignments from "./pages/CoachAssignments";
 import SwimmingSchools from "./pages/swimming/Schools";
 import SwimmingPrivate from "./pages/swimming/Private";
 import SwimmingFreeTime from "./pages/swimming/FreeTime";
@@ -51,17 +57,47 @@ const App = () => (
               <Route path="/login" element={<LoginPage />} />
               <Route path="/reset-password" element={<ResetPassword />} />
                
+              {/* Main Management Routes */}
+              <Route path="/dashboard" element={
+                <AuthLayout>
+                  <Layout><Dashboard /></Layout>
+                </AuthLayout>
+              } />
+              
+              <Route path="/coaches" element={
+                <AuthLayout>
+                  <Layout><Coaches /></Layout>
+                </AuthLayout>
+              } />
+              
+              <Route path="/players" element={
+                <AuthLayout>
+                  <Layout><Players /></Layout>
+                </AuthLayout>
+              } />
+              
+              <Route path="/facilities" element={
+                <AuthLayout>
+                  <Layout><Facilities /></Layout>
+                </AuthLayout>
+              } />
+              
+              <Route path="/payments" element={
+                <AuthLayout>
+                  <Layout><Payments /></Layout>
+                </AuthLayout>
+              } />
+              
+              <Route path="/coach-assignments" element={
+                <AuthLayout>
+                  <Layout><CoachAssignments /></Layout>
+                </AuthLayout>
+              } />
+              
               {/* Admin Routes */}
               <Route path="/admin/dashboard" element={
                 <AuthLayout>
                   <Layout><AdminDashboard /></Layout>
-                </AuthLayout>
-              } />
-              
-              {/* Protected Routes with Layout */}
-              <Route path="/dashboard" element={
-                <AuthLayout>
-                  <Layout><Dashboard /></Layout>
                 </AuthLayout>
               } />
               
@@ -167,12 +203,6 @@ const App = () => (
               
               <Route path="/admin/reports" element={
                 <AuthLayout requiredRole="admin">
-                  <Layout><Dashboard /></Layout>
-                </AuthLayout>
-              } />
-              
-              <Route path="/payments" element={
-                <AuthLayout>
                   <Layout><Dashboard /></Layout>
                 </AuthLayout>
               } />

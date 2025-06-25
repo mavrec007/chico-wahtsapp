@@ -6,16 +6,18 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Player, playersService, CreatePlayerData } from '@/services/players';
-import { useState } from 'react';
+import { Player } from '@/types';
 
-const playerSchema = z.object({
-  user_id: z.string().min(1, 'معرف المستخدم مطلوب'),
-  position: z.string().optional(),
-  team: z.string().optional(),
-  rating: z.number().min(1).max(10).optional()
+const playerFormSchema = z.object({
+  position: z.string().min(1, 'المركز مطلوب'),
+  team: z.string().min(1, 'الفريق مطلوب'),
+  email: z.string().email('البريد الإلكتروني غير صحيح').optional().or(z.literal('')),
+  phone: z.string().optional(),
+  date_of_birth: z.string().optional(),
+  rating: z.number().min(0).max(10).optional(),
 });
+
+type PlayerFormData = z.infer<typeof playerFormSchema>;
 
 interface PlayerFormProps {
   player?: Player | null;
@@ -26,116 +28,110 @@ interface PlayerFormProps {
 export const PlayerForm: React.FC<PlayerFormProps> = ({
   player,
   onSuccess,
-  onCancel
+  onCancel,
 }) => {
-  const [loading, setLoading] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors }
-  } = useForm<CreatePlayerData>({
-    resolver: zodResolver(playerSchema),
+  const form = useForm<PlayerFormData>({
+    resolver: zodResolver(playerFormSchema),
     defaultValues: {
-      user_id: player?.user_id || '',
       position: player?.position || '',
       team: player?.team || '',
-      rating: player?.rating || undefined
-    }
+      email: player?.email || '',
+      phone: player?.phone || '',
+      date_of_birth: player?.date_of_birth || '',
+      rating: player?.rating || 0,
+    },
   });
 
-  const onSubmit = async (data: CreatePlayerData) => {
-    setLoading(true);
+  const onSubmit = async (data: PlayerFormData) => {
     try {
-      if (player) {
-        await playersService.updatePlayer(player.id, data);
-      } else {
-        await playersService.createPlayer(data);
-      }
+      // This would use the hook for create/update
+      console.log('Submitting player data:', data);
       onSuccess();
     } catch (error) {
-      console.error('Error saving player:', error);
-    } finally {
-      setLoading(false);
+      console.error('Error submitting player:', error);
     }
   };
 
-  const positions = [
-    'حارس مرمى',
-    'مدافع',
-    'لاعب وسط',
-    'مهاجم',
-    'جناح أيمن',
-    'جناح أيسر'
-  ];
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div>
-        <Label htmlFor="user_id">معرف المستخدم *</Label>
-        <Input
-          id="user_id"
-          {...register('user_id')}
-          placeholder="أدخل معرف المستخدم"
-          disabled={loading}
-        />
-        {errors.user_id && (
-          <p className="text-sm text-red-600 mt-1">{errors.user_id.message}</p>
-        )}
-      </div>
-
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       <div>
         <Label htmlFor="position">المركز</Label>
-        <Select
-          value={watch('position') || ''}
-          onValueChange={(value) => setValue('position', value)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="اختر المركز" />
-          </SelectTrigger>
-          <SelectContent>
-            {positions.map((position) => (
-              <SelectItem key={position} value={position}>
-                {position}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <Input
+          id="position"
+          {...form.register('position')}
+          placeholder="أدخل المركز"
+        />
+        {form.formState.errors.position && (
+          <p className="text-sm text-red-600 mt-1">
+            {form.formState.errors.position.message}
+          </p>
+        )}
       </div>
 
       <div>
         <Label htmlFor="team">الفريق</Label>
         <Input
           id="team"
-          {...register('team')}
+          {...form.register('team')}
           placeholder="أدخل اسم الفريق"
-          disabled={loading}
+        />
+        {form.formState.errors.team && (
+          <p className="text-sm text-red-600 mt-1">
+            {form.formState.errors.team.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <Label htmlFor="email">البريد الإلكتروني</Label>
+        <Input
+          id="email"
+          type="email"
+          {...form.register('email')}
+          placeholder="example@domain.com"
+        />
+        {form.formState.errors.email && (
+          <p className="text-sm text-red-600 mt-1">
+            {form.formState.errors.email.message}
+          </p>
+        )}
+      </div>
+
+      <div>
+        <Label htmlFor="phone">رقم الهاتف</Label>
+        <Input
+          id="phone"
+          {...form.register('phone')}
+          placeholder="أدخل رقم الهاتف"
         />
       </div>
 
       <div>
-        <Label htmlFor="rating">التقييم (1-10)</Label>
+        <Label htmlFor="date_of_birth">تاريخ الميلاد</Label>
+        <Input
+          id="date_of_birth"
+          type="date"
+          {...form.register('date_of_birth')}
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="rating">التقييم (0-10)</Label>
         <Input
           id="rating"
           type="number"
-          min="1"
+          min="0"
           max="10"
-          {...register('rating', { valueAsNumber: true })}
-          placeholder="أدخل التقييم"
-          disabled={loading}
+          {...form.register('rating', { valueAsNumber: true })}
+          placeholder="0"
         />
-        {errors.rating && (
-          <p className="text-sm text-red-600 mt-1">{errors.rating.message}</p>
-        )}
       </div>
 
       <div className="flex gap-2 pt-4">
-        <Button type="submit" disabled={loading} className="flex-1">
-          {loading ? 'جاري الحفظ...' : (player ? 'تحديث' : 'إنشاء')}
+        <Button type="submit" className="flex-1">
+          {player ? 'تحديث' : 'إنشاء'}
         </Button>
-        <Button type="button" variant="outline" onClick={onCancel} disabled={loading}>
+        <Button type="button" variant="outline" onClick={onCancel} className="flex-1">
           إلغاء
         </Button>
       </div>

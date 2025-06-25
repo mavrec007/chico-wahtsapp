@@ -1,158 +1,157 @@
 
-import React, { useState, useEffect } from 'react';
-import { DataTable } from '@/components/common/DataTable';
-import { useCoaches, useBulkDeleteCoaches, useDeleteCoach } from '@/hooks/useCoaches';
-import { useDataStore } from '@/stores/useDataStore';
-import { Coach, TableColumn, PaginationParams } from '@/types';
+import React, { useState } from 'react';
+import { useCoaches, useDeleteCoach } from '@/hooks/useCoaches';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { format } from 'date-fns';
-import { ar } from 'date-fns/locale';
+import { Plus, Search, Edit, Trash2, UserCheck } from 'lucide-react';
+import { Coach } from '@/types';
+import ConfirmDeleteModal from '@/components/forms/ConfirmDeleteModal';
 
-export function CoachesTable() {
-  const [paginationParams, setPaginationParams] = useState<PaginationParams>({
-    page: 1,
+interface CoachesTableProps {
+  onEdit?: (coach: Coach) => void;
+  onAdd?: () => void;
+}
+
+export const CoachesTable: React.FC<CoachesTableProps> = ({ onEdit, onAdd }) => {
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
+  const [selectedCoach, setSelectedCoach] = useState<Coach | null>(null);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
+  const { data, isLoading, error } = useCoaches({
+    page,
     pageSize: 10,
+    search,
   });
 
-  const { data, isLoading, error, refetch } = useCoaches(paginationParams);
   const deleteCoachMutation = useDeleteCoach();
-  const bulkDeleteMutation = useBulkDeleteCoaches();
-  
-  const {
-    selectedItems,
-    setSelectedItems,
-    clearSelectedItems,
-    openModal,
-  } = useDataStore();
 
-  const selectedCoaches = selectedItems['coaches'] || [];
-
-  const columns: TableColumn<Coach>[] = [
-    {
-      key: 'specialty',
-      label: 'التخصص',
-      sortable: true,
-      render: (value) => (
-        <Badge variant="secondary">{value}</Badge>
-      ),
-    },
-    {
-      key: 'certification',
-      label: 'الشهادة',
-      sortable: true,
-      render: (value) => value || 'غير محدد',
-    },
-    {
-      key: 'experience_years',
-      label: 'سنوات الخبرة',
-      sortable: true,
-      render: (value) => `${value || 0} سنة`,
-    },
-    {
-      key: 'email',
-      label: 'البريد الإلكتروني',
-      render: (value) => value || 'غير محدد',
-    },
-    {
-      key: 'phone',
-      label: 'الهاتف',
-      render: (value) => value || 'غير محدد',
-    },
-    {
-      key: 'hourly_rate',
-      label: 'الأجر بالساعة',
-      sortable: true,
-      render: (value) => `${value || 0} ريال`,
-    },
-    {
-      key: 'created_at',
-      label: 'تاريخ الإنشاء',
-      sortable: true,
-      render: (value) => format(new Date(value), 'dd/MM/yyyy', { locale: ar }),
-    },
-  ];
-
-  const filters = [
-    {
-      key: 'specialty',
-      label: 'التخصص',
-      options: [
-        { value: 'swimming', label: 'سباحة' },
-        { value: 'football', label: 'كرة قدم' },
-        { value: 'basketball', label: 'كرة سلة' },
-        { value: 'tennis', label: 'تنس' },
-      ],
-    },
-  ];
-
-  const handleSearch = (search: string) => {
-    setPaginationParams(prev => ({ ...prev, search, page: 1 }));
+  const handleDeleteCoach = (coach: Coach) => {
+    setSelectedCoach(coach);
+    setIsDeleteOpen(true);
   };
 
-  const handleFilter = (filters: Record<string, any>) => {
-    setPaginationParams(prev => ({ ...prev, filters, page: 1 }));
-  };
-
-  const handleSort = (sortBy: string, sortOrder: 'asc' | 'desc') => {
-    setPaginationParams(prev => ({ ...prev, sortBy, sortOrder }));
-  };
-
-  const handlePaginate = (params: PaginationParams) => {
-    setPaginationParams(prev => ({ ...prev, ...params }));
-  };
-
-  const handleCreateNew = () => {
-    openModal('coach-form', 'create');
-  };
-
-  const handleEdit = (coach: Coach) => {
-    openModal('coach-form', 'edit', coach);
-  };
-
-  const handleDelete = async (coach: Coach) => {
-    if (confirm('هل أنت متأكد من حذف هذا المدرب؟')) {
-      await deleteCoachMutation.mutateAsync(coach.id);
-      refetch();
+  const handleDeleteConfirm = async () => {
+    if (!selectedCoach) return;
+    
+    try {
+      await deleteCoachMutation.mutateAsync(selectedCoach.id);
+      setIsDeleteOpen(false);
+      setSelectedCoach(null);
+    } catch (error) {
+      console.error('Error deleting coach:', error);
     }
   };
 
-  const handleBulkDelete = async (ids: string[]) => {
-    if (confirm(`هل أنت متأكد من حذف ${ids.length} مدرب؟`)) {
-      await bulkDeleteMutation.mutateAsync(ids);
-      clearSelectedItems('coaches');
-      refetch();
-    }
-  };
+  if (isLoading) {
+    return <div className="flex justify-center p-8">جاري التحميل...</div>;
+  }
 
-  const handleSelectionChange = (ids: string[]) => {
-    setSelectedItems('coaches', ids);
-  };
-
-  const handleExport = (format: 'csv' | 'pdf') => {
-    // Implement export functionality
-    console.log(`Exporting coaches as ${format}`);
-  };
+  if (error) {
+    return <div className="text-center p-8 text-red-600">خطأ في تحميل البيانات</div>;
+  }
 
   return (
-    <DataTable
-      title="إدارة المدربين"
-      data={data}
-      columns={columns}
-      isLoading={isLoading}
-      error={error}
-      searchPlaceholder="البحث في المدربين..."
-      onSearch={handleSearch}
-      onFilter={handleFilter}
-      onSort={handleSort}
-      onPaginate={handlePaginate}
-      onCreateNew={handleCreateNew}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-      onBulkDelete={handleBulkDelete}
-      onExport={handleExport}
-      selectedItems={selectedCoaches}
-      onSelectionChange={handleSelectionChange}
-      filters={filters}
-    />
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold">إدارة المدربين</h1>
+        <Button onClick={onAdd}>
+          <Plus className="w-4 h-4 mr-2" />
+          إضافة مدرب جديد
+        </Button>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <UserCheck className="w-5 h-5" />
+            قائمة المدربين
+          </CardTitle>
+          <div className="flex gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Input
+                placeholder="البحث في المدربين..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>التخصص</TableHead>
+                <TableHead>سنوات الخبرة</TableHead>
+                <TableHead>السعر/ساعة</TableHead>
+                <TableHead>البريد الإلكتروني</TableHead>
+                <TableHead>الهاتف</TableHead>
+                <TableHead>تاريخ الإنشاء</TableHead>
+                <TableHead className="text-left">الإجراءات</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data?.data.map((coach) => (
+                <TableRow key={coach.id}>
+                  <TableCell className="font-medium">{coach.specialty}</TableCell>
+                  <TableCell>
+                    {coach.experience_years ? (
+                      <Badge variant="secondary">{coach.experience_years} سنوات</Badge>
+                    ) : (
+                      'غير محدد'
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {coach.hourly_rate ? `${coach.hourly_rate} ر.س` : 'غير محدد'}
+                  </TableCell>
+                  <TableCell>{coach.email || 'غير محدد'}</TableCell>
+                  <TableCell>{coach.phone || 'غير محدد'}</TableCell>
+                  <TableCell>
+                    {new Date(coach.created_at).toLocaleDateString('ar-SA')}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex gap-2 justify-end">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => onEdit?.(coach)}
+                      >
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-red-600 hover:bg-red-50"
+                        onClick={() => handleDeleteCoach(coach)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {data?.data.length === 0 && (
+            <div className="text-center py-8 text-muted-foreground">
+              لا توجد مدربين مسجلين حالياً
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <ConfirmDeleteModal
+        isOpen={isDeleteOpen}
+        onCancel={() => setIsDeleteOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        message={`هل أنت متأكد من حذف المدرب "${selectedCoach?.specialty}"؟ لا يمكن التراجع عن هذا الإجراء.`}
+        isLoading={deleteCoachMutation.isPending}
+      />
+    </div>
   );
-}
+};

@@ -1,14 +1,11 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { BaseEntity, PaginationParams, PaginatedResponse } from '@/types';
-import { Database } from '@/integrations/supabase/types';
-
-type TableName = keyof Database['public']['Tables'];
 
 export class BaseService<T extends BaseEntity> {
-  protected tableName: TableName;
+  protected tableName: string;
 
-  constructor(tableName: TableName) {
+  constructor(tableName: string) {
     this.tableName = tableName;
   }
 

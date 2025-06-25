@@ -15,7 +15,7 @@ class FacilitiesService extends BaseService<Facility> {
   async getAvailableFacilities(startTime: string, endTime: string): Promise<Facility[]> {
     // Get facilities that don't have conflicting bookings
     const { data, error } = await supabase
-      .from(this.tableName)
+      .from('facilities')
       .select(`
         *,
         bookings!inner(id, start_time, end_time, status)

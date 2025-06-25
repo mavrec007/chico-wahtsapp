@@ -14,7 +14,7 @@ class CoachAssignmentsService extends BaseService<CoachAssignment> {
 
   async getAssignmentsByCoach(coachId: string): Promise<CoachAssignment[]> {
     const { data, error } = await supabase
-      .from(this.tableName)
+      .from('coach_assignments')
       .select(`
         *,
         coach:coaches(*),
@@ -28,7 +28,7 @@ class CoachAssignmentsService extends BaseService<CoachAssignment> {
 
   async getAssignmentsByPlayer(playerId: string): Promise<CoachAssignment[]> {
     const { data, error } = await supabase
-      .from(this.tableName)
+      .from('coach_assignments')
       .select(`
         *,
         coach:coaches(*),

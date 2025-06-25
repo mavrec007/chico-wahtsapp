@@ -14,7 +14,7 @@ class PlayersService extends BaseService<Player> {
 
   async getPlayersByTeam(team: string): Promise<Player[]> {
     const { data, error } = await supabase
-      .from(this.tableName)
+      .from('players')
       .select('*')
       .eq('team', team);
 

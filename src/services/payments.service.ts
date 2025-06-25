@@ -14,7 +14,7 @@ class PaymentsService extends BaseService<Payment> {
 
   async getPaymentsByBooking(bookingId: string): Promise<Payment[]> {
     const { data, error } = await supabase
-      .from(this.tableName)
+      .from('payments')
       .select(`
         *,
         booking:bookings(*)
@@ -27,7 +27,7 @@ class PaymentsService extends BaseService<Payment> {
 
   async confirmPayment(id: string, confirmedBy: string): Promise<Payment> {
     const { data, error } = await supabase
-      .from(this.tableName)
+      .from('payments')
       .update({
         status: 'completed',
         confirmed_by: confirmedBy,

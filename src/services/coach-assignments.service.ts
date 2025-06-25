@@ -1,4 +1,5 @@
 
+import { supabase } from '@/integrations/supabase/client';
 import { CoachAssignment } from '@/types';
 import { BaseService } from './base.service';
 

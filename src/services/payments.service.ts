@@ -1,4 +1,5 @@
 
+import { supabase } from '@/integrations/supabase/client';
 import { Payment } from '@/types';
 import { BaseService } from './base.service';
 

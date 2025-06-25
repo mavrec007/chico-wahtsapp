@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Search, Filter, Edit, Trash2, Eye, Clock } from 'lucide-react';
@@ -265,7 +264,6 @@ const FreeTimeBookings = () => {
         onCancel={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
         message="هل أنت متأكد من حذف هذه الجلسة؟"
-        itemName={deleteModal.sessionName}
       />
     </div>
   );

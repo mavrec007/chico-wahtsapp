@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -171,7 +170,6 @@ const ClientList = () => {
         onCancel={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
         message={t('are_you_sure_delete_client')}
-        itemName={deleteModal.clientName}
       />
     </div>
   );

@@ -93,7 +93,24 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
-// Form types
+// Table and Form types
+export interface TableColumn<T> {
+  key: keyof T | string;
+  label: string;
+  sortable?: boolean;
+  render?: (value: any, record: T) => React.ReactNode;
+}
+
+export interface FormField {
+  name: string;
+  label: string;
+  type: 'text' | 'email' | 'number' | 'textarea' | 'select' | 'checkbox';
+  placeholder?: string;
+  required?: boolean;
+  options?: Array<{ value: string; label: string }>;
+}
+
+// Form data types
 export interface LoginFormData {
   email: string;
   password: string;

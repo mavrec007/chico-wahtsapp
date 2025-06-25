@@ -12,3 +12,7 @@ export interface SidebarGroup {
   label: string;
   items: SidebarItem[];
 }
+
+export interface SidebarConfig {
+  groups: SidebarGroup[];
+}

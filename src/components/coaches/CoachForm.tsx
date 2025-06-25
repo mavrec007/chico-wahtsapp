@@ -11,8 +11,8 @@ import { Coach } from '@/types';
 
 const coachFormSchema = z.object({
   specialty: z.string().min(1, 'التخصص مطلوب'),
-  experience_years: z.number().min(0, 'سنوات الخبرة يجب أن تكون رقم موجب'),
-  hourly_rate: z.number().min(0, 'السعر يجب أن يكون رقم موجب'),
+  experience_years: z.number().min(0, 'سنوات الخبرة يجب أن تكون رقم موجب').optional(),
+  hourly_rate: z.number().min(0, 'السعر يجب أن يكون رقم موجب').optional(),
   email: z.string().email('البريد الإلكتروني غير صحيح').optional().or(z.literal('')),
   phone: z.string().optional(),
   certification: z.string().optional(),
@@ -48,10 +48,20 @@ export const CoachForm: React.FC<CoachFormProps> = ({
 
   const onSubmit = async (data: CoachFormData) => {
     try {
+      // Ensure specialty is always present for the create/update operations
+      const coachData = {
+        specialty: data.specialty,
+        experience_years: data.experience_years || 0,
+        hourly_rate: data.hourly_rate || 0,
+        email: data.email || '',
+        phone: data.phone || '',
+        certification: data.certification || '',
+      };
+
       if (coach) {
-        await updateCoachMutation.mutateAsync({ id: coach.id, data });
+        await updateCoachMutation.mutateAsync({ id: coach.id, data: coachData });
       } else {
-        await createCoachMutation.mutateAsync(data);
+        await createCoachMutation.mutateAsync(coachData);
       }
       onSuccess();
     } catch (error) {

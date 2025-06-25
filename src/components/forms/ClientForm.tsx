@@ -59,14 +59,14 @@ const ClientForm: React.FC<ClientFormProps> = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
-      <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+    <div className="mx-auto max-w-lg sm:max-w-2xl p-4 sm:p-6 md:p-8 bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+      <h2 className="text-xl sm:text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
         {initialData ? t('edit_client') : t('add_client')}
       </h2>
       
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6" aria-label="client form">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <FormField
               control={form.control}
               name="name"
@@ -174,7 +174,7 @@ const ClientForm: React.FC<ClientFormProps> = ({
             )}
           />
           
-          <div className="flex gap-4 justify-end pt-6">
+          <div className="flex flex-col sm:flex-row gap-4 justify-end pt-6">
             <Button
               type="button"
               variant="outline"
@@ -186,7 +186,7 @@ const ClientForm: React.FC<ClientFormProps> = ({
             <Button
               type="submit"
               disabled={isLoading}
-              className="btn-primary"
+              className="btn-primary w-full sm:w-auto"
             >
               {isLoading ? t('saving') : t('save')}
             </Button>

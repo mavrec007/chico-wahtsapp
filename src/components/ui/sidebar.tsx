@@ -58,7 +58,7 @@ const Sidebar = () => {
         variants={sidebarVariants}
         animate={sidebarOpen ? "open" : "closed"}
         className={cn(
-          'fixed top-0 h-full w-72 z-50 shadow-xl transition-transform duration-300 ease-out bg-white dark:bg-gray-900',
+          'fixed lg:sticky lg:top-0 top-0 h-full w-72 z-50 shadow-xl transition-transform duration-300 ease-out bg-white dark:bg-gray-900',
           language === 'ar' ? 'right-0' : 'left-0'
         )}
       >

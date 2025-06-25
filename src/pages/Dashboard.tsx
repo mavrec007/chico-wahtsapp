@@ -1,264 +1,266 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { 
-  Calendar, 
-  Users, 
-  TrendingUp, 
-  Activity,
-  ArrowUp,
-  ArrowDown,
+import {
+  BarChart3,
+  TrendingUp,
+  Users,
+  Calendar,
   DollarSign,
-  Clock
+  Activity,
+  ArrowUpRight,
+  ArrowDownRight,
+  Filter,
+  Download,
+  X,
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  AreaChart,
+  Area,
+} from 'recharts';
 
-const Dashboard = () => {
+// Sample data arrays
+const bookingData = [
+  { month: 'Jan', bookings: 245 },
+  { month: 'Feb', bookings: 312 },
+  { month: 'Mar', bookings: 289 },
+  { month: 'Apr', bookings: 378 },
+  { month: 'May', bookings: 456 },
+  { month: 'Jun', bookings: 523 },
+];
+
+const revenueData = [
+  { month: 'Jan', revenue: 12250, target: 15000 },
+  { month: 'Feb', revenue: 15600, target: 15000 },
+  { month: 'Mar', revenue: 14450, target: 15000 },
+  { month: 'Apr', revenue: 18900, target: 18000 },
+  { month: 'May', revenue: 22800, target: 20000 },
+  { month: 'Jun', revenue: 26150, target: 25000 },
+];
+
+const activityData = [
+  { name: 'Swimming Pool', percentage: 35, color: '#3B82F6' },
+  { name: 'Football Field', percentage: 24, color: '#10B981' },
+  { name: 'Basketball Court', percentage: 21, color: '#F59E0B' },
+  { name: 'Tennis Court', percentage: 20, color: '#EF4444' },
+];
+
+const weeklyData = [
+  { day: 'Mon', morning: 45, afternoon: 67, evening: 89 },
+  { day: 'Tue', morning: 52, afternoon: 73, evening: 95 },
+  { day: 'Wed', morning: 48, afternoon: 69, evening: 87 },
+  { day: 'Thu', morning: 61, afternoon: 81, evening: 103 },
+  { day: 'Fri', morning: 55, afternoon: 78, evening: 112 },
+  { day: 'Sat', morning: 73, afternoon: 95, evening: 134 },
+  { day: 'Sun', morning: 68, afternoon: 89, evening: 125 },
+];
+
+const stats = [
+  { title: 'Total Bookings', value: '2,847', change: '+12.5%', trend: 'up', icon: Calendar, gradient: 'from-blue-500 to-blue-600', bgGradient: 'from-blue-50 to-blue-100' },
+  { title: 'Active Members', value: '1,234', change: '+8.2%', trend: 'up', icon: Users, gradient: 'from-emerald-500 to-emerald-600', bgGradient: 'from-emerald-50 to-emerald-100' },
+  { title: 'Monthly Revenue', value: '$26,150', change: '+15.3%', trend: 'up', icon: DollarSign, gradient: 'from-purple-500 to-purple-600', bgGradient: 'from-purple-50 to-purple-100' },
+  { title: 'Occupancy Rate', value: '87.3%', change: '+3.1%', trend: 'up', icon: Activity, gradient: 'from-orange-500 to-orange-600', bgGradient: 'from-orange-50 to-orange-100' },
+];
+
+export default function  Dashboard() {
   const { t } = useTranslation();
+  const [showFilter, setShowFilter] = useState(false);
 
-  const stats = [
-    {
-      title: t('totalBookings'),
-      value: '1,234',
-      change: '+12%',
-      trend: 'up',
-      icon: Calendar,
-      color: 'text-blue-600 dark:text-blue-400',
-      bgColor: 'bg-gradient-to-br from-blue-500/10 to-blue-600/20',
-    },
-    {
-      title: t('activeUsers'),
-      value: '856',
-      change: '+8%',
-      trend: 'up',
-      icon: Users,
-      color: 'text-emerald-600 dark:text-emerald-400',
-      bgColor: 'bg-gradient-to-br from-emerald-500/10 to-emerald-600/20',
-    },
-    {
-      title: t('revenue'),
-      value: '$12,450',
-      change: '+23%',
-      trend: 'up',
-      icon: TrendingUp,
-      color: 'text-purple-600 dark:text-purple-400',
-      bgColor: 'bg-gradient-to-br from-purple-500/10 to-purple-600/20',
-    },
-    {
-      title: t('activities'),
-      value: '42',
-      change: '-2%',
-      trend: 'down',
-      icon: Activity,
-      color: 'text-orange-600 dark:text-orange-400',
-      bgColor: 'bg-gradient-to-br from-orange-500/10 to-orange-600/20',
-    },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { type: "spring" as const, stiffness: 300, damping: 30 }
-    }
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return t('dashboard.goodMorning');
+    if (hour < 18) return t('dashboard.goodAfternoon');
+    return t('dashboard.goodEvening');
   };
 
   return (
-    <div className="space-y-8">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between"
-      >
-        <div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
-            {t('dashboard')}
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
-            Overview of your sports booking platform
-          </p>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-          <Clock className="w-4 h-4" />
-          <span>Last updated: just now</span>
-        </div>
-      </motion.div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50 dark:from-slate-950 dark:via-blue-950/30 dark:to-indigo-950">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
 
-      {/* Stats Grid */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-      >
-        {stats.map((stat, index) => {
-          const Icon = stat.icon;
-          const TrendIcon = stat.trend === 'up' ? ArrowUp : ArrowDown;
-          
-          return (
-            <motion.div key={index} variants={itemVariants}>
-              <Card className="relative overflow-hidden hover:shadow-2xl transition-all duration-300 border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl group hover:scale-105">
-                <div className={`absolute inset-0 ${stat.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    {stat.title}
-                  </CardTitle>
-                  <div className={`p-3 rounded-xl ${stat.bgColor} group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className={`w-6 h-6 ${stat.color}`} />
-                  </div>
-                </CardHeader>
-                <CardContent className="relative">
-                  <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="flex items-center">
-                    <TrendIcon 
-                      className={`w-4 h-4 ${
-                        stat.trend === 'up' 
-                          ? 'text-emerald-600 dark:text-emerald-400' 
-                          : 'text-red-600 dark:text-red-400'
-                      }`} 
-                    />
-                    <span 
-                      className={`text-sm ml-1 font-medium ${
-                        stat.trend === 'up' 
-                          ? 'text-emerald-600 dark:text-emerald-400' 
-                          : 'text-red-600 dark:text-red-400'
-                      }`}
-                    >
-                      {stat.change}
-                    </span>
-                    <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">
-                      from last month
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          );
-        })}
-      </motion.div>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+        >
+          <div>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-blue-800 to-indigo-900">
+              {getGreeting()}, {t('dashboard.analyticsTitle')}
+            </h1>
+            <p className="mt-2 text-sm sm:text-base text-slate-600">
+              {t('dashboard.analyticsSubtitle')}
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" onClick={() => setShowFilter(true)} className="sm:hidden">
+              <Filter className="w-4 h-4" />
+            </Button>
+            <Button variant="outline" className="hidden sm:flex gap-2">
+              <Filter className="w-4 h-4" />
+              {t('dashboard.filter')}
+            </Button>
+            <Button className="flex gap-2 bg-gradient-to-r from-blue-600 to-indigo-600">
+              <Download className="w-4 h-4" />
+              {t('dashboard.exportReport')}
+            </Button>
+          </div>
+        </motion.div>
 
-      {/* Recent Activity */}
-      <motion.div
-        variants={itemVariants}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-      >
-        <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border-0 shadow-xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-blue-600" />
-              Recent Bookings
-            </CardTitle>
-            <CardDescription>Latest booking activities</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {[
-                { activity: 'Football Session', user: 'Ahmed Hassan', time: '2 hours ago', status: 'Confirmed' },
-                { activity: 'Swimming Pool', user: 'Sarah Ahmed', time: '4 hours ago', status: 'Pending' },
-                { activity: 'Tennis Court', user: 'Omar Ali', time: '6 hours ago', status: 'Confirmed' },
-                { activity: 'Basketball Court', user: 'Layla Mohammed', time: '1 day ago', status: 'Cancelled' },
-              ].map((item, index) => (
-                <motion.div 
-                  key={index} 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50/50 to-gray-100/50 dark:from-gray-700/30 dark:to-gray-800/30 rounded-xl hover:shadow-md transition-all duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full flex items-center justify-center">
-                      <Calendar className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">
-                        {item.activity}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {item.user} • {item.time}
-                      </p>
-                    </div>
-                  </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    item.status === 'Confirmed' 
-                      ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400'
-                      : item.status === 'Pending'
-                      ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400'
-                      : 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
-                  }`}>
-                    {item.status}
-                  </span>
-                </motion.div>
-              ))}
+        {/* Filter Panel */}
+        {showFilter && (
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex justify-end">
+            <div className="w-full sm:w-2/3 md:w-1/2 lg:w-1/3 bg-white p-4">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-semibold">{t('dashboard.filter')}</h2>
+                <Button variant="ghost" onClick={() => setShowFilter(false)}>
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+              {/* Filter form goes here */}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        )}
 
-        <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border-0 shadow-xl">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-purple-600" />
-              Popular Activities
-            </CardTitle>
-            <CardDescription>Most booked activities this week</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {[
-                { name: 'Football', bookings: 45, color: 'bg-gradient-to-r from-blue-500 to-blue-600', percentage: 85 },
-                { name: 'Swimming', bookings: 32, color: 'bg-gradient-to-r from-emerald-500 to-emerald-600', percentage: 65 },
-                { name: 'Tennis', bookings: 28, color: 'bg-gradient-to-r from-purple-500 to-purple-600', percentage: 55 },
-                { name: 'Basketball', bookings: 19, color: 'bg-gradient-to-r from-orange-500 to-orange-600', percentage: 35 },
-              ].map((activity, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="space-y-2"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full ${activity.color}`} />
-                      <span className="font-semibold text-gray-900 dark:text-white">
-                        {activity.name}
-                      </span>
+        {/* Stats Grid */}
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" initial="hidden" animate="visible" variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}>
+          {stats.map((stat, idx) => {
+            const Icon = stat.icon;
+            const TrendIcon = stat.trend === 'up' ? ArrowUpRight : ArrowDownRight;
+            return (
+              <motion.div key={idx} variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}>
+                <Card className="relative group hover:scale-105 transition-transform">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${stat.bgGradient} opacity-0 group-hover:opacity-75`} />
+                  <CardContent className="relative p-6 space-y-1">
+                    <div className="flex justify-between items-center mb-2">
+                      <div className={`p-3 rounded-xl bg-gradient-to-r ${stat.gradient}`}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <Badge className="flex items-center gap-1">
+                        <TrendIcon className="w-3 h-3" /> {stat.change}
+                      </Badge>
                     </div>
-                    <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                      {activity.bookings} bookings
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                    <motion.div 
-                      className={`h-2 rounded-full ${activity.color}`}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${activity.percentage}%` }}
-                      transition={{ delay: 0.5 + index * 0.1, duration: 0.8 }}
-                    />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+                    <p className="text-sm font-medium text-slate-600">{stat.title}</p>
+                    <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* Charts */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ChartCard
+            delay={0.3}
+            icon={<BarChart3 className="w-5 h-5 text-blue-600" />}
+            title={t('dashboard.monthlyBookingsTrend')}
+            desc={t('dashboard.bookingVolumeDesc')}
+          >
+            <ChartContainer className="w-full h-64" config={{ bookings: { label: 'Bookings' } }}>  
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={bookingData}>
+                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="bookings" fill="#3B82F6" radius={[4,4,0,0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </ChartCard>
+
+          <ChartCard
+            delay={0.4}
+            icon={<TrendingUp className="w-5 h-5 text-emerald-600" />}
+            title={t('dashboard.revenueVsTarget')}
+            desc={t('dashboard.revenuePerformanceDesc')}
+          >
+            <ChartContainer className="w-full h-64" config={{ revenue: { label: 'Revenue' }, target: { label: 'Target' } }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={revenueData}>
+                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Line type="monotone" dataKey="revenue" stroke="#10B981" strokeWidth={2} dot={{ r:4 }} />
+                  <Line type="monotone" dataKey="target" stroke="#6EE7B7" strokeDasharray="5 5" strokeWidth={2} dot={{ r:3 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </ChartCard>
+
+          <ChartCard
+            delay={0.5}
+            icon={<Activity className="w-5 h-5 text-purple-600" />}
+            title={t('dashboard.activityDistribution')}
+            desc={t('dashboard.bookingDistributionDesc')}
+          >
+            <ChartContainer className="w-full h-64" config={{ percentage: { label: '%' } }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={activityData} dataKey="percentage" innerRadius={40} outerRadius={80}>  
+                    {activityData.map((entry,i)=><Cell key={i} fill={entry.color}/>)}
+                  </Pie>
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                </PieChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </ChartCard>
+
+          <ChartCard
+            delay={0.6}
+            icon={<Calendar className="w-5 h-5 text-orange-600" />}
+            title={t('dashboard.weeklyUsagePattern')}
+            desc={t('dashboard.usagePatternDesc')}
+          >
+            <ChartContainer className="w-full h-64" config={{ morning: { label: 'Morning' }, afternoon: { label: 'Afternoon' }, evening: { label: 'Evening' } }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={weeklyData}>
+                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area type="monotone" dataKey="morning" fill="#F59E0B" stackId="1" />
+                  <Area type="monotone" dataKey="afternoon" fill="#F97316" stackId="1" />
+                  <Area type="monotone" dataKey="evening" fill="#EA580C" stackId="1" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </ChartCard>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default Dashboard;
+// Reusable ChartCard wrapper
+function ChartCard({ delay, icon, title, desc, children }) {
+  return (
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay }}>
+      <Card className="bg-white p-4 shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg font-semibold">
+            {icon} {title}
+          </CardTitle>
+          <CardDescription className="text-sm text-slate-600">{desc}</CardDescription>
+        </CardHeader>
+        <CardContent>{children}</CardContent>
+      </Card>
+    </motion.div>
+  );
+}

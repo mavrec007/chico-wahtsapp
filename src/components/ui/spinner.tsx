@@ -1,30 +1,43 @@
-import React from 'react';
+import React from 'react'
+import { cn } from '@/lib/utils'
 
-interface SpinnerProps {
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  color?: 'primary' | 'muted' | 'white';
-  className?: string;
+export interface SpinnerProps {
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  color?: 'primary' | 'muted' | 'white'
+  className?: string
 }
 
 const sizeMap: Record<NonNullable<SpinnerProps['size']>, string> = {
-  xs: 'h-3 w-3',
-  sm: 'h-4 w-4',
-  md: 'h-5 w-5',
-  lg: 'h-8 w-8',
-  xl: 'h-12 w-12'
-};
+  xs: 'w-4 h-4',
+  sm: 'w-5 h-5',
+  md: 'w-6 h-6',
+  lg: 'w-8 h-8',
+  xl: 'w-10 h-10'
+}
 
-export const Spinner: React.FC<SpinnerProps> = ({ size = 'sm', color = 'primary', className = '' }) => {
-  const circle = `${sizeMap[size]} animate-bounce`;
-  const colorClass = color === 'white' ? 'bg-white' : color === 'muted' ? 'bg-muted-foreground' : 'bg-primary';
+const colorMap: Record<NonNullable<SpinnerProps['color']>, string> = {
+  primary: 'border-primary',
+  muted: 'border-muted-foreground',
+  white: 'border-white'
+}
 
+export const Spinner: React.FC<SpinnerProps> = ({
+  size = 'sm',
+  color = 'primary',
+  className = ''
+}) => {
   return (
-    <div className={`flex items-center justify-center space-x-1 ${className}`} role="status" aria-label="Loading">
-      <div className={`${colorClass} rounded-full ${circle}`}></div>
-      <div className={`${colorClass} rounded-full ${circle} [animation-delay:-.2s]`}></div>
-      <div className={`${colorClass} rounded-full ${circle} [animation-delay:-.4s]`}></div>
-    </div>
-  );
-};
+    <div
+      className={cn(
+        'rounded-full border-4 border-t-transparent animate-spin',
+        sizeMap[size],
+        colorMap[color],
+        className
+      )}
+      role="status"
+      aria-label="Loading"
+    />
+  )
+}
 
-export default Spinner;
+export default Spinner

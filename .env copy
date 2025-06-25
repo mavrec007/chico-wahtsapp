@@ -1,0 +1,9 @@
+# إعدادات قاعدة البيانات (اختياري)  
+DATABASE_URL=mysql://askar:Askar1984@127.0.0.1:3306/sports_booking
+
+
+ DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=askar
+DB_PASSWORD=Askar1984
+DB_DATABASE=sports_booking

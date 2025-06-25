@@ -1,11 +1,14 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { BaseEntity, PaginationParams, PaginatedResponse } from '@/types';
+import { Database } from '@/integrations/supabase/types';
+
+type TableName = keyof Database['public']['Tables'];
 
 export class BaseService<T extends BaseEntity> {
-  protected tableName: string;
+  protected tableName: TableName;
 
-  constructor(tableName: string) {
+  constructor(tableName: TableName) {
     this.tableName = tableName;
   }
 
@@ -44,7 +47,7 @@ export class BaseService<T extends BaseEntity> {
     if (error) throw error;
 
     return {
-      data: data as T[],
+      data: (data as T[]) || [],
       total: count || 0,
       page,
       pageSize,
@@ -66,7 +69,7 @@ export class BaseService<T extends BaseEntity> {
   async create(data: Omit<T, keyof BaseEntity>): Promise<T> {
     const { data: result, error } = await supabase
       .from(this.tableName)
-      .insert(data)
+      .insert(data as any)
       .select()
       .single();
 
@@ -77,7 +80,7 @@ export class BaseService<T extends BaseEntity> {
   async update(id: string, data: Partial<T>): Promise<T> {
     const { data: result, error } = await supabase
       .from(this.tableName)
-      .update(data)
+      .update(data as any)
       .eq('id', id)
       .select()
       .single();

@@ -235,8 +235,8 @@ export function DataTable<T extends { id: string }>({
                   <TableHead className="w-12">
                     <Checkbox
                       checked={allSelected}
-                      indeterminate={someSelected}
                       onCheckedChange={handleSelectAll}
+                      className={someSelected ? 'opacity-50' : ''}
                     />
                   </TableHead>
                 )}

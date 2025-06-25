@@ -27,7 +27,7 @@ import { FormField as FormFieldType } from '@/types';
 
 interface DynamicFormProps {
   fields: FormFieldType[];
-  defaultValues?: any;
+  defaultValues?: Record<string, any>;
   onSubmit: (data: any) => void;
   onCancel?: () => void;
   isLoading?: boolean;
@@ -44,23 +44,22 @@ export function DynamicForm({
   submitText = 'حفظ',
   cancelText = 'إلغاء',
 }: DynamicFormProps) {
-  // Generate Zod schema dynamically
-  const schema = z.object(
-    fields.reduce((acc, field) => {
-      let fieldSchema: any;
+  // Create dynamic Zod schema based on fields
+  const createSchema = () => {
+    const schemaObj: Record<string, any> = {};
+    
+    fields.forEach((field) => {
+      let fieldSchema;
       
       switch (field.type) {
         case 'email':
-          fieldSchema = z.string().email('بريد إلكتروني غير صحيح');
+          fieldSchema = z.string().email('البريد الإلكتروني غير صحيح');
           break;
         case 'number':
-          fieldSchema = z.number().min(0, 'يجب أن تكون القيمة أكبر من أو تساوي 0');
+          fieldSchema = z.coerce.number().min(0, 'القيمة يجب أن تكون صفر أو أكثر');
           break;
         case 'checkbox':
-          fieldSchema = z.boolean();
-          break;
-        case 'date':
-          fieldSchema = z.string();
+          fieldSchema = z.boolean().optional();
           break;
         default:
           fieldSchema = z.string();
@@ -68,180 +67,110 @@ export function DynamicForm({
       
       if (field.required && field.type !== 'checkbox') {
         fieldSchema = fieldSchema.min(1, 'هذا الحقل مطلوب');
-      }
-      
-      if (!field.required) {
+      } else if (!field.required) {
         fieldSchema = fieldSchema.optional();
       }
       
-      acc[field.name] = fieldSchema;
-      return acc;
-    }, {} as Record<string, any>)
-  );
+      schemaObj[field.name] = fieldSchema;
+    });
+    
+    return z.object(schemaObj);
+  };
 
   const form = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(createSchema()),
     defaultValues,
   });
 
+  const handleSubmit = (data: any) => {
+    onSubmit(data);
+  };
+
   const renderField = (field: FormFieldType) => {
-    switch (field.type) {
-      case 'textarea':
-        return (
-          <Textarea
-            placeholder={field.placeholder}
-            className="min-h-20"
-          />
-        );
-      
-      case 'select':
-        return (
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder={field.placeholder || 'اختر...'} />
-            </SelectTrigger>
-            <SelectContent>
-              {field.options?.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        );
-      
-      case 'multiselect':
-        return (
-          <div className="space-y-2">
-            {field.options?.map((option) => (
-              <div key={option.value} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`${field.name}-${option.value}`}
-                  value={option.value}
+    return (
+      <FormField
+        key={field.name}
+        control={form.control}
+        name={field.name}
+        render={({ field: formField }) => (
+          <FormItem>
+            <FormLabel className="text-right">
+              {field.label}
+              {field.required && <span className="text-red-500 mr-1">*</span>}
+            </FormLabel>
+            <FormControl>
+              {field.type === 'textarea' ? (
+                <Textarea
+                  {...formField}
+                  placeholder={field.placeholder}
+                  className="resize-none"
                 />
-                <label
-                  htmlFor={`${field.name}-${option.value}`}
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {option.label}
-                </label>
-              </div>
-            ))}
-          </div>
-        );
-      
-      case 'checkbox':
-        return (
-          <Checkbox />
-        );
-      
-      case 'number':
-        return (
-          <Input
-            type="number"
-            placeholder={field.placeholder}
-            min="0"
-            step="0.01"
-          />
-        );
-      
-      case 'email':
-        return (
-          <Input
-            type="email"
-            placeholder={field.placeholder}
-          />
-        );
-      
-      case 'date':
-        return (
-          <Input
-            type="date"
-            placeholder={field.placeholder}
-          />
-        );
-      
-      case 'time':
-        return (
-          <Input
-            type="time"
-            placeholder={field.placeholder}
-          />
-        );
-      
-      case 'datetime':
-        return (
-          <Input
-            type="datetime-local"
-            placeholder={field.placeholder}
-          />
-        );
-      
-      default:
-        return (
-          <Input
-            type="text"
-            placeholder={field.placeholder}
-          />
-        );
-    }
+              ) : field.type === 'select' ? (
+                <Select onValueChange={formField.onChange} value={formField.value}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={field.placeholder || 'اختر قيمة'} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {field.options?.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : field.type === 'checkbox' ? (
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    checked={formField.value}
+                    onCheckedChange={formField.onChange}
+                  />
+                  <span className="text-sm">{field.placeholder}</span>
+                </div>
+              ) : (
+                <Input
+                  {...formField}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  step={field.type === 'number' ? '0.01' : undefined}
+                />
+              )}
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {fields.map((field, index) => (
-            <motion.div
-              key={field.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className={field.type === 'textarea' ? 'md:col-span-2' : ''}
-            >
-              <FormField
-                control={form.control}
-                name={field.name}
-                render={({ field: formField }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {field.label}
-                      {field.required && <span className="text-red-500 ml-1">*</span>}
-                    </FormLabel>
-                    <FormControl>
-                      {React.cloneElement(renderField(field), {
-                        ...formField,
-                        value: formField.value || '',
-                      })}
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </motion.div>
-          ))}
-        </div>
-        
-        <div className="flex gap-4 pt-6">
-          <Button
-            type="submit"
-            disabled={isLoading}
-            className="flex-1"
-          >
-            {isLoading ? 'جاري الحفظ...' : submitText}
-          </Button>
-          {onCancel && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onCancel}
-              className="flex-1"
-            >
-              {cancelText}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {fields.map((field) => renderField(field))}
+          </div>
+          
+          <div className="flex justify-end gap-3 pt-4 border-t">
+            {onCancel && (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onCancel}
+                disabled={isLoading}
+              >
+                {cancelText}
+              </Button>
+            )}
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? 'جاري الحفظ...' : submitText}
             </Button>
-          )}
-        </div>
-      </form>
-    </Form>
+          </div>
+        </form>
+      </Form>
+    </motion.div>
   );
 }

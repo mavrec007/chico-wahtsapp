@@ -1,4 +1,5 @@
 
+
 import { supabase } from '@/integrations/supabase/client';
 import { BaseEntity, PaginationParams, PaginatedResponse } from '@/types';
 import { Database } from '@/integrations/supabase/types';
@@ -47,7 +48,7 @@ export class BaseService<T extends BaseEntity> {
     if (error) throw error;
 
     return {
-      data: (data as T[]) || [],
+      data: (data as unknown as T[]) || [],
       total: count || 0,
       page,
       pageSize,
@@ -63,7 +64,7 @@ export class BaseService<T extends BaseEntity> {
       .single();
 
     if (error) throw error;
-    return data as T;
+    return data as unknown as T;
   }
 
   async create(data: Omit<T, keyof BaseEntity>): Promise<T> {
@@ -74,7 +75,7 @@ export class BaseService<T extends BaseEntity> {
       .single();
 
     if (error) throw error;
-    return result as T;
+    return result as unknown as T;
   }
 
   async update(id: string, data: Partial<T>): Promise<T> {
@@ -86,7 +87,7 @@ export class BaseService<T extends BaseEntity> {
       .single();
 
     if (error) throw error;
-    return result as T;
+    return result as unknown as T;
   }
 
   async delete(id: string): Promise<void> {
@@ -121,3 +122,4 @@ export class BaseService<T extends BaseEntity> {
     return query;
   }
 }
+

@@ -15,7 +15,7 @@ const Landing = () => {
   useEffect(() => {
     // Auto-redirect to dashboard if already logged in
     if (isAuthenticated) {
-      navigate('/admin/dashboard');
+      navigate('/dashboard');
     }
   }, [isAuthenticated, navigate]);
 

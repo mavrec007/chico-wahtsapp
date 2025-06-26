@@ -96,7 +96,10 @@ export function ModernSidebar() {
         <SidebarHeader />
 
         {/* Navigation Content */}
-        <div className="flex-1 overflow-y-auto px-4 py-6 bg-slate-50 dark:bg-gray-850">
+        <div className={cn(
+          'flex-1 overflow-y-auto px-4 py-6 transition-colors duration-300',
+          'bg-slate-50 dark:bg-gray-850 dark:bg-gray-900/50'
+        )}>
           <nav>
             {sidebarConfig.groups.map((group, index) => (
               <SidebarNavGroup
@@ -112,7 +115,8 @@ export function ModernSidebar() {
 
         {/* Footer */}
         <div className={cn(
-          'p-4 border-t border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-900',
+          'p-4 border-t border-slate-200 dark:border-gray-700',
+          'bg-white dark:bg-gray-900 transition-colors duration-300',
           !sidebarOpen && 'lg:p-2 lg:text-center'
         )}>
           {sidebarOpen ? (
@@ -121,7 +125,7 @@ export function ModernSidebar() {
               <p>Version 2.0</p>
             </div>
           ) : (
-            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-violet-500 rounded-lg mx-auto opacity-60" />
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-violet-600 rounded-lg mx-auto opacity-60 shadow-md" />
           )}
         </div>
       </motion.aside>

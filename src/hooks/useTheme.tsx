@@ -18,7 +18,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return stored || 'system';
   });
 
-  const [actualTheme, setActualTheme] = useState<'light' | 'dark'>('light');
+  const [actualTheme, setActualTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    return 'light';
+  });
 
   useEffect(() => {
     const updateTheme = () => {
@@ -35,6 +40,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       const root = document.documentElement;
       root.classList.remove('light', 'dark');
       root.classList.add(resolvedTheme);
+      
+      // Update CSS custom properties for better color consistency
+      if (resolvedTheme === 'dark') {
+        root.style.setProperty('--background', '222.2 84% 4.9%');
+        root.style.setProperty('--foreground', '210 40% 98%');
+        root.style.setProperty('--card', '222.2 84% 4.9%');
+        root.style.setProperty('--card-foreground', '210 40% 98%');
+        root.style.setProperty('--muted', '217.2 32.6% 17.5%');
+        root.style.setProperty('--muted-foreground', '215 20.2% 65.1%');
+      } else {
+        root.style.setProperty('--background', '0 0% 100%');
+        root.style.setProperty('--foreground', '222.2 84% 4.9%');
+        root.style.setProperty('--card', '0 0% 100%');
+        root.style.setProperty('--card-foreground', '222.2 84% 4.9%');
+        root.style.setProperty('--muted', '210 40% 96%');
+        root.style.setProperty('--muted-foreground', '215.4 16.3% 46.9%');
+      }
       
       localStorage.setItem('theme', theme);
     };
@@ -53,7 +75,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(current => current === 'light' ? 'dark' : 'light');
+    setTheme(current => {
+      if (current === 'light') return 'dark';
+      if (current === 'dark') return 'system';
+      return 'light';
+    });
   };
 
   return (

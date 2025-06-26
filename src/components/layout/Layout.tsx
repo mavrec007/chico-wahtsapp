@@ -47,7 +47,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div
       className={cn(
-        'min-h-screen flex bg-slate-50 dark:bg-gray-900 transition-all duration-200 ease-in-out',
+        'min-h-screen flex transition-all duration-300 ease-in-out',
+        'bg-slate-50 dark:bg-gray-900',
         isRTL ? 'flex-row-reverse' : 'flex-row'
       )}
     >
@@ -55,14 +56,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <ModernSidebar />
 
       {/* Main Content Area */}
-      <div className="flex flex-col flex-1 min-h-screen transition-all duration-200 ease-in-out">
+      <div className="flex flex-col flex-1 min-h-screen transition-all duration-300 ease-in-out">
         {/* Topbar */}
-        <Topbar className={cn('transition-all duration-200', getMainPadding())} />
+        <Topbar className={cn('transition-all duration-300', getMainPadding())} />
         
         {/* Page Content */}
         <main className={cn(
-          'flex-1 overflow-auto bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-gray-900 dark:to-blue-950/20',
-          'transition-all duration-200',
+          'flex-1 overflow-auto transition-all duration-300',
+          'bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-gray-900 dark:to-slate-900/50',
           getMainPadding()
         )}>
           <div className="container mx-auto p-6 max-w-7xl">

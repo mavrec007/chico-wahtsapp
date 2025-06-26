@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +14,7 @@ import Landing from "./pages/Landing";
 import LoginPage from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard"; 
+import SportsOverview from "./pages/SportsOverview";
 import AdminDashboard from "./pages/admin/Dashboard";
 import Users from "./pages/Users";
 import Roles from "./pages/Roles";
@@ -62,6 +64,12 @@ const App = () => (
                 <Route path="/dashboard" element={
                   <AuthLayout>
                     <Layout><Dashboard /></Layout>
+                  </AuthLayout>
+                } />
+
+                <Route path="/sports-overview" element={
+                  <AuthLayout>
+                    <Layout><SportsOverview /></Layout>
                   </AuthLayout>
                 } />
                 

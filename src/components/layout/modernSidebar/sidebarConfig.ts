@@ -1,61 +1,134 @@
 
 import { 
   LayoutDashboard, 
+  Activity, 
   Users, 
-  Building, 
+  UserCheck, 
+  Building2, 
   CreditCard, 
-  FileText,
-  UserCheck,
-  User
+  UserCog, 
+  BarChart3, 
+  Settings,
+  Trophy,
+  Calendar
 } from 'lucide-react';
-import { SidebarGroup } from './types';
+
+export interface SidebarItem {
+  id: string;
+  label: string;
+  labelAr: string;
+  icon: any;
+  path: string;
+  badge?: string;
+  children?: SidebarItem[];
+}
+
+export interface SidebarGroup {
+  id: string;
+  label: string;
+  labelAr: string;
+  items: SidebarItem[];
+}
 
 export const sidebarConfig = {
   groups: [
     {
-      label: 'main',
+      id: 'main',
+      label: 'Main',
+      labelAr: 'الرئيسية',
       items: [
         {
+          id: 'dashboard',
           label: 'Dashboard',
-          href: '/dashboard',
+          labelAr: 'لوحة التحكم',
           icon: LayoutDashboard,
+          path: '/dashboard'
         },
-      ],
+        {
+          id: 'sports-overview',
+          label: 'Sports Overview',
+          labelAr: 'نظرة عامة على الرياضات',
+          icon: Trophy,
+          path: '/sports-overview'
+        }
+      ]
     },
     {
-      label: 'الإدارة',
+      id: 'management',
+      label: 'Management',
+      labelAr: 'الإدارة',
       items: [
         {
+          id: 'bookings',
+          label: 'Bookings',
+          labelAr: 'الحجوزات',
+          icon: Calendar,
+          path: '/bookings'
+        },
+        {
+          id: 'coaches',
           label: 'Coaches',
-          href: '/coaches',
+          labelAr: 'المدربين',
           icon: UserCheck,
+          path: '/coaches'
         },
         {
+          id: 'players',
           label: 'Players',
-          href: '/players',
-          icon: User,
-        },
-        {
-          label: 'Facilities',
-          href: '/facilities',
-          icon: Building,
-        },
-        {
-          label: 'Payments',
-          href: '/payments',
-          icon: CreditCard,
-        },
-        {
-          label: 'Coach Assignments',
-          href: '/coach-assignments',
-          icon: FileText,
-        },
-        {
-          label: 'Clients',
-          href: '/clients',
+          labelAr: 'اللاعبين',
           icon: Users,
+          path: '/players'
         },
-      ],
+        {
+          id: 'facilities',
+          label: 'Facilities',
+          labelAr: 'المرافق',
+          icon: Building2,
+          path: '/facilities'
+        },
+        {
+          id: 'payments',
+          label: 'Payments',
+          labelAr: 'المدفوعات',
+          icon: CreditCard,
+          path: '/payments'
+        },
+        {
+          id: 'coach-assignments',
+          label: 'Coach Assignments',
+          labelAr: 'تعيين المدربين',
+          icon: UserCog,
+          path: '/coach-assignments'
+        }
+      ]
     },
-  ] as SidebarGroup[],
+    {
+      id: 'analytics',
+      label: 'Analytics',
+      labelAr: 'التحليلات',
+      items: [
+        {
+          id: 'reports',
+          label: 'Reports',
+          labelAr: 'التقارير',
+          icon: BarChart3,
+          path: '/reports'
+        }
+      ]
+    },
+    {
+      id: 'system',
+      label: 'System',
+      labelAr: 'النظام',
+      items: [
+        {
+          id: 'settings',
+          label: 'Settings',
+          labelAr: 'الإعدادات',
+          icon: Settings,
+          path: '/settings'
+        }
+      ]
+    }
+  ]
 };

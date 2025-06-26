@@ -85,8 +85,7 @@ const resources = {
       'facility_utilization': 'Facility Utilization',
       'financial_summary': 'Financial Summary',
       'monthly_report': 'Monthly Report',
-      'export_data': 'Export Data',
-      'facilities': 'facilities'
+      'export_data': 'Export Data'
     }
   },
   ar: {
@@ -118,7 +117,6 @@ const resources = {
       clients: "العملاء",
       coaches: "المدربين",
       players: "اللاعبين",
-      facilities: "المرافق",
       payments: "المدفوعات",
       'coach-assignments': "تعيين المدربين",
       'sports-overview': "نظرة عامة على الرياضات",
@@ -167,8 +165,7 @@ const resources = {
       'facility_utilization': 'استخدام المرافق',
       'financial_summary': 'الملخص المالي',
       'monthly_report': 'التقرير الشهري',
-      'export_data': 'تصدير البيانات',
-      'facilities': 'مرافق'
+      'export_data': 'تصدير البيانات'
     }
   }
 };

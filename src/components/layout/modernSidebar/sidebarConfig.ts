@@ -18,7 +18,7 @@ export interface SidebarItem {
   label: string;
   labelAr: string;
   icon: any;
-  path: string;
+  href: string;
   badge?: string;
   children?: SidebarItem[];
 }
@@ -42,14 +42,14 @@ export const sidebarConfig = {
           label: 'Dashboard',
           labelAr: 'لوحة التحكم',
           icon: LayoutDashboard,
-          path: '/dashboard'
+          href: '/dashboard'
         },
         {
           id: 'sports-overview',
           label: 'Sports Overview',
           labelAr: 'نظرة عامة على الرياضات',
           icon: Trophy,
-          path: '/sports-overview'
+          href: '/sports-overview'
         }
       ]
     },
@@ -63,42 +63,42 @@ export const sidebarConfig = {
           label: 'Bookings',
           labelAr: 'الحجوزات',
           icon: Calendar,
-          path: '/bookings'
+          href: '/bookings'
         },
         {
           id: 'coaches',
           label: 'Coaches',
           labelAr: 'المدربين',
           icon: UserCheck,
-          path: '/coaches'
+          href: '/coaches'
         },
         {
           id: 'players',
           label: 'Players',
           labelAr: 'اللاعبين',
           icon: Users,
-          path: '/players'
+          href: '/players'
         },
         {
           id: 'facilities',
           label: 'Facilities',
           labelAr: 'المرافق',
           icon: Building2,
-          path: '/facilities'
+          href: '/facilities'
         },
         {
           id: 'payments',
           label: 'Payments',
           labelAr: 'المدفوعات',
           icon: CreditCard,
-          path: '/payments'
+          href: '/payments'
         },
         {
           id: 'coach-assignments',
           label: 'Coach Assignments',
           labelAr: 'تعيين المدربين',
           icon: UserCog,
-          path: '/coach-assignments'
+          href: '/coach-assignments'
         }
       ]
     },
@@ -112,7 +112,7 @@ export const sidebarConfig = {
           label: 'Reports',
           labelAr: 'التقارير',
           icon: BarChart3,
-          path: '/reports'
+          href: '/reports'
         }
       ]
     },
@@ -126,7 +126,7 @@ export const sidebarConfig = {
           label: 'Settings',
           labelAr: 'الإعدادات',
           icon: Settings,
-          path: '/settings'
+          href: '/settings'
         }
       ]
     }

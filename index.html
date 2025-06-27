@@ -1,8 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
++   <!-- Vite will replace %BASE_URL% with your `base` (e.g. '/chico-wahtsapp/') -->
++   <base href="%BASE_URL%">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sports Booking Platform - Book Your Activities</title>
     <meta name="description" content="Modern sports booking platform with multilingual support. Book swimming sessions, sports fields, and more with ease." />
@@ -20,6 +21,8 @@
 
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+-   <script type="module" src="/src/main.tsx"></script>
++   <script type="module" src="/src/main.tsx"></script>
+    <!-- Vite will transform this tag on build to point at your hashed bundle in dist/assets/ -->
   </body>
 </html>

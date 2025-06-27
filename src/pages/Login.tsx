@@ -1,7 +1,4 @@
-
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+import React from 'react'
 import AppLogo from '@/components/ui/AppLogo'
 import { Button } from '@/components/ui/button'
 import { Sun, Moon } from 'lucide-react'
@@ -10,15 +7,6 @@ import LoginForm from '@/components/auth/LoginForm'
 
 const LoginPage: React.FC = () => {
   const { theme, toggleTheme } = useAppStore()
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Redirect to dashboard if already authenticated
-    if (isAuthenticated) {
-      navigate('/dashboard');
-    }
-  }, [isAuthenticated, navigate]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 py-8 bg-background">

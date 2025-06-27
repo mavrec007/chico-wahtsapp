@@ -24,7 +24,8 @@ import {
   Laptop
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useLanguage } from '@/context/LanguageContext';
+import { useAppStore } from '@/stores/useAppStore';
+import { useTranslation } from 'react-i18next';
 
 interface StyleControlPanelProps {
   isOpen: boolean;
@@ -33,7 +34,9 @@ interface StyleControlPanelProps {
 
 export function StyleControlPanel({ isOpen, onClose }: StyleControlPanelProps) {
   const { theme, setTheme } = useTheme();
-  const { isRTL, t } = useLanguage();
+  const { language } = useAppStore();
+  const isRTL = language === 'ar';
+  const { t } = useTranslation();
   const [sidebarStyle, setSidebarStyle] = useState('modern');
   const [headerStyle, setHeaderStyle] = useState('glass');
   const [colorScheme, setColorScheme] = useState('blue');

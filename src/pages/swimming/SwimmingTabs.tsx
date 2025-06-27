@@ -14,24 +14,24 @@ const SwimmingTabs = () => {
   const [activeTab, setActiveTab] = useState('private');
 
   const tabs = [
-    { 
-      id: 'private', 
-      label: 'حجوزات خاصة', 
-      icon: Users, 
+    {
+      id: 'private',
+      label: t('swimming.tabs.private'),
+      icon: Users,
       component: PrivateBookings,
       color: 'text-blue-600'
     },
-    { 
-      id: 'freetime', 
-      label: 'الأوقات الحرة', 
-      icon: Clock, 
+    {
+      id: 'freetime',
+      label: t('swimming.tabs.freetime'),
+      icon: Clock,
       component: FreeTimeBookings,
       color: 'text-green-600'
     },
-    { 
-      id: 'schools', 
-      label: 'المدارس', 
-      icon: School, 
+    {
+      id: 'schools',
+      label: t('swimming.tabs.schools'),
+      icon: School,
       component: SchoolsBookings,
       color: 'text-purple-600'
     }
@@ -49,10 +49,10 @@ const SwimmingTabs = () => {
         </div>
         <div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-            إدارة حمام السباحة
+            {t('swimming.managePool')}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
-            حمام أولمبي مع تدريب مهني
+            {t('swimming.tagline')}
           </p>
         </div>
       </motion.div>
@@ -60,10 +60,10 @@ const SwimmingTabs = () => {
       <Card className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border-0 shadow-xl">
         <CardHeader>
           <CardTitle className="text-2xl text-gray-900 dark:text-white">
-            أقسام الحجوزات
+            {t('swimming.sectionsTitle')}
           </CardTitle>
           <CardDescription>
-            إدارة جميع أنواع الحجوزات والأنشطة
+            {t('swimming.sectionsDesc')}
           </CardDescription>
         </CardHeader>
         <CardContent>

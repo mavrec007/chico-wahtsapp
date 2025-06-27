@@ -7,7 +7,7 @@ import { useAppStore } from '@/stores/useAppStore';
 import { useAuth } from '@/context/AuthContext';
 import { useLoadingStore } from '@/stores/useLoadingStore';
 import { cn } from '@/lib/utils';
-import { Menu, User, LogOut, Settings, UserCircle, Bell } from 'lucide-react';
+import { Menu, Sun, Moon, Globe, User, LogOut, Settings, UserCircle, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -16,7 +16,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { UnifiedToggle } from '@/components/ui/unified-toggle';
 import { useToast } from '@/hooks/use-toast';
 
 interface TopbarProps {
@@ -24,18 +23,26 @@ interface TopbarProps {
 }
 
 const Topbar: React.FC<TopbarProps> = ({ className }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const {
     toggleSidebar,
+    theme,
+    toggleTheme,
     language,
+    setLanguage,
     setShowAuthModal,
   } = useAppStore();
   
   const { user, logout, isAuthenticated } = useAuth();
   const showLoading = useLoadingStore((state) => state.showLoading);
-  const isRTL = language === 'ar';
+
+  const handleLanguageToggle = () => {
+    const newLang = language === 'en' ? 'ar' : 'en';
+    setLanguage(newLang);
+    i18n.changeLanguage(newLang);
+  };
 
   const handleLogout = async () => {
     showLoading();
@@ -60,9 +67,8 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
   return (
     <motion.header
       className={cn(
-        'sticky top-0 z-30 w-full border-b border-slate-200 dark:border-gray-700',
-        'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-sm',
-        'transition-colors duration-200',
+        'sticky top-0 z-30 w-full border-b border-gray-200 dark:border-gray-700 header-gradient dark:neon-shadow',
+        'shadow-sm',
         className
       )}
       initial={{ y: -100 }}
@@ -76,32 +82,44 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
             size="icon"
             onClick={toggleSidebar}
             className={cn(
-              'rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors',
-              'text-slate-600 dark:text-gray-400',
-              'hover:text-slate-900 dark:hover:text-gray-100'
+              language === 'ar' ? 'ml-auto' : 'mr-auto',
+              'rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors'
             )}
             aria-label="Toggle sidebar"
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-5 h-5 dark:text-fuchsia-400" />
           </Button>
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Unified Theme & Language Toggle */}
-          <UnifiedToggle />
+          {/* Language Switch */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleLanguageToggle}
+            className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
+          >
+            <Globe className="w-4 h-4 dark:text-fuchsia-400" />
+          </Button>
+
+          {/* Theme Switch */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
+          >
+            {theme === 'light' ? <Moon className="w-4 h-4 dark:text-fuchsia-400" /> : <Sun className="w-4 h-4 dark:text-fuchsia-400" />}
+          </Button>
 
           {/* Notifications */}
           <Button
             variant="ghost"
             size="icon"
-            className={cn(
-              'rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors',
-              'text-slate-600 dark:text-gray-400',
-              'hover:text-slate-900 dark:hover:text-gray-100'
-            )}
+            className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
             aria-label="Notifications"
           >
-            <Bell className="w-4 h-4" />
+            <Bell className="w-4 h-4 dark:text-fuchsia-400" />
           </Button>
 
           {/* User Menu */}
@@ -110,22 +128,16 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className={cn(
-                    'flex items-center gap-2 rounded-lg px-2 py-1',
-                    'hover:bg-slate-100 dark:hover:bg-gray-800 transition-colors'
-                  )}
+                  className="flex items-center gap-2 rounded-lg px-2 py-1 backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
                 >
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-violet-600 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                     <User className="w-4 h-4 text-white" />
                   </div>
-                  <div className={cn(
-                    'hidden sm:block',
-                    isRTL ? 'text-left' : 'text-right'
-                  )}>
-                    <p className="text-sm font-medium text-slate-900 dark:text-gray-100">
+                  <div className="hidden sm:block text-right">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
                       {user.name}
                     </p>
-                    <p className="text-xs text-slate-500 dark:text-gray-400">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {user.role === 'admin' ? 'مدير النظام' : user.role === 'manager' ? 'مدير المرافق' : 'مستخدم'}
                     </p>
                   </div>
@@ -133,18 +145,18 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent 
                 align="end" 
-                className="w-56 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 shadow-lg"
+                className="w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
               >
                 <DropdownMenuItem 
                   onClick={handleProfile}
-                  className="flex items-center gap-2 cursor-pointer hover:bg-slate-100 dark:hover:bg-gray-700"
+                  className="flex items-center gap-2 cursor-pointer"
                 >
                   <UserCircle className="w-4 h-4" />
                   <span>الملف الشخصي</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={handleSettings}
-                  className="flex items-center gap-2 cursor-pointer hover:bg-slate-100 dark:hover:bg-gray-700"
+                  className="flex items-center gap-2 cursor-pointer"
                 >
                   <Settings className="w-4 h-4" />
                   <span>الإعدادات</span>
@@ -152,21 +164,15 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
                   onClick={handleLogout}
-                  className="flex items-center gap-2 cursor-pointer text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                  className="flex items-center gap-2 cursor-pointer text-red-600 dark:text-red-400"
                 >
-                  <LogOut className="w-4 w-4" />
+                  <LogOut className="w-4 h-4" />
                   <span>تسجيل الخروج</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button 
-              onClick={() => setShowAuthModal(true)} 
-              className={cn(
-                'bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700',
-                'text-white shadow-lg transition-colors'
-              )}
-            >
+            <Button onClick={() => setShowAuthModal(true)} className="btn-primary">
               <span className="hidden sm:inline">تسجيل الدخول</span>
               <span className="inline sm:hidden"><User className="w-4 h-4" /></span>
             </Button>

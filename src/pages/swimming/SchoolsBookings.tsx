@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Search, Filter, Edit, Trash2, Eye, GraduationCap, Users } from 'lucide-react';
@@ -287,6 +288,7 @@ const SchoolsBookings = () => {
         onCancel={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
         message="هل أنت متأكد من حذف حجز هذه المدرسة؟"
+        itemName={deleteModal.schoolName}
       />
     </div>
   );

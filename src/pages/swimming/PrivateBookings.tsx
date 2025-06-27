@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Search, Filter, Edit, Trash2, Eye } from 'lucide-react';
@@ -266,6 +267,7 @@ const PrivateBookings = () => {
         onCancel={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
         message="هل أنت متأكد من حذف هذا الحجز؟"
+        itemName={deleteModal.clientName}
       />
     </div>
   );

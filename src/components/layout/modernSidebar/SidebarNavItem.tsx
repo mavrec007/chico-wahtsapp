@@ -1,9 +1,13 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { SidebarItem } from './types';
+import { useLoadingStore } from '@/stores/useLoadingStore';
+import { useAppStore } from '@/stores/useAppStore';
 
 interface SidebarNavItemProps {
   item: SidebarItem;
@@ -13,83 +17,110 @@ interface SidebarNavItemProps {
 }
 
 export function SidebarNavItem({ item, isCollapsed, isActive, isRTL }: SidebarNavItemProps) {
-  const Icon = item.icon;
+  const { t } = useTranslation();
+  const showLoading = useLoadingStore((state) => state.showLoading);
+  const { setSidebarOpen } = useAppStore();
 
-  return (
+  const NavItemContent = (
     <motion.div
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.15 }}
+      className={cn(
+        'flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition-all duration-200 relative group',
+        'hover:bg-sidebar-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-primary',
+        isActive 
+          ? 'bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-sidebar-primary/20' 
+          : 'text-sidebar-foreground hover:text-sidebar-primary',
+        isCollapsed && 'lg:justify-center lg:px-2'
+      )}
     >
-      <NavLink
-        to={item.href}
-        className={cn(
-          'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200',
-          'group relative overflow-hidden',
-          {
-            // Active styles
-            'bg-blue-500 text-white shadow-lg shadow-blue-500/25': isActive,
-            'hover:bg-blue-400': isActive,
-            
-            // Inactive styles
-            'text-slate-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-gray-800': !isActive,
-            'hover:text-slate-900 dark:hover:text-gray-100': !isActive,
-            
-            // Collapsed styles
-            'justify-center px-2': isCollapsed,
-            'justify-start': !isCollapsed,
-          }
-        )}
-      >
-        {/* Background gradient for active state */}
-        {isActive && (
-          <motion.div
-            layoutId="activeBackground"
-            className="absolute inset-0 bg-gradient-to-r from-blue-500 to-violet-500 rounded-xl"
-            initial={false}
-            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-          />
-        )}
+      {/* Icon */}
+      <div className={cn(
+        'flex-shrink-0 transition-colors duration-200',
+        isActive && 'text-sidebar-primary-foreground'
+      )}>
+        <item.icon 
+          className={cn(
+            'transition-all duration-200',
+            isCollapsed ? 'h-5 w-5' : 'h-5 w-5'
+          )} 
+        />
+      </div>
 
-        {/* Icon */}
-        <div className="relative z-10">
-          <Icon 
-            className={cn(
-              'w-5 h-5 transition-colors duration-200',
-              isActive ? 'text-white' : 'text-slate-600 dark:text-gray-400 group-hover:text-slate-900 dark:group-hover:text-gray-100'
-            )} 
-          />
+      {/* Label */}
+      {!isCollapsed && (
+        <span className={cn(
+          'truncate transition-all duration-200',
+          isRTL ? 'text-right' : 'text-left'
+        )}>
+          {t(item.label)}
+        </span>
+      )}
+
+      {/* Badge */}
+      {!isCollapsed && item.badge && (
+        <div className={cn(
+          'ml-auto flex-shrink-0',
+          isRTL && 'mr-auto ml-0'
+        )}>
+          <div className={cn(
+            'px-2 py-0.5 text-xs font-medium rounded-full',
+            isActive 
+              ? 'bg-sidebar-primary-foreground/20 text-sidebar-primary-foreground'
+              : 'bg-sidebar-accent text-sidebar-accent-foreground'
+          )}>
+            {item.badge}
+          </div>
         </div>
+      )}
 
-        {/* Label */}
-        {!isCollapsed && (
-          <motion.span
-            initial={{ opacity: 0, x: isRTL ? 10 : -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: isRTL ? 10 : -10 }}
-            transition={{ duration: 0.2 }}
-            className={cn(
-              'relative z-10 font-medium text-sm',
-              isActive ? 'text-white' : 'group-hover:text-slate-900 dark:group-hover:text-gray-100'
-            )}
-          >
-            {item.label}
-          </motion.span>
-        )}
-
-        {/* Active indicator */}
-        {isActive && (
-          <motion.div
-            layoutId="activeIndicator"
-            className={cn(
-              'absolute w-1 h-8 bg-white rounded-full',
-              isRTL ? 'left-1' : 'right-1'
-            )}
-            initial={false}
-            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-          />
-        )}
-      </NavLink>
+      {/* Active Indicator */}
+      {isActive && (
+        <motion.div
+          layoutId="activeIndicator"
+          className={cn(
+            'absolute inset-0 bg-gradient-to-r from-sidebar-primary to-sidebar-primary/80 rounded-xl -z-10',
+            'shadow-lg shadow-sidebar-primary/20'
+          )}
+          initial={false}
+          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        />
+      )}
     </motion.div>
   );
+
+  const navLink = (
+    <NavLink
+      to={item.href}
+      onClick={() => {
+        showLoading();
+        setSidebarOpen(false);
+      }}
+      className="block"
+      aria-label={t(item.label)}
+    >
+      {NavItemContent}
+    </NavLink>
+  );
+
+  // Wrap with tooltip for collapsed state
+  if (isCollapsed) {
+    return (
+      <TooltipProvider>
+        <Tooltip delayDuration={100}>
+          <TooltipTrigger asChild>
+            {navLink}
+          </TooltipTrigger>
+          <TooltipContent 
+            side={isRTL ? "left" : "right"} 
+            className="font-medium"
+          >
+            {t(item.label)}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
+  return navLink;
 }

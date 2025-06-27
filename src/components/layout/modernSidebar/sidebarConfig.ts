@@ -1,133 +1,69 @@
 
-import { 
-  LayoutDashboard, 
-  Activity, 
-  Users, 
-  UserCheck, 
-  Building2, 
-  CreditCard, 
-  UserCog, 
-  BarChart3, 
+import {
+  LayoutDashboard,
+  Users,
+  Shield,
   Settings,
-  Trophy,
-  Calendar
+  MapPin,
+  CreditCard,
+  User,
+  UserCheck,
+  School,
+  Clock,
+  GraduationCap,
+  DollarSign
 } from 'lucide-react';
-
-export interface SidebarItem {
-  id: string;
-  label: string;
-  labelAr: string;
-  icon: any;
-  href: string;
-  badge?: string;
-  children?: SidebarItem[];
-}
-
-export interface SidebarGroup {
-  id: string;
-  label: string;
-  labelAr: string;
-  items: SidebarItem[];
-}
 
 export const sidebarConfig = {
   groups: [
     {
-      id: 'main',
-      label: 'Main',
-      labelAr: 'الرئيسية',
+      label: 'لوحة التحكم',
       items: [
         {
-          id: 'dashboard',
-          label: 'Dashboard',
-          labelAr: 'لوحة التحكم',
+          href: '/dashboard',
+          label: 'لوحة التحكم',
           icon: LayoutDashboard,
-          href: '/dashboard'
-        },
-        {
-          id: 'sports-overview',
-          label: 'Sports Overview',
-          labelAr: 'نظرة عامة على الرياضات',
-          icon: Trophy,
-          href: '/sports-overview'
+          badge: null
         }
       ]
     },
     {
-      id: 'management',
-      label: 'Management',
-      labelAr: 'الإدارة',
+      label: 'السباحة',
       items: [
-        {
-          id: 'bookings',
-          label: 'Bookings',
-          labelAr: 'الحجوزات',
-          icon: Calendar,
-          href: '/bookings'
-        },
-        {
-          id: 'coaches',
-          label: 'Coaches',
-          labelAr: 'المدربين',
-          icon: UserCheck,
-          href: '/coaches'
-        },
-        {
-          id: 'players',
-          label: 'Players',
-          labelAr: 'اللاعبين',
-          icon: Users,
-          href: '/players'
-        },
-        {
-          id: 'facilities',
-          label: 'Facilities',
-          labelAr: 'المرافق',
-          icon: Building2,
-          href: '/facilities'
-        },
-        {
-          id: 'payments',
-          label: 'Payments',
-          labelAr: 'المدفوعات',
-          icon: CreditCard,
-          href: '/payments'
-        },
-        {
-          id: 'coach-assignments',
-          label: 'Coach Assignments',
-          labelAr: 'تعيين المدربين',
-          icon: UserCog,
-          href: '/coach-assignments'
-        }
+        { href: '/swimming/schools', label: 'المدارس', icon: School, badge: null },
+        { href: '/swimming/private', label: 'البرايفيت', icon: Users, badge: null },
+        { href: '/swimming/free-time', label: 'الفترة الحرة', icon: Clock, badge: null }
       ]
     },
     {
-      id: 'analytics',
-      label: 'Analytics',
-      labelAr: 'التحليلات',
+      label: 'كرة القدم',
       items: [
-        {
-          id: 'reports',
-          label: 'Reports',
-          labelAr: 'التقارير',
-          icon: BarChart3,
-          href: '/reports'
-        }
+        { href: '/football/academy', label: 'الأكاديمية', icon: GraduationCap, badge: null },
+        { href: '/football/schools', label: 'المدارس', icon: School, badge: null },
+        { href: '/football/fields', label: 'إدارة الملاعب', icon: MapPin, badge: null }
       ]
     },
     {
-      id: 'system',
-      label: 'System',
-      labelAr: 'النظام',
+      label: 'العملاء والأفراد',
       items: [
-        {
-          id: 'settings',
-          label: 'Settings',
-          labelAr: 'الإعدادات',
-          icon: Settings,
-          href: '/settings'
-        }
+        { href: '/clients', label: 'العملاء', icon: Users, badge: null },
+        { href: '/coaches', label: 'المدربين', icon: UserCheck, badge: null },
+        { href: '/players', label: 'اللاعبين', icon: User, badge: null }
+      ]
+    },
+    {
+      label: 'التطبيق',
+      items: [
+        { href: '/settings', label: 'الإعدادات', icon: Settings, badge: null },
+        { href: '/roles', label: 'الصلاحيات والأدوار', icon: Shield, badge: null },
+        { href: '/users', label: 'المستخدمين', icon: User, badge: null }
+      ]
+    },
+    {
+      label: 'الشؤون المالية',
+      items: [
+        { href: '/finance/collections', label: 'التحصيل', icon: CreditCard, badge: null },
+        { href: '/finance/pricing', label: 'تسعير الخدمات', icon: DollarSign, badge: null }
       ]
     }
   ]

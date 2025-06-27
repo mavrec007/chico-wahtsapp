@@ -2,6 +2,7 @@
 import React, { Suspense } from 'react';
 import App from './App';
 
+// Auth Components
 const LoadingOverlay = React.lazy(() => import('./components/LoadingOverlay'));
 const RouteChangeListener = React.lazy(() => import('./components/RouteChangeListener'));
 const AuthForms = React.lazy(() => import('./components/auth/AuthForms'));
@@ -9,16 +10,24 @@ const AuthModal = React.lazy(() => import('./components/auth/AuthModal'));
 const LoginForm = React.lazy(() => import('./components/auth/LoginForm'));
 const ProtectedRoute = React.lazy(() => import('./components/auth/ProtectedRoute'));
 const RegisterForm = React.lazy(() => import('./components/auth/RegisterForm'));
+
+// Booking Components
 const BookingModal = React.lazy(() => import('./components/bookings/BookingModal'));
 const BookingsManagement = React.lazy(() => import('./components/bookings/BookingsManagement'));
+
+// Facility Components
 const FacilitiesManagement = React.lazy(() => import('./components/facilities/FacilitiesManagement'));
 const FacilityModal = React.lazy(() => import('./components/facilities/FacilityModal'));
+
+// Form Components
 const ActivityForm = React.lazy(() => import('./components/forms/ActivityForm'));
 const BookingForm = React.lazy(() => import('./components/forms/BookingForm'));
 const ClientForm = React.lazy(() => import('./components/forms/ClientForm'));
 const CoachForm = React.lazy(() => import('./components/forms/CoachForm'));
 const ConfirmDeleteModal = React.lazy(() => import('./components/forms/ConfirmDeleteModal'));
 const PlayerForm = React.lazy(() => import('./components/forms/PlayerForm'));
+
+// Landing Components
 const About = React.lazy(() => import('./components/landing/About'));
 const Contact = React.lazy(() => import('./components/landing/Contact'));
 const Features = React.lazy(() => import('./components/landing/Features'));
@@ -26,6 +35,8 @@ const Footer = React.lazy(() => import('./components/landing/Footer'));
 const Hero = React.lazy(() => import('./components/landing/Hero'));
 const Navigation = React.lazy(() => import('./components/landing/Navigation'));
 const Stats = React.lazy(() => import('./components/landing/Stats'));
+
+// Layout Components
 const ContextCard = React.lazy(() => import('./components/layout/ContextCard'));
 const DashboardLayout = React.lazy(() => import('./components/layout/DashboardLayout'));
 const Layout = React.lazy(() => import('./components/layout/Layout'));
@@ -35,13 +46,21 @@ const Sidebar = React.lazy(() => import('./components/layout/Sidebar'));
 const SidebarProvider = React.lazy(() => import('./components/layout/SidebarProvider'));
 const SidebarRail = React.lazy(() => import('./components/layout/SidebarRail'));
 const Topbar = React.lazy(() => import('./components/layout/Topbar'));
+
+// Modern Sidebar Components
 const ModernSidebar = React.lazy(() => import('./components/layout/modernSidebar/ModernSidebar'));
 const SidebarHeader = React.lazy(() => import('./components/layout/modernSidebar/SidebarHeader'));
 const SidebarNavGroup = React.lazy(() => import('./components/layout/modernSidebar/SidebarNavGroup'));
 const SidebarNavItem = React.lazy(() => import('./components/layout/modernSidebar/SidebarNavItem'));
 const SidebarConfig = React.lazy(() => import('./components/layout/modernSidebar/sidebarConfig'));
+
+// Modal Components
 const AppointmentModal = React.lazy(() => import('./components/modals/AppointmentModal'));
+
+// Panel Components
 const StyleControlPanel = React.lazy(() => import('./components/panels/StyleControlPanel'));
+
+// UI Components
 const AppLogo = React.lazy(() => import('./components/ui/AppLogo'));
 const Accordion = React.lazy(() => import('./components/ui/accordion'));
 const AlertDialog = React.lazy(() => import('./components/ui/alert-dialog'));
@@ -92,6 +111,8 @@ const ToggleGroup = React.lazy(() => import('./components/ui/toggle-group'));
 const Toggle = React.lazy(() => import('./components/ui/toggle'));
 const Tooltip = React.lazy(() => import('./components/ui/tooltip'));
 const UseToast = React.lazy(() => import('./components/ui/use-toast'));
+
+// Page Components
 const Activities = React.lazy(() => import('./pages/Activities'));
 const Bookings = React.lazy(() => import('./pages/Bookings'));
 const Clients = React.lazy(() => import('./pages/Clients'));
@@ -109,8 +130,12 @@ const Settings = React.lazy(() => import('./pages/Settings'));
 const Swimming = React.lazy(() => import('./pages/Swimming'));
 const Users = React.lazy(() => import('./pages/Users'));
 const SportsOverview = React.lazy(() => import('./pages/SportsOverview'));
+
+// Admin Pages
 const BookingsPage = React.lazy(() => import('./pages/admin/BookingsPage'));
 const FacilitiesPage = React.lazy(() => import('./pages/admin/FacilitiesPage'));
+
+// Specific Page Components
 const BookingList = React.lazy(() => import('./pages/bookings/BookingList'));
 const ClientList = React.lazy(() => import('./pages/clients/ClientList'));
 const Collections = React.lazy(() => import('./pages/finance/Collections'));
@@ -124,6 +149,8 @@ const PrivateBookings = React.lazy(() => import('./pages/swimming/PrivateBooking
 const SchoolsBookings = React.lazy(() => import('./pages/swimming/SchoolsBookings'));
 const SwimmingTabs = React.lazy(() => import('./pages/swimming/SwimmingTabs'));
 const UserList = React.lazy(() => import('./pages/users/UserList'));
+
+// Module Components
 const SwimmingDashboard = React.lazy(() => import('./modules/swimming/components/SwimmingDashboard'));
 const FootballDashboard = React.lazy(() => import('./modules/football/components/FootballDashboard'));
 const FieldsDashboard = React.lazy(() => import('./modules/fields/components/FieldsDashboard'));
@@ -140,6 +167,7 @@ function LazyApp() {
 }
 
 export default LazyApp;
+
 export { 
   LoadingOverlay, 
   RouteChangeListener, 

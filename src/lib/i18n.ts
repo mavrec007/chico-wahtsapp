@@ -1,407 +1,265 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+// Import translation files
+import sportsAr from '@/translations/sports-ar.json';
+import departmentsAr from '@/translations/departments-ar.json';
+
 const resources = {
   en: {
     translation: {
+      // Navigation
+      navigation: {
+        main: 'Main Navigation',
+        mainNavigation: 'Main Navigation',
+        closeSidebar: 'Close Sidebar'
+      },
+      
       // App info
-      'app.name': 'Sports Hub',
-      'app.tagline': 'Sports Management System',
-      'app.version': 'Version',
-      
-      // Navigation groups
-      'navigation.main': 'Main',
-      'navigation.activities': 'Activities',
-      'navigation.management': 'Management', 
-      'navigation.system': 'System',
-      'navigation.mainNavigation': 'Main Navigation',
-      'navigation.closeSidebar': 'Close Sidebar',
-      
-      // Navigation items
-      dashboard: "Dashboard",
-      bookings: "Bookings",
-      activities: "Activities",
-      users: "Users",
-      roles: "Roles",
-      reports: "Reports",
-      settings: "Settings",
-      clients: "Clients",
-      
-      // Actions
-      login: "Login",
-      register: "Register",
-      logout: "Logout",
-      save: "Save",
-      saving: "Saving...",
-      cancel: "Cancel",
-      edit: "Edit",
-      delete: "Delete",
-      search: "Search",
-      filter: "Filter",
-      add: "Add",
-      create: "Create",
-      update: "Update",
-      confirm: "Confirm",
-      actions: "Actions",
-      
-      // Common
-      welcome: "Welcome",
-      loading: "Loading...",
-      error: "Error occurred",
-      success: "Success",
-      name: "Name",
-      email: "Email",
-      phone: "Phone",
-      address: "Address",
-      notes: "Notes",
-      status: "Status",
-      created_at: "Created At",
-      updated_at: "Updated At",
-      
+      app: {
+        name: 'Sports Center',
+        version: 'Version'
+      },
+
       // Dashboard
-      totalBookings: "Total Bookings",
-      activeUsers: "Active Users",
-      revenue: "Revenue",
+      dashboard: {
+        title: 'Dashboard',
+        goodMorning: 'Good Morning',
+        goodAfternoon: 'Good Afternoon', 
+        goodEvening: 'Good Evening',
+        analyticsTitle: 'Welcome to Analytics',
+        analyticsSubtitle: 'Here is your sports center overview',
+        filter: 'Filter',
+        exportReport: 'Export Report',
+        
+        // Stats
+        monthlyBookingsTrend: 'Monthly Bookings Trend',
+        bookingVolumeDesc: 'Booking volume over the past 6 months',
+        revenueVsTarget: 'Revenue vs Target',
+        revenuePerformanceDesc: 'Revenue performance against targets',
+        activityDistribution: 'Activity Distribution',
+        bookingDistributionDesc: 'Distribution of bookings by activity type',
+        weeklyUsagePattern: 'Weekly Usage Pattern',
+        usagePatternDesc: 'Usage patterns throughout the week'
+      },
+
+      // Common terms
+      common: {
+        save: 'Save',
+        cancel: 'Cancel',
+        edit: 'Edit',
+        delete: 'Delete',
+        search: 'Search',
+        add: 'Add',
+        remove: 'Remove',
+        loading: 'Loading...',
+        saving: 'Saving...',
+        success: 'Success',
+        error: 'Error',
+        warning: 'Warning',
+        info: 'Information',
+        confirm: 'Confirm',
+        yes: 'Yes',
+        no: 'No',
+        ok: 'OK',
+        back: 'Back',
+        next: 'Next',
+        previous: 'Previous',
+        submit: 'Submit',
+        reset: 'Reset',
+        clear: 'Clear',
+        close: 'Close',
+        open: 'Open',
+        show: 'Show',
+        hide: 'Hide',
+        expand: 'Expand',
+        collapse: 'Collapse',
+        select: 'Select',
+        deselect: 'Deselect',
+        all: 'All',
+        none: 'None',
+        other: 'Other',
+        unknown: 'Unknown',
+        notAvailable: 'Not Available',
+        notApplicable: 'Not Applicable',
+        todayBookings: 'Today\'s Bookings',
+        activeTrainers: 'Active Trainers',
+        revenue: 'Revenue',
+        viewDetails: 'View Details',
+        fromLastMonth: 'from last month',
+        comingSoon: 'Coming Soon'
+      },
+
+      // Sports
+      sports: sportsAr,
+
+      // Departments 
+      ...departmentsAr,
+
+      // Forms
+      forms: {
+        required: 'This field is required',
+        invalidEmail: 'Invalid email address',
+        invalidPhone: 'Invalid phone number',
+        minLength: 'Minimum length is {{min}} characters',
+        maxLength: 'Maximum length is {{max}} characters'
+      },
+
+      // Activities
+      swimming: 'Swimming',
+      football: 'Football',
+      basketball: 'Basketball',
+      tennis: 'Tennis',
       
       // Bookings
-      newBooking: "New Booking",
-      bookingStatus: "Status",
-      pending: "Pending",
-      confirmed: "Confirmed",
-      cancelled: "Cancelled",
-      bookingDate: "Booking Date",
-      activityType: "Activity Type",
-      booking_time: "Booking Time",
-      duration_hours: "Duration (Hours)",
-      duration_minutes: "Duration (Minutes)",
-      client_name: "Client Name",
-      date_time: "Date & Time",
-      duration: "Duration",
-      search_bookings: "Search bookings...",
-      edit_booking: "Edit Booking",
-      booking_deleted_successfully: "Booking deleted successfully",
-      are_you_sure_delete_booking: "Are you sure you want to delete this booking?",
-      enter_client_name: "Enter client name",
-      select_activity: "Select activity",
-      select_status: "Select status",
-      enter_notes: "Enter notes (optional)",
+      bookings: 'Bookings',
+      booking: 'Booking',
+      newBooking: 'New Booking',
+      editBooking: 'Edit Booking',
       
-      // Activities
-      swimming: "Swimming",
-      football: "Football",
-      basketball: "Basketball",
-      tennis: "Tennis",
-      field_sports: "Field Sports",
-      activity_name: "Activity Name",
-      activity_type: "Activity Type",
-      category: "Category",
-      capacity: "Capacity",
-      price: "Price",
-      description: "Description",
-      requirements: "Requirements",
-      add_activity: "Add Activity",
-      edit_activity: "Edit Activity",
-      enter_activity_name: "Enter activity name",
-      select_type: "Select type",
-      enter_category: "Enter category",
-      enter_description: "Enter description",
-      enter_requirements: "Enter requirements (optional)",
+      // Users and roles
+      users: 'Users',
+      clients: 'Clients',
+      coaches: 'Coaches',
+      players: 'Players',
+      roles: 'Roles',
       
-      // Clients
-      add_client: "Add Client",
-      edit_client: "Edit Client",
-      search_clients: "Search clients...",
-      full_name: "Full Name",
-      date_of_birth: "Date of Birth",
-      gender: "Gender",
-      male: "Male",
-      female: "Female",
-      emergency_contact: "Emergency Contact",
-      client_deleted_successfully: "Client deleted successfully",
-      are_you_sure_delete_client: "Are you sure you want to delete this client?",
-      enter_full_name: "Enter full name",
-      enter_email: "Enter email",
-      enter_phone: "Enter phone number",
-      select_gender: "Select gender",
-      enter_address: "Enter address",
-      enter_emergency_contact: "Enter emergency contact",
+      // Settings
+      settings: 'Settings',
       
-      // Delete Confirmation
-      confirm_delete: "Confirm Delete",
-      delete_confirmation_message: "This action cannot be undone. Are you sure you want to proceed?",
-      
-      // Auth
-      loginTitle: "Sign in to your account",
-      registerTitle: "Create new account",
-      password: "Password",
-      forgotPassword: "Forgot password?",
-      noAccount: "Don't have an account?",
-      haveAccount: "Already have an account?",
-      
-      // Theme
-      lightMode: "Light Mode",
-      darkMode: "Dark Mode",
-      language: "Language",
-
-      // Admin Dashboard
-      'dashboard.totalBookings': 'Total Bookings',
-      'dashboard.activeMembers': 'Active Members',
-      'dashboard.monthlyRevenue': 'Monthly Revenue',
-      'dashboard.occupancyRate': 'Occupancy Rate',
-      'dashboard.monthlyBookingsTrend': 'Monthly Bookings Trend',
-      'dashboard.bookingVolumeDesc': 'Booking volume over the last 6 months',
-      'dashboard.revenueVsTarget': 'Revenue vs Target',
-      'dashboard.revenuePerformanceDesc': 'Monthly revenue performance against targets',
-      'dashboard.activityDistribution': 'Activity Distribution',
-      'dashboard.bookingDistributionDesc': 'Booking distribution by sport type',
-      'dashboard.weeklyUsagePattern': 'Weekly Usage Pattern',
-      'dashboard.usagePatternDesc': 'Hourly booking patterns throughout the week',
-      'dashboard.exportReport': 'Export Report',
-      'dashboard.filter': 'Filter',
-      'dashboard.morning': 'Morning',
-      'dashboard.afternoon': 'Afternoon',
-      'dashboard.evening': 'Evening',
-
-      // Style Panel
-      'stylePanel.title': 'Style Control Panel',
-      'stylePanel.description': 'Customize the appearance and layout',
-      'stylePanel.theme': 'Theme',
-      'stylePanel.colors': 'Colors',
-      'stylePanel.sidebar': 'Sidebar',
-      'stylePanel.layout': 'Layout',
-      'stylePanel.themeMode': 'Theme Mode',
-      'stylePanel.themeModeDesc': 'Choose light, dark or system',
-      'stylePanel.light': 'Light',
-      'stylePanel.dark': 'Dark',
-      'stylePanel.system': 'System',
-      'stylePanel.colorScheme': 'Color Scheme',
-      'stylePanel.colorSchemeDesc': 'Select color palette',
-      'stylePanel.sidebarStyle': 'Sidebar Style',
-      'stylePanel.sidebarStyleDesc': 'Customize sidebar look',
-      'stylePanel.headerStyle': 'Header Style',
-      'stylePanel.headerStyleDesc': 'Customize header look',
-      'stylePanel.layoutOptions': 'Layout Options',
-      'stylePanel.compactMode': 'Compact Mode',
-      'stylePanel.compactModeDesc': 'Reduce spacing and padding',
-      'stylePanel.animations': 'Animations',
-      'stylePanel.animationsDesc': 'Enable smooth animations',
-      'stylePanel.blurEffects': 'Blur Effects',
-      'stylePanel.blurEffectsDesc': 'Enable backdrop blur effects',
-      'stylePanel.resetToDefault': 'Reset to Default',
-
-      // Football
-      'football.manageFields': 'Manage Fields',
-      'football.dummyContent': 'Placeholder content for fields.',
-
-      // Swimming
-      'swimming.managePool': 'Swimming Management',
-      'swimming.tagline': 'Olympic pool with professional training',
-      'swimming.sectionsTitle': 'Booking Sections',
-      'swimming.sectionsDesc': 'Manage all booking types and activities',
-      'swimming.tabs.private': 'Private Bookings',
-      'swimming.tabs.freetime': 'Free Time',
-      'swimming.tabs.schools': 'Schools',
+      // Other
+      activities: 'Activities',
+      reports: 'Reports',
+      payments: 'Payments',
+      fields: 'Fields'
     }
   },
   ar: {
     translation: {
+      // Navigation
+      navigation: {
+        main: 'التنقل الرئيسي',
+        mainNavigation: 'التنقل الرئيسي',
+        closeSidebar: 'إغلاق الشريط الجانبي'
+      },
+      
       // App info
-      'app.name': 'سبورتس هَب',
-      'app.tagline': 'نظام إدارة المرافق الرياضية',
-      'app.version': 'الإصدار',
-      
-      // Navigation groups
-      'navigation.main': 'الرئيسية',
-      'navigation.activities': 'الأنشطة',
-      'navigation.management': 'الإدارة',
-      'navigation.system': 'النظام',
-      'navigation.mainNavigation': 'التنقل الرئيسي',
-      'navigation.closeSidebar': 'إغلاق الشريط الجانبي',
-      
-      // Navigation items
-      dashboard: "لوحة التحكم",
-      bookings: "الحجوزات",
-      activities: "الأنشطة",
-      users: "المستخدمين",
-      roles: "الأدوار",
-      reports: "التقارير",
-      settings: "الإعدادات",
-      clients: "العملاء",
-      
-      // Actions
-      login: "تسجيل الدخول",
-      register: "إنشاء حساب",
-      logout: "تسجيل الخروج",
-      save: "حفظ",
-      saving: "جاري الحفظ...",
-      cancel: "إلغاء",
-      edit: "تعديل",
-      delete: "حذف",
-      search: "بحث",
-      filter: "تصفية",
-      add: "إضافة",
-      create: "إنشاء",
-      update: "تحديث",
-      confirm: "تأكيد",
-      actions: "الإجراءات",
-      
-      // Common
-      welcome: "مرحباً",
-      loading: "جاري التحميل...",
-      error: "حدث خطأ",
-      success: "نجح",
-      name: "الاسم",
-      email: "البريد الإلكتروني",
-      phone: "الهاتف",
-      address: "العنوان",
-      notes: "ملاحظات",
-      status: "الحالة",
-      created_at: "تاريخ الإنشاء",
-      updated_at: "تاريخ التحديث",
-      
+      app: {
+        name: 'المركز الرياضي',
+        version: 'الإصدار'
+      },
+
       // Dashboard
-      totalBookings: "إجمالي الحجوزات",
-      activeUsers: "المستخدمين النشطين",
-      revenue: "الإيرادات",
+      dashboard: {
+        title: 'لوحة التحكم',
+        goodMorning: 'صباح الخير',
+        goodAfternoon: 'مساء الخير',
+        goodEvening: 'مساء الخير',
+        analyticsTitle: 'مرحباً بك في التحليلات',
+        analyticsSubtitle: 'هنا نظرة عامة على مركزك الرياضي',
+        filter: 'تصفية',
+        exportReport: 'تصدير التقرير',
+        
+        // Stats
+        monthlyBookingsTrend: 'اتجاه الحجوزات الشهرية',
+        bookingVolumeDesc: 'حجم الحجوزات خلال الأشهر الستة الماضية',
+        revenueVsTarget: 'الإيرادات مقابل الهدف',
+        revenuePerformanceDesc: 'أداء الإيرادات مقابل الأهداف',
+        activityDistribution: 'توزيع الأنشطة',
+        bookingDistributionDesc: 'توزيع الحجوزات حسب نوع النشاط',
+        weeklyUsagePattern: 'نمط الاستخدام الأسبوعي',
+        usagePatternDesc: 'أنماط الاستخدام خلال الأسبوع'
+      },
+
+      // Common terms
+      common: {
+        save: 'حفظ',
+        cancel: 'إلغاء',
+        edit: 'تحرير',
+        delete: 'حذف',
+        search: 'بحث',
+        add: 'إضافة',
+        remove: 'إزالة',
+        loading: 'جاري التحميل...',
+        saving: 'جاري الحفظ...',
+        success: 'نجح',
+        error: 'خطأ',
+        warning: 'تحذير',
+        info: 'معلومات',
+        confirm: 'تأكيد',
+        yes: 'نعم',
+        no: 'لا',
+        ok: 'موافق',
+        back: 'رجوع',
+        next: 'التالي',
+        previous: 'السابق',
+        submit: 'إرسال',
+        reset: 'إعادة تعيين',
+        clear: 'مسح',
+        close: 'إغلاق',
+        open: 'فتح',
+        show: 'عرض',
+        hide: 'إخفاء',
+        expand: 'توسيع',
+        collapse: 'طي',
+        select: 'اختيار',
+        deselect: 'إلغاء الاختيار',
+        all: 'الكل',
+        none: 'لا شيء',
+        other: 'أخرى',
+        unknown: 'غير معروف',
+        notAvailable: 'غير متاح',
+        notApplicable: 'غير قابل للتطبيق',
+        todayBookings: 'حجوزات اليوم',
+        activeTrainers: 'المدربين النشطين',
+        revenue: 'الإيرادات',
+        viewDetails: 'عرض التفاصيل',
+        fromLastMonth: 'من الشهر الماضي',
+        comingSoon: 'قريباً'
+      },
+
+      // Sports
+      sports: sportsAr,
+
+      // Departments
+      ...departmentsAr,
+
+      // Forms
+      forms: {
+        required: 'هذا الحقل مطلوب',
+        invalidEmail: 'عنوان بريد إلكتروني غير صحيح',
+        invalidPhone: 'رقم هاتف غير صحيح',
+        minLength: 'الحد الأدنى للطول هو {{min}} أحرف',
+        maxLength: 'الحد الأقصى للطول هو {{max}} أحرف'
+      },
+
+      // Activities
+      swimming: 'السباحة',
+      football: 'كرة القدم',
+      basketball: 'كرة السلة',
+      tennis: 'التنس',
       
       // Bookings
-      newBooking: "حجز جديد",
-      bookingStatus: "الحالة",
-      pending: "في الانتظار",
-      confirmed: "مؤكد",
-      cancelled: "ملغي",
-      bookingDate: "تاريخ الحجز",
-      activityType: "نوع النشاط",
-      booking_time: "وقت الحجز",
-      duration_hours: "المدة (ساعات)",
-      duration_minutes: "المدة (دقائق)",
-      client_name: "اسم العميل",
-      date_time: "التاريخ والوقت",
-      duration: "المدة",
-      search_bookings: "البحث في الحجوزات...",
-      edit_booking: "تعديل الحجز",
-      booking_deleted_successfully: "تم حذف الحجز بنجاح",
-      are_you_sure_delete_booking: "هل أنت متأكد من حذف هذا الحجز؟",
-      enter_client_name: "أدخل اسم العميل",
-      select_activity: "اختر النشاط",
-      select_status: "اختر الحالة",
-      enter_notes: "أدخل الملاحظات (اختياري)",
+      bookings: 'الحجوزات',
+      booking: 'حجز',
+      newBooking: 'حجز جديد',
+      editBooking: 'تعديل الحجز',
       
-      // Activities
-      swimming: "السباحة",
-      football: "كرة القدم",
-      basketball: "كرة السلة",
-      tennis: "التنس",
-      field_sports: "الرياضات الميدانية",
-      activity_name: "اسم النشاط",
-      activity_type: "نوع النشاط",
-      category: "الفئة",
-      capacity: "السعة",
-      price: "السعر",
-      description: "الوصف",
-      requirements: "المتطلبات",
-      add_activity: "إضافة نشاط",
-      edit_activity: "تعديل النشاط",
-      enter_activity_name: "أدخل اسم النشاط",
-      select_type: "اختر النوع",
-      enter_category: "أدخل الفئة",
-      enter_description: "أدخل الوصف",
-      enter_requirements: "أدخل المتطلبات (اختياري)",
+      // Users and roles
+      users: 'المستخدمين',
+      clients: 'العملاء',
+      coaches: 'المدربين',
+      players: 'اللاعبين',
+      roles: 'الأدوار',
       
-      // Clients
-      add_client: "إضافة عميل",
-      edit_client: "تعديل العميل",
-      search_clients: "البحث في العملاء...",
-      full_name: "الاسم الكامل",
-      date_of_birth: "تاريخ الميلاد",
-      gender: "الجنس",
-      male: "ذكر",
-      female: "أنثى",
-      emergency_contact: "جهة الاتصال في الطوارئ",
-      client_deleted_successfully: "تم حذف العميل بنجاح",
-      are_you_sure_delete_client: "هل أنت متأكد من حذف هذا العميل؟",
-      enter_full_name: "أدخل الاسم الكامل",
-      enter_email: "أدخل البريد الإلكتروني",
-      enter_phone: "أدخل رقم الهاتف",
-      select_gender: "اختر الجنس",
-      enter_address: "أدخل العنوان",
-      enter_emergency_contact: "أدخل جهة الاتصال في الطوارئ",
+      // Settings
+      settings: 'الإعدادات',
       
-      // Delete Confirmation
-      confirm_delete: "تأكيد الحذف",
-      delete_confirmation_message: "لا يمكن التراجع عن هذا الإجراء. هل أنت متأكد من المتابعة؟",
-      
-      // Auth
-      loginTitle: "تسجيل الدخول إلى حسابك",
-      registerTitle: "إنشاء حساب جديد",
-      password: "كلمة المرور",
-      forgotPassword: "نسيت كلمة المرور؟",
-      noAccount: "لا تملك حساب؟",
-      haveAccount: "تملك حساب بالفعل؟",
-      
-      // Theme
-      lightMode: "الوضع الفاتح",
-      darkMode: "الوضع المظلم",
-      language: "اللغة",
-
-      // Admin Dashboard
-      'dashboard.totalBookings': 'إجمالي الحجوزات',
-      'dashboard.activeMembers': 'الأعضاء النشطون',
-      'dashboard.monthlyRevenue': 'الإيرادات الشهرية',
-      'dashboard.occupancyRate': 'معدل الإشغال',
-      'dashboard.monthlyBookingsTrend': 'اتجاه الحجوزات الشهري',
-      'dashboard.bookingVolumeDesc': 'حجم الحجوزات خلال آخر 6 أشهر',
-      'dashboard.revenueVsTarget': 'الإيرادات مقابل الهدف',
-      'dashboard.revenuePerformanceDesc': 'أداء الإيرادات الشهرية مقابل الأهداف',
-      'dashboard.activityDistribution': 'توزيع الأنشطة',
-      'dashboard.bookingDistributionDesc': 'توزيع الحجوزات حسب نوع الرياضة',
-      'dashboard.weeklyUsagePattern': 'نمط الاستخدام الأسبوعي',
-      'dashboard.usagePatternDesc': 'أنماط الحجز حسب ساعات اليوم',
-      'dashboard.exportReport': 'تصدير التقرير',
-      'dashboard.filter': 'تصفية',
-      'dashboard.morning': 'صباحي',
-      'dashboard.afternoon': 'مسائي',
-      'dashboard.evening': 'ليلي',
-
-      // Style Panel
-      'stylePanel.title': 'لوحة تحكم الأسلوب',
-      'stylePanel.description': 'تخصيص المظهر والتخطيط',
-      'stylePanel.theme': 'المظهر',
-      'stylePanel.colors': 'الألوان',
-      'stylePanel.sidebar': 'الشريط الجانبي',
-      'stylePanel.layout': 'التخطيط',
-      'stylePanel.themeMode': 'وضع المظهر',
-      'stylePanel.themeModeDesc': 'اختر بين الفاتح أو الداكن أو النظام',
-      'stylePanel.light': 'فاتح',
-      'stylePanel.dark': 'داكن',
-      'stylePanel.system': 'النظام',
-      'stylePanel.colorScheme': 'نظام الألوان',
-      'stylePanel.colorSchemeDesc': 'اختر لوحة ألوان',
-      'stylePanel.sidebarStyle': 'نمط الشريط الجانبي',
-      'stylePanel.sidebarStyleDesc': 'تخصيص شكل الشريط الجانبي',
-      'stylePanel.headerStyle': 'نمط الرأس',
-      'stylePanel.headerStyleDesc': 'تخصيص شكل الرأس',
-      'stylePanel.layoutOptions': 'خيارات التخطيط',
-      'stylePanel.compactMode': 'الوضع المضغوط',
-      'stylePanel.compactModeDesc': 'تقليل المسافات والحشو',
-      'stylePanel.animations': 'الحركات',
-      'stylePanel.animationsDesc': 'تفعيل الحركات السلسة',
-      'stylePanel.blurEffects': 'تأثيرات الضبابية',
-      'stylePanel.blurEffectsDesc': 'تفعيل تأثيرات الضبابية',
-      'stylePanel.resetToDefault': 'إعادة للإفتراضي',
-
-      // Football
-      'football.manageFields': 'إدارة الملاعب',
-      'football.dummyContent': 'محتوى تجريبي للملاعب.',
-
-      // Swimming
-      'swimming.managePool': 'إدارة حمام السباحة',
-      'swimming.tagline': 'حمام أولمبي مع تدريب مهني',
-      'swimming.sectionsTitle': 'أقسام الحجوزات',
-      'swimming.sectionsDesc': 'إدارة جميع أنواع الحجوزات والأنشطة',
-      'swimming.tabs.private': 'حجوزات خاصة',
-      'swimming.tabs.freetime': 'الأوقات الحرة',
-      'swimming.tabs.schools': 'المدارس',
+      // Other
+      activities: 'الأنشطة',
+      reports: 'التقارير',
+      payments: 'المدفوعات',
+      fields: 'الملاعب'
     }
   }
 };
@@ -410,11 +268,16 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: localStorage.getItem('language') || 'en',
+    lng: 'ar', // default language
     fallbackLng: 'en',
+    
     interpolation: {
-      escapeValue: false,
+      escapeValue: false
     },
+    
+    react: {
+      useSuspense: false
+    }
   });
 
 export default i18n;

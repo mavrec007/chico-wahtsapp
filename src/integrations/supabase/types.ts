@@ -9,6 +9,53 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          created_at: string | null
+          end_time: string
+          facility_id: string | null
+          id: string
+          notes: string | null
+          start_time: string
+          status: string | null
+          total_amount: number
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          end_time: string
+          facility_id?: string | null
+          id?: string
+          notes?: string | null
+          start_time: string
+          status?: string | null
+          total_amount?: number
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          end_time?: string
+          facility_id?: string | null
+          id?: string
+          notes?: string | null
+          start_time?: string
+          status?: string | null
+          total_amount?: number
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_facility_id_fkey"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       coach_assignments: {
         Row: {
           coach_id: string | null
@@ -59,28 +106,40 @@ export type Database = {
       }
       coaches: {
         Row: {
+          availability: Json | null
           certification: string | null
           created_at: string | null
+          email: string | null
           experience_years: number | null
+          hourly_rate: number | null
           id: string
+          phone: string | null
           specialty: string
           updated_at: string | null
           user_id: string | null
         }
         Insert: {
+          availability?: Json | null
           certification?: string | null
           created_at?: string | null
+          email?: string | null
           experience_years?: number | null
+          hourly_rate?: number | null
           id?: string
+          phone?: string | null
           specialty: string
           updated_at?: string | null
           user_id?: string | null
         }
         Update: {
+          availability?: Json | null
           certification?: string | null
           created_at?: string | null
+          email?: string | null
           experience_years?: number | null
+          hourly_rate?: number | null
           id?: string
+          phone?: string | null
           specialty?: string
           updated_at?: string | null
           user_id?: string | null
@@ -95,10 +154,112 @@ export type Database = {
           },
         ]
       }
+      facilities: {
+        Row: {
+          active: boolean | null
+          amenities: string[] | null
+          available_hours: Json | null
+          capacity: number
+          created_at: string | null
+          description: string | null
+          hourly_rate: number
+          id: string
+          maintenance_schedule: Json | null
+          name: string
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          active?: boolean | null
+          amenities?: string[] | null
+          available_hours?: Json | null
+          capacity?: number
+          created_at?: string | null
+          description?: string | null
+          hourly_rate?: number
+          id?: string
+          maintenance_schedule?: Json | null
+          name: string
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          active?: boolean | null
+          amenities?: string[] | null
+          available_hours?: Json | null
+          capacity?: number
+          created_at?: string | null
+          description?: string | null
+          hourly_rate?: number
+          id?: string
+          maintenance_schedule?: Json | null
+          name?: string
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          booking_id: string | null
+          confirmed_at: string | null
+          confirmed_by: string | null
+          created_at: string | null
+          id: string
+          notes: string | null
+          payment_method: string | null
+          payment_type: string | null
+          reference_number: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          booking_id?: string | null
+          confirmed_at?: string | null
+          confirmed_by?: string | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          payment_method?: string | null
+          payment_type?: string | null
+          reference_number?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          booking_id?: string | null
+          confirmed_at?: string | null
+          confirmed_by?: string | null
+          created_at?: string | null
+          id?: string
+          notes?: string | null
+          payment_method?: string | null
+          payment_type?: string | null
+          reference_number?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       players: {
         Row: {
           created_at: string | null
+          date_of_birth: string | null
+          email: string | null
+          emergency_contact: Json | null
           id: string
+          phone: string | null
           position: string | null
           rating: number | null
           team: string | null
@@ -107,7 +268,11 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          date_of_birth?: string | null
+          email?: string | null
+          emergency_contact?: Json | null
           id?: string
+          phone?: string | null
           position?: string | null
           rating?: number | null
           team?: string | null
@@ -116,7 +281,11 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          date_of_birth?: string | null
+          email?: string | null
+          emergency_contact?: Json | null
           id?: string
+          phone?: string | null
           position?: string | null
           rating?: number | null
           team?: string | null

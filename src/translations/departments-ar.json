@@ -1,0 +1,85 @@
+
+{
+  "swimming": {
+    "title": "إدارة السباحة",
+    "subtitle": "إدارة أقسام السباحة والحجوزات",
+    "totalBookings": "إجمالي الحجوزات",
+    "activeTrainers": "المدربين النشطين",
+    "monthlyRevenue": "الإيرادات الشهرية",
+    "poolUtilization": "معدل استخدام المسبح",
+    "newBooking": "حجز جديد",
+    "private": {
+      "description": "تدريب خاص فردي مع مدرب متخصص"
+    },
+    "school": {
+      "description": "برامج تدريب المدارس والمجموعات"
+    },
+    "free-period": {
+      "description": "فترات حرة للسباحة بدون مدرب"
+    }
+  },
+  "football": {
+    "title": "إدارة كرة القدم",
+    "subtitle": "إدارة الأكاديميات واللاعبين",
+    "totalPlayers": "إجمالي اللاعبين",
+    "activeAcademies": "الأكاديميات النشطة",
+    "availableFields": "الملاعب المتاحة",
+    "monthlyRevenue": "الإيرادات الشهرية",
+    "manageFields": "إدارة الملاعب",
+    "newPlayer": "لاعب جديد",
+    "academies": "الأكاديميات",
+    "establishedIn": "تأسست في",
+    "players": "اللاعبين",
+    "trainers": "المدربين"
+  },
+  "fields": {
+    "title": "إدارة الملاعب",
+    "subtitle": "إدارة وصيانة المرافق الرياضية",
+    "totalFields": "إجمالي الملاعب",
+    "activeBookings": "الحجوزات النشطة",
+    "utilization": "معدل الاستخدام",
+    "revenue": "الإيرادات",
+    "maintenance": "الصيانة",
+    "newBooking": "حجز جديد",
+    "allFields": "جميع الملاعب",
+    "capacity": "السعة",
+    "todayBookings": "حجوزات اليوم",
+    "status": {
+      "active": "نشط",
+      "maintenance": "تحت الصيانة",
+      "inactive": "غير نشط"
+    }
+  },
+  "accounting": {
+    "title": "المحاسبة والمالية",
+    "subtitle": "إدارة المالية والتحصيل",
+    "totalRevenue": "إجمالي الإيرادات",
+    "pendingPayments": "المدفوعات المعلقة",
+    "collections": "التحصيلات",
+    "monthlyGrowth": "النمو الشهري",
+    "exportReport": "تصدير التقرير",
+    "newCollection": "تحصيل جديد",
+    "overview": "نظرة عامة",
+    "reports": "التقارير",
+    "departmentRevenue": "إيرادات الأقسام",
+    "revenueBreakdown": "تفصيل الإيرادات حسب القسم",
+    "recentTransactions": "المعاملات الأخيرة",
+    "latestPayments": "أحدث المدفوعات",
+    "collectionsManagement": "إدارة التحصيل",
+    "managePayments": "إدارة المدفوعات والتحصيل",
+    "detailedReports": "تقارير مفصلة ومالية",
+    "status": {
+      "completed": "مكتمل",
+      "pending": "معلق",
+      "cancelled": "ملغي"
+    }
+  },
+  "common": {
+    "todayBookings": "حجوزات اليوم",
+    "activeTrainers": "المدربين النشطين",
+    "revenue": "الإيرادات",
+    "viewDetails": "عرض التفاصيل",
+    "fromLastMonth": "من الشهر الماضي",
+    "comingSoon": "قريباً"
+  }
+}

@@ -30,6 +30,10 @@ import FootballFields from "./pages/football/Fields";
 import CollectionsPage from "./pages/finance/Collections";
 import PricingPage from "./pages/finance/Pricing";
 import NotFound from "./pages/NotFound";
+import SwimmingDashboard from "./modules/swimming/components/SwimmingDashboard";
+import FootballDashboard from "./modules/football/components/FootballDashboard";
+import FieldsDashboard from "./modules/fields/components/FieldsDashboard";
+import AccountingDashboard from "./modules/accounting/components/AccountingDashboard";
 
 const queryClient = new QueryClient();
 
@@ -40,7 +44,7 @@ const App = () => (
       <Sonner />
       <LoadingOverlay />
       <AuthProvider>
-<BrowserRouter basename="/chico-wahtsapp">
+        <BrowserRouter basename="/chico-wahtsapp">
           <RouteChangeListener />
             <Routes>
               {/* Public Routes */}
@@ -84,6 +88,31 @@ const App = () => (
               <Route path="/activities/fields" element={
                 <AuthLayout>
                   <Layout><Fields /></Layout>
+                </AuthLayout>
+              } />
+
+              {/* New Modular Routes */}
+              <Route path="/swimming" element={
+                <AuthLayout>
+                  <Layout><SwimmingDashboard /></Layout>
+                </AuthLayout>
+              } />
+
+              <Route path="/football" element={
+                <AuthLayout>
+                  <Layout><FootballDashboard /></Layout>
+                </AuthLayout>
+              } />
+
+              <Route path="/fields" element={
+                <AuthLayout>
+                  <Layout><FieldsDashboard /></Layout>
+                </AuthLayout>
+              } />
+
+              <Route path="/accounting" element={
+                <AuthLayout>
+                  <Layout><AccountingDashboard /></Layout>
                 </AuthLayout>
               } />
 

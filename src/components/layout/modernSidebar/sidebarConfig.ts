@@ -11,59 +11,212 @@ import {
   School,
   Clock,
   GraduationCap,
-  DollarSign
+  DollarSign,
+  Waves,
+  Calculator
 } from 'lucide-react';
 
 export const sidebarConfig = {
   groups: [
     {
-      label: 'لوحة التحكم',
+      id: 'dashboard',
+      label: 'Dashboard',
+      labelAr: 'لوحة التحكم',
       items: [
         {
-          href: '/dashboard',
-          label: 'لوحة التحكم',
+          id: 'main-dashboard',
+          label: 'Dashboard',
+          labelAr: 'لوحة التحكم الرئيسية',
           icon: LayoutDashboard,
+          href: '/dashboard',
           badge: null
         }
       ]
     },
     {
-      label: 'السباحة',
+      id: 'swimming',
+      label: 'Swimming',
+      labelAr: 'السباحة',
       items: [
-        { href: '/swimming/schools', label: 'المدارس', icon: School, badge: null },
-        { href: '/swimming/private', label: 'البرايفيت', icon: Users, badge: null },
-        { href: '/swimming/free-time', label: 'الفترة الحرة', icon: Clock, badge: null }
+        { 
+          id: 'swimming-overview',
+          label: 'Swimming Overview', 
+          labelAr: 'نظرة عامة على السباحة',
+          icon: Waves, 
+          href: '/swimming',
+          badge: null 
+        },
+        { 
+          id: 'swimming-schools',
+          label: 'Schools', 
+          labelAr: 'المدارس',
+          icon: School, 
+          href: '/swimming/schools',
+          badge: null 
+        },
+        { 
+          id: 'swimming-private',
+          label: 'Private', 
+          labelAr: 'البرايفيت',
+          icon: Users, 
+          href: '/swimming/private',
+          badge: null 
+        },
+        { 
+          id: 'swimming-free-time',
+          label: 'Free Time', 
+          labelAr: 'الفترة الحرة',
+          icon: Clock, 
+          href: '/swimming/free-time',
+          badge: null 
+        }
       ]
     },
     {
-      label: 'كرة القدم',
+      id: 'football',
+      label: 'Football',
+      labelAr: 'كرة القدم',
       items: [
-        { href: '/football/academy', label: 'الأكاديمية', icon: GraduationCap, badge: null },
-        { href: '/football/schools', label: 'المدارس', icon: School, badge: null },
-        { href: '/football/fields', label: 'إدارة الملاعب', icon: MapPin, badge: null }
+        { 
+          id: 'football-overview',
+          label: 'Football Overview', 
+          labelAr: 'نظرة عامة على كرة القدم',
+          icon: GraduationCap, 
+          href: '/football',
+          badge: null 
+        },
+        { 
+          id: 'football-academy',
+          label: 'Academy', 
+          labelAr: 'الأكاديمية',
+          icon: GraduationCap, 
+          href: '/football/academy',
+          badge: null 
+        },
+        { 
+          id: 'football-schools',
+          label: 'Schools', 
+          labelAr: 'المدارس',
+          icon: School, 
+          href: '/football/schools',
+          badge: null 
+        },
+        { 
+          id: 'football-fields',
+          label: 'Manage Fields', 
+          labelAr: 'إدارة الملاعب',
+          icon: MapPin, 
+          href: '/football/fields',
+          badge: null 
+        }
       ]
     },
     {
-      label: 'العملاء والأفراد',
+      id: 'fields',
+      label: 'Fields Management',
+      labelAr: 'إدارة الملاعب',
       items: [
-        { href: '/clients', label: 'العملاء', icon: Users, badge: null },
-        { href: '/coaches', label: 'المدربين', icon: UserCheck, badge: null },
-        { href: '/players', label: 'اللاعبين', icon: User, badge: null }
+        { 
+          id: 'fields-overview',
+          label: 'Fields Overview', 
+          labelAr: 'نظرة عامة على الملاعب',
+          icon: MapPin, 
+          href: '/fields',
+          badge: null 
+        }
       ]
     },
     {
-      label: 'التطبيق',
+      id: 'people',
+      label: 'People',
+      labelAr: 'العملاء والأفراد',
       items: [
-        { href: '/settings', label: 'الإعدادات', icon: Settings, badge: null },
-        { href: '/roles', label: 'الصلاحيات والأدوار', icon: Shield, badge: null },
-        { href: '/users', label: 'المستخدمين', icon: User, badge: null }
+        { 
+          id: 'clients',
+          label: 'Clients', 
+          labelAr: 'العملاء',
+          icon: Users, 
+          href: '/clients',
+          badge: null 
+        },
+        { 
+          id: 'coaches',
+          label: 'Coaches', 
+          labelAr: 'المدربين',
+          icon: UserCheck, 
+          href: '/coaches',
+          badge: null 
+        },
+        { 
+          id: 'players',
+          label: 'Players', 
+          labelAr: 'اللاعبين',
+          icon: User, 
+          href: '/players',
+          badge: null 
+        }
       ]
     },
     {
-      label: 'الشؤون المالية',
+      id: 'finance',
+      label: 'Finance',
+      labelAr: 'الشؤون المالية',
       items: [
-        { href: '/finance/collections', label: 'التحصيل', icon: CreditCard, badge: null },
-        { href: '/finance/pricing', label: 'تسعير الخدمات', icon: DollarSign, badge: null }
+        { 
+          id: 'accounting',
+          label: 'Accounting', 
+          labelAr: 'المحاسبة',
+          icon: Calculator, 
+          href: '/accounting',
+          badge: null 
+        },
+        { 
+          id: 'collections',
+          label: 'Collections', 
+          labelAr: 'التحصيل',
+          icon: CreditCard, 
+          href: '/finance/collections',
+          badge: null 
+        },
+        { 
+          id: 'pricing',
+          label: 'Service Pricing', 
+          labelAr: 'تسعير الخدمات',
+          icon: DollarSign, 
+          href: '/finance/pricing',
+          badge: null 
+        }
+      ]
+    },
+    {
+      id: 'system',
+      label: 'System',
+      labelAr: 'التطبيق',
+      items: [
+        { 
+          id: 'settings',
+          label: 'Settings', 
+          labelAr: 'الإعدادات',
+          icon: Settings, 
+          href: '/settings',
+          badge: null 
+        },
+        { 
+          id: 'roles',
+          label: 'Roles & Permissions', 
+          labelAr: 'الصلاحيات والأدوار',
+          icon: Shield, 
+          href: '/roles',
+          badge: null 
+        },
+        { 
+          id: 'users',
+          label: 'Users', 
+          labelAr: 'المستخدمين',
+          icon: User, 
+          href: '/users',
+          badge: null 
+        }
       ]
     }
   ]

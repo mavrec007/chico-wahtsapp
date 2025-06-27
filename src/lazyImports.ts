@@ -39,9 +39,7 @@ const ModernSidebar = React.lazy(() => import('./components/layout/modernSidebar
 const SidebarHeader = React.lazy(() => import('./components/layout/modernSidebar/SidebarHeader'));
 const SidebarNavGroup = React.lazy(() => import('./components/layout/modernSidebar/SidebarNavGroup'));
 const SidebarNavItem = React.lazy(() => import('./components/layout/modernSidebar/SidebarNavItem'));
-const Index = React.lazy(() => import('./components/layout/modernSidebar/index'));
 const SidebarConfig = React.lazy(() => import('./components/layout/modernSidebar/sidebarConfig'));
-const Types = React.lazy(() => import('./components/layout/modernSidebar/types'));
 const AppointmentModal = React.lazy(() => import('./components/modals/AppointmentModal'));
 const StyleControlPanel = React.lazy(() => import('./components/panels/StyleControlPanel'));
 const AppLogo = React.lazy(() => import('./components/ui/AppLogo'));
@@ -180,9 +178,7 @@ export {
   SidebarHeader, 
   SidebarNavGroup, 
   SidebarNavItem, 
-  Index, 
   SidebarConfig, 
-  Types, 
   AppointmentModal, 
   StyleControlPanel, 
   AppLogo, 

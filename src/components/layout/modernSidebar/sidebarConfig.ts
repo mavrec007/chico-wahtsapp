@@ -20,13 +20,11 @@ export const sidebarConfig = {
   groups: [
     {
       id: 'dashboard',
-      label: 'Dashboard',
-      labelAr: 'لوحة التحكم',
+      label: 'pages.dashboard',
       items: [
         {
           id: 'main-dashboard',
-          label: 'Dashboard',
-          labelAr: 'لوحة التحكم الرئيسية',
+          label: 'pages.dashboard',
           icon: LayoutDashboard,
           href: '/dashboard',
           badge: null
@@ -35,37 +33,32 @@ export const sidebarConfig = {
     },
     {
       id: 'swimming',
-      label: 'Swimming',
-      labelAr: 'السباحة',
+      label: 'pages.swimming',
       items: [
         { 
           id: 'swimming-overview',
-          label: 'Swimming Overview', 
-          labelAr: 'نظرة عامة على السباحة',
+          label: 'sidebar.overview', 
           icon: Waves, 
           href: '/swimming',
           badge: null 
         },
         { 
           id: 'swimming-schools',
-          label: 'Schools', 
-          labelAr: 'المدارس',
+          label: 'sidebar.schools',
           icon: School, 
           href: '/swimming/schools',
           badge: null 
         },
         { 
           id: 'swimming-private',
-          label: 'Private', 
-          labelAr: 'البرايفيت',
+          label: 'sidebar.private',
           icon: Users, 
           href: '/swimming/private',
           badge: null 
         },
         { 
           id: 'swimming-free-time',
-          label: 'Free Time', 
-          labelAr: 'الفترة الحرة',
+          label: 'sidebar.free_time',
           icon: Clock, 
           href: '/swimming/free-time',
           badge: null 
@@ -74,37 +67,32 @@ export const sidebarConfig = {
     },
     {
       id: 'football',
-      label: 'Football',
-      labelAr: 'كرة القدم',
+      label: 'pages.football',
       items: [
         { 
           id: 'football-overview',
-          label: 'Football Overview', 
-          labelAr: 'نظرة عامة على كرة القدم',
+          label: 'sidebar.overview',
           icon: GraduationCap, 
           href: '/football',
           badge: null 
         },
         { 
           id: 'football-academy',
-          label: 'Academy', 
-          labelAr: 'الأكاديمية',
+          label: 'sidebar.academy',
           icon: GraduationCap, 
           href: '/football/academy',
           badge: null 
         },
         { 
           id: 'football-schools',
-          label: 'Schools', 
-          labelAr: 'المدارس',
+          label: 'sidebar.schools',
           icon: School, 
           href: '/football/schools',
           badge: null 
         },
         { 
           id: 'football-fields',
-          label: 'Manage Fields', 
-          labelAr: 'إدارة الملاعب',
+          label: 'sidebar.manage_fields',
           icon: MapPin, 
           href: '/football/fields',
           badge: null 
@@ -113,13 +101,11 @@ export const sidebarConfig = {
     },
     {
       id: 'fields',
-      label: 'Fields Management',
-      labelAr: 'إدارة الملاعب',
+      label: 'pages.fields',
       items: [
         { 
           id: 'fields-overview',
-          label: 'Fields Overview', 
-          labelAr: 'نظرة عامة على الملاعب',
+          label: 'sidebar.overview',
           icon: MapPin, 
           href: '/fields',
           badge: null 
@@ -128,29 +114,25 @@ export const sidebarConfig = {
     },
     {
       id: 'people',
-      label: 'People',
-      labelAr: 'العملاء والأفراد',
+      label: 'sidebar.people',
       items: [
         { 
           id: 'clients',
-          label: 'Clients', 
-          labelAr: 'العملاء',
+          label: 'pages.clients',
           icon: Users, 
           href: '/clients',
           badge: null 
         },
         { 
           id: 'coaches',
-          label: 'Coaches', 
-          labelAr: 'المدربين',
+          label: 'pages.coaches',
           icon: UserCheck, 
           href: '/coaches',
           badge: null 
         },
         { 
           id: 'players',
-          label: 'Players', 
-          labelAr: 'اللاعبين',
+          label: 'pages.players',
           icon: User, 
           href: '/players',
           badge: null 
@@ -159,29 +141,25 @@ export const sidebarConfig = {
     },
     {
       id: 'finance',
-      label: 'Finance',
-      labelAr: 'الشؤون المالية',
+      label: 'sidebar.finance',
       items: [
         { 
           id: 'accounting',
-          label: 'Accounting', 
-          labelAr: 'المحاسبة',
+          label: 'pages.accounting',
           icon: Calculator, 
           href: '/accounting',
           badge: null 
         },
         { 
           id: 'collections',
-          label: 'Collections', 
-          labelAr: 'التحصيل',
+          label: 'pages.collections',
           icon: CreditCard, 
           href: '/finance/collections',
           badge: null 
         },
         { 
           id: 'pricing',
-          label: 'Service Pricing', 
-          labelAr: 'تسعير الخدمات',
+          label: 'pages.pricing',
           icon: DollarSign, 
           href: '/finance/pricing',
           badge: null 
@@ -190,29 +168,25 @@ export const sidebarConfig = {
     },
     {
       id: 'system',
-      label: 'System',
-      labelAr: 'التطبيق',
+      label: 'sidebar.system',
       items: [
         { 
           id: 'settings',
-          label: 'Settings', 
-          labelAr: 'الإعدادات',
+          label: 'pages.settings',
           icon: Settings, 
           href: '/settings',
           badge: null 
         },
         { 
           id: 'roles',
-          label: 'Roles & Permissions', 
-          labelAr: 'الصلاحيات والأدوار',
+          label: 'pages.roles',
           icon: Shield, 
           href: '/roles',
           badge: null 
         },
         { 
           id: 'users',
-          label: 'Users', 
-          labelAr: 'المستخدمين',
+          label: 'pages.users',
           icon: User, 
           href: '/users',
           badge: null 

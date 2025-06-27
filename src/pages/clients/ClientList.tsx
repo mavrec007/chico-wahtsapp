@@ -73,8 +73,8 @@ const ClientList = () => {
     if (deleteModal.clientId) {
       setClients(prev => prev.filter(c => c.id !== deleteModal.clientId));
       toast({
-        title: t('success'),
-        description: t('client_deleted_successfully'),
+        title: t('common.success'),
+        description: t('clients.client_deleted_successfully'),
       });
     }
     setDeleteModal({ isOpen: false, clientId: null, clientName: '' });
@@ -88,11 +88,11 @@ const ClientList = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-          {t('clients')}
+          {t('clients.title')}
         </h1>
         <Button className="btn-primary">
           <Plus className="w-4 h-4 mr-2" />
-          {t('add_client')}
+          {t('clients.add_client')}
         </Button>
       </div>
 
@@ -100,7 +100,7 @@ const ClientList = () => {
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <Input
-            placeholder={t('search_clients')}
+            placeholder={t('clients.search_clients')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -117,12 +117,12 @@ const ClientList = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t('name')}</TableHead>
-                <TableHead className="hidden md:table-cell">{t('email')}</TableHead>
-                <TableHead className="hidden sm:table-cell">{t('phone')}</TableHead>
-                <TableHead className="hidden lg:table-cell">{t('gender')}</TableHead>
-                <TableHead className="hidden lg:table-cell">{t('created_at')}</TableHead>
-                <TableHead className="text-right">{t('actions')}</TableHead>
+                <TableHead>{t('common.name')}</TableHead>
+                <TableHead className="hidden md:table-cell">{t('common.email')}</TableHead>
+                <TableHead className="hidden sm:table-cell">{t('common.phone')}</TableHead>
+                <TableHead className="hidden lg:table-cell">{t('common.gender')}</TableHead>
+                <TableHead className="hidden lg:table-cell">{t('common.created_at')}</TableHead>
+                <TableHead className="text-right">{t('common.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -137,7 +137,7 @@ const ClientList = () => {
                   <TableCell className="hidden md:table-cell">{client.email}</TableCell>
                   <TableCell className="hidden sm:table-cell">{client.phone}</TableCell>
                   <TableCell className="hidden lg:table-cell">
-                    <span className="capitalize">{t(client.gender)}</span>
+                    <span className="capitalize">{t(`common.${client.gender}`)}</span>
                   </TableCell>
                   <TableCell className="hidden lg:table-cell">
                     {new Date(client.createdAt).toLocaleDateString()}
@@ -146,7 +146,7 @@ const ClientList = () => {
                     <div className="flex justify-end gap-2">
                       <Button variant="outline" size="sm">
                         <Edit className="w-4 h-4" />
-                        <span className="hidden sm:inline ml-2">{t('edit')}</span>
+                        <span className="hidden sm:inline ml-2">{t('common.edit')}</span>
                       </Button>
                       <Button 
                         variant="outline" 
@@ -155,7 +155,7 @@ const ClientList = () => {
                         className="text-red-600 hover:text-red-700 hover:bg-red-50"
                       >
                         <Trash2 className="w-4 h-4" />
-                        <span className="hidden sm:inline ml-2">{t('delete')}</span>
+                        <span className="hidden sm:inline ml-2">{t('common.delete')}</span>
                       </Button>
                     </div>
                   </TableCell>
@@ -170,7 +170,7 @@ const ClientList = () => {
         isOpen={deleteModal.isOpen}
         onCancel={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
-        message={t('are_you_sure_delete_client')}
+        message={t('clients.are_you_sure_delete_client')}
         itemName={deleteModal.clientName}
       />
     </div>

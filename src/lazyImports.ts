@@ -39,61 +39,9 @@ const ModernSidebar = React.lazy(() => import('@/components/layout/modernSidebar
 const SidebarHeader = React.lazy(() => import('@/components/layout/modernSidebar/SidebarHeader'));
 const SidebarNavGroup = React.lazy(() => import('@/components/layout/modernSidebar/SidebarNavGroup'));
 const SidebarNavItem = React.lazy(() => import('@/components/layout/modernSidebar/SidebarNavItem'));
-const Index = React.lazy(() => import('@/components/layout/modernSidebar/index'));
-const SidebarConfig = React.lazy(() => import('@/components/layout/modernSidebar/sidebarConfig'));
-const Types = React.lazy(() => import('@/components/layout/modernSidebar/types'));
 const AppointmentModal = React.lazy(() => import('@/components/modals/AppointmentModal'));
 const StyleControlPanel = React.lazy(() => import('@/components/panels/StyleControlPanel'));
 const AppLogo = React.lazy(() => import('@/components/ui/AppLogo'));
-const Accordion = React.lazy(() => import('@/components/ui/accordion'));
-const AlertDialog = React.lazy(() => import('@/components/ui/alert-dialog'));
-const Alert = React.lazy(() => import('@/components/ui/alert'));
-const AspectRatio = React.lazy(() => import('@/components/ui/aspect-ratio'));
-const Avatar = React.lazy(() => import('@/components/ui/avatar'));
-const Badge = React.lazy(() => import('@/components/ui/badge'));
-const Breadcrumb = React.lazy(() => import('@/components/ui/breadcrumb'));
-const Button = React.lazy(() => import('@/components/ui/button'));
-const Calendar = React.lazy(() => import('@/components/ui/calendar'));
-const Card = React.lazy(() => import('@/components/ui/card'));
-const Carousel = React.lazy(() => import('@/components/ui/carousel'));
-const Chart = React.lazy(() => import('@/components/ui/chart'));
-const Checkbox = React.lazy(() => import('@/components/ui/checkbox'));
-const Collapsible = React.lazy(() => import('@/components/ui/collapsible'));
-const Command = React.lazy(() => import('@/components/ui/command'));
-const ContextMenu = React.lazy(() => import('@/components/ui/context-menu'));
-const Dialog = React.lazy(() => import('@/components/ui/dialog'));
-const Drawer = React.lazy(() => import('@/components/ui/drawer'));
-const DropdownMenu = React.lazy(() => import('@/components/ui/dropdown-menu'));
-const Form = React.lazy(() => import('@/components/ui/form'));
-const HoverCard = React.lazy(() => import('@/components/ui/hover-card'));
-const InputOtp = React.lazy(() => import('@/components/ui/input-otp'));
-const Input = React.lazy(() => import('@/components/ui/input'));
-const Label = React.lazy(() => import('@/components/ui/label'));
-const Menubar = React.lazy(() => import('@/components/ui/menubar'));
-const NavigationMenu = React.lazy(() => import('@/components/ui/navigation-menu'));
-const Pagination = React.lazy(() => import('@/components/ui/pagination'));
-const Popover = React.lazy(() => import('@/components/ui/popover'));
-const Progress = React.lazy(() => import('@/components/ui/progress'));
-const RadioGroup = React.lazy(() => import('@/components/ui/radio-group'));
-const Resizable = React.lazy(() => import('@/components/ui/resizable'));
-const ScrollArea = React.lazy(() => import('@/components/ui/scroll-area'));
-const Select = React.lazy(() => import('@/components/ui/select'));
-const Separator = React.lazy(() => import('@/components/ui/separator'));
-const Sheet = React.lazy(() => import('@/components/ui/sheet'));
-const Skeleton = React.lazy(() => import('@/components/ui/skeleton'));
-const Slider = React.lazy(() => import('@/components/ui/slider'));
-const Sonner = React.lazy(() => import('@/components/ui/sonner'));
-const Spinner = React.lazy(() => import('@/components/ui/spinner'));
-const Switch = React.lazy(() => import('@/components/ui/switch'));
-const Table = React.lazy(() => import('@/components/ui/table'));
-const Tabs = React.lazy(() => import('@/components/ui/tabs'));
-const Textarea = React.lazy(() => import('@/components/ui/textarea'));
-const Toast = React.lazy(() => import('@/components/ui/toast'));
-const Toaster = React.lazy(() => import('@/components/ui/toaster'));
-const ToggleGroup = React.lazy(() => import('@/components/ui/toggle-group'));
-const Toggle = React.lazy(() => import('@/components/ui/toggle'));
-const Tooltip = React.lazy(() => import('@/components/ui/tooltip'));
-const UseToast = React.lazy(() => import('@/components/ui/use-toast'));
 const Activities = React.lazy(() => import('@/pages/Activities'));
 const Bookings = React.lazy(() => import('@/pages/Bookings'));
 const Clients = React.lazy(() => import('@/pages/Clients'));
@@ -135,143 +83,12 @@ const ReportsOverview = React.lazy(() => import('@/modules/shared/components/Rep
 
 function LazyApp() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">
+      <div className="animate-pulse text-lg">Loading...</div>
+    </div>}>
       <App />
     </Suspense>
   );
 }
 
 export default LazyApp;
-
-export { 
-  LoadingOverlay, 
-  RouteChangeListener, 
-  AuthForms, 
-  AuthModal, 
-  LoginForm, 
-  ProtectedRoute, 
-  RegisterForm, 
-  BookingModal, 
-  BookingsManagement, 
-  FacilitiesManagement, 
-  FacilityModal, 
-  ActivityForm, 
-  BookingForm, 
-  ClientForm, 
-  CoachForm, 
-  ConfirmDeleteModal, 
-  PlayerForm, 
-  About, 
-  Contact, 
-  Features, 
-  Footer, 
-  Hero, 
-  Navigation, 
-  Stats, 
-  ContextCard, 
-  DashboardLayout, 
-  Layout, 
-  PageWrapper, 
-  ResponsiveContainer, 
-  Sidebar, 
-  SidebarProvider, 
-  SidebarRail, 
-  Topbar, 
-  ModernSidebar, 
-  SidebarHeader, 
-  SidebarNavGroup, 
-  SidebarNavItem, 
-  Index, 
-  SidebarConfig, 
-  Types, 
-  AppointmentModal, 
-  StyleControlPanel, 
-  AppLogo, 
-  Accordion, 
-  AlertDialog, 
-  Alert, 
-  AspectRatio, 
-  Avatar, 
-  Badge, 
-  Breadcrumb, 
-  Button, 
-  Calendar, 
-  Card, 
-  Carousel, 
-  Chart, 
-  Checkbox, 
-  Collapsible, 
-  Command, 
-  ContextMenu, 
-  Dialog, 
-  Drawer, 
-  DropdownMenu, 
-  Form, 
-  HoverCard, 
-  InputOtp, 
-  Input, 
-  Label, 
-  Menubar, 
-  NavigationMenu, 
-  Pagination, 
-  Popover, 
-  Progress, 
-  RadioGroup, 
-  Resizable, 
-  ScrollArea, 
-  Select, 
-  Separator, 
-  Sheet, 
-  Skeleton, 
-  Slider, 
-  Sonner, 
-  Spinner, 
-  Switch, 
-  Table, 
-  Tabs, 
-  Textarea, 
-  Toast, 
-  Toaster, 
-  ToggleGroup, 
-  Toggle, 
-  Tooltip, 
-  UseToast, 
-  Activities, 
-  Bookings, 
-  Clients, 
-  Coaches, 
-  Dashboard, 
-  Fields, 
-  Landing, 
-  Login, 
-  NotFound, 
-  Players, 
-  PremiumDashboard, 
-  ResetPassword, 
-  Roles, 
-  Settings, 
-  Swimming, 
-  Users, 
-  SportsOverview, 
-  BookingsPage, 
-  FacilitiesPage, 
-  BookingList, 
-  ClientList, 
-  Collections, 
-  Pricing, 
-  Academy, 
-  Schools, 
-  FreeTime, 
-  FreeTimeBookings, 
-  Private, 
-  PrivateBookings, 
-  SchoolsBookings, 
-  SwimmingTabs, 
-  UserList, 
-  SwimmingDashboard, 
-  FootballDashboard, 
-  FieldsDashboard, 
-  AccountingDashboard, 
-  SportSelector, 
-  ReportsOverview 
-};

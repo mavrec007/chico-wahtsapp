@@ -81,8 +81,8 @@ const BookingList = () => {
     if (deleteModal.bookingId) {
       setBookings(prev => prev.filter(b => b.id !== deleteModal.bookingId));
       toast({
-        title: t('success'),
-        description: t('booking_deleted_successfully'),
+        title: t('common.success'),
+        description: t('bookings.booking_deleted_successfully'),
       });
     }
     setDeleteModal({ isOpen: false, bookingId: null, clientName: '' });
@@ -96,11 +96,11 @@ const BookingList = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-          {t('bookings')}
+          {t('bookings.title')}
         </h1>
         <Button className="btn-primary">
           <Plus className="w-4 h-4 mr-2" />
-          {t('new_booking')}
+          {t('bookings.new_booking')}
         </Button>
       </div>
 
@@ -108,7 +108,7 @@ const BookingList = () => {
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           <Input
-            placeholder={t('search_bookings')}
+            placeholder={t('bookings.search_bookings')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -125,12 +125,12 @@ const BookingList = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t('client')}</TableHead>
-                <TableHead className="hidden md:table-cell">{t('activity')}</TableHead>
-                <TableHead className="hidden sm:table-cell">{t('date_time')}</TableHead>
-                <TableHead className="hidden lg:table-cell">{t('duration')}</TableHead>
-                <TableHead>{t('status')}</TableHead>
-                <TableHead className="text-right">{t('actions')}</TableHead>
+                <TableHead>{t('bookings.client')}</TableHead>
+                <TableHead className="hidden md:table-cell">{t('bookings.activity')}</TableHead>
+                <TableHead className="hidden sm:table-cell">{t('common.date_time')}</TableHead>
+                <TableHead className="hidden lg:table-cell">{t('common.duration')}</TableHead>
+                <TableHead>{t('common.status')}</TableHead>
+                <TableHead className="text-right">{t('common.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -140,12 +140,12 @@ const BookingList = () => {
                     <div>
                       <div className="font-semibold">{booking.clientName}</div>
                       <div className="text-sm text-gray-500 md:hidden capitalize">
-                        {t(booking.activityType)}
+                        {t(`sports.${booking.activityType}`)}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="hidden md:table-cell capitalize">
-                    {t(booking.activityType)}
+                    {t(`sports.${booking.activityType}`)}
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">
                     <div className="flex items-center gap-2 text-sm">
@@ -160,14 +160,14 @@ const BookingList = () => {
                   </TableCell>
                   <TableCell>
                     <Badge className={getStatusColor(booking.status)}>
-                      {t(booking.status)}
+                      {t(`common.${booking.status}`)}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button variant="outline" size="sm">
                         <Edit className="w-4 h-4" />
-                        <span className="hidden sm:inline ml-2">{t('edit')}</span>
+                        <span className="hidden sm:inline ml-2">{t('common.edit')}</span>
                       </Button>
                       <Button 
                         variant="outline" 
@@ -176,7 +176,7 @@ const BookingList = () => {
                         className="text-red-600 hover:text-red-700 hover:bg-red-50"
                       >
                         <Trash2 className="w-4 h-4" />
-                        <span className="hidden sm:inline ml-2">{t('delete')}</span>
+                        <span className="hidden sm:inline ml-2">{t('common.delete')}</span>
                       </Button>
                     </div>
                   </TableCell>
@@ -191,7 +191,7 @@ const BookingList = () => {
         isOpen={deleteModal.isOpen}
         onCancel={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
-        message={t('are_you_sure_delete_booking')}
+        message={t('bookings.are_you_sure_delete_booking')}
         itemName={deleteModal.clientName}
       />
     </div>

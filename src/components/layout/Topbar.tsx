@@ -7,7 +7,7 @@ import { useAppStore } from '@/stores/useAppStore';
 import { useAuth } from '@/context/AuthContext';
 import { useLoadingStore } from '@/stores/useLoadingStore';
 import { cn } from '@/lib/utils';
-import { Menu, Sun, Moon, Globe, User, LogOut, Settings, UserCircle, Bell } from 'lucide-react';
+import { Menu, User, LogOut, Settings, UserCircle, Bell } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -17,40 +17,33 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/hooks/use-toast';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { LanguageToggle } from '@/components/ui/LanguageToggle';
 
 interface TopbarProps {
   className?: string;
 }
 
 const Topbar: React.FC<TopbarProps> = ({ className }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const {
     toggleSidebar,
-    theme,
-    toggleTheme,
     language,
-    setLanguage,
     setShowAuthModal,
   } = useAppStore();
   
   const { user, logout, isAuthenticated } = useAuth();
   const showLoading = useLoadingStore((state) => state.showLoading);
 
-  const handleLanguageToggle = () => {
-    const newLang = language === 'en' ? 'ar' : 'en';
-    setLanguage(newLang);
-    i18n.changeLanguage(newLang);
-  };
-
   const handleLogout = async () => {
     showLoading();
     await logout();
 
     toast({
-      title: "تم تسجيل الخروج",
-      description: "تم تسجيل خروجك بنجاح",
+      title: t('auth.logout'),
+      description: t('auth.logout') + ' ' + t('common.success'),
     });
 
     navigate('/');
@@ -85,32 +78,18 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
               language === 'ar' ? 'ml-auto' : 'mr-auto',
               'rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors'
             )}
-            aria-label="Toggle sidebar"
+            aria-label={t('navigation.closeSidebar')}
           >
             <Menu className="w-5 h-5 dark:text-fuchsia-400" />
           </Button>
         </div>
 
         <div className="flex items-center gap-2">
-          {/* Language Switch */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleLanguageToggle}
-            className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
-          >
-            <Globe className="w-4 h-4 dark:text-fuchsia-400" />
-          </Button>
+          {/* Language Toggle */}
+          <LanguageToggle />
 
-          {/* Theme Switch */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="rounded-lg backdrop-blur-md bg-white/40 dark:bg-gray-800/40 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors"
-          >
-            {theme === 'light' ? <Moon className="w-4 h-4 dark:text-fuchsia-400" /> : <Sun className="w-4 h-4 dark:text-fuchsia-400" />}
-          </Button>
+          {/* Theme Toggle */}
+          <ThemeToggle />
 
           {/* Notifications */}
           <Button
@@ -138,7 +117,7 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
                       {user.name}
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {user.role === 'admin' ? 'مدير النظام' : user.role === 'manager' ? 'مدير المرافق' : 'مستخدم'}
+                      {user.role === 'admin' ? t('roles.admin') : user.role === 'manager' ? t('roles.manager') : t('roles.user')}
                     </p>
                   </div>
                 </Button>
@@ -152,14 +131,14 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <UserCircle className="w-4 h-4" />
-                  <span>الملف الشخصي</span>
+                  <span>{t('auth.profile')}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={handleSettings}
                   className="flex items-center gap-2 cursor-pointer"
                 >
                   <Settings className="w-4 h-4" />
-                  <span>الإعدادات</span>
+                  <span>{t('auth.settings')}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
@@ -167,13 +146,13 @@ const Topbar: React.FC<TopbarProps> = ({ className }) => {
                   className="flex items-center gap-2 cursor-pointer text-red-600 dark:text-red-400"
                 >
                   <LogOut className="w-4 h-4" />
-                  <span>تسجيل الخروج</span>
+                  <span>{t('auth.logout')}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Button onClick={() => setShowAuthModal(true)} className="btn-primary">
-              <span className="hidden sm:inline">تسجيل الدخول</span>
+              <span className="hidden sm:inline">{t('auth.login')}</span>
               <span className="inline sm:hidden"><User className="w-4 h-4" /></span>
             </Button>
           )}

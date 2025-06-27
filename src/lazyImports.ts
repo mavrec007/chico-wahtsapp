@@ -1,3 +1,4 @@
+
 import React, { Suspense } from 'react';
 import App from './App';
 
@@ -109,6 +110,7 @@ const Roles = React.lazy(() => import('./pages/Roles'));
 const Settings = React.lazy(() => import('./pages/Settings'));
 const Swimming = React.lazy(() => import('./pages/Swimming'));
 const Users = React.lazy(() => import('./pages/Users'));
+const SportsOverview = React.lazy(() => import('./pages/SportsOverview'));
 const BookingsPage = React.lazy(() => import('./pages/admin/BookingsPage'));
 const FacilitiesPage = React.lazy(() => import('./pages/admin/FacilitiesPage'));
 const BookingList = React.lazy(() => import('./pages/bookings/BookingList'));
@@ -124,6 +126,12 @@ const PrivateBookings = React.lazy(() => import('./pages/swimming/PrivateBooking
 const SchoolsBookings = React.lazy(() => import('./pages/swimming/SchoolsBookings'));
 const SwimmingTabs = React.lazy(() => import('./pages/swimming/SwimmingTabs'));
 const UserList = React.lazy(() => import('./pages/users/UserList'));
+const SwimmingDashboard = React.lazy(() => import('./modules/swimming/components/SwimmingDashboard'));
+const FootballDashboard = React.lazy(() => import('./modules/football/components/FootballDashboard'));
+const FieldsDashboard = React.lazy(() => import('./modules/fields/components/FieldsDashboard'));
+const AccountingDashboard = React.lazy(() => import('./modules/accounting/components/AccountingDashboard'));
+const SportSelector = React.lazy(() => import('./modules/shared/components/SportSelector'));
+const ReportsOverview = React.lazy(() => import('./modules/shared/components/ReportsOverview'));
 
 function LazyApp() {
   return (
@@ -134,4 +142,135 @@ function LazyApp() {
 }
 
 export default LazyApp;
-export { LoadingOverlay, RouteChangeListener, AuthForms, AuthModal, LoginForm, ProtectedRoute, RegisterForm, BookingModal, BookingsManagement, FacilitiesManagement, FacilityModal, ActivityForm, BookingForm, ClientForm, CoachForm, ConfirmDeleteModal, PlayerForm, About, Contact, Features, Footer, Hero, Navigation, Stats, ContextCard, DashboardLayout, Layout, PageWrapper, ResponsiveContainer, Sidebar, SidebarProvider, SidebarRail, Topbar, ModernSidebar, SidebarHeader, SidebarNavGroup, SidebarNavItem, Index, SidebarConfig, Types, AppointmentModal, StyleControlPanel, AppLogo, Accordion, AlertDialog, Alert, AspectRatio, Avatar, Badge, Breadcrumb, Button, Calendar, Card, Carousel, Chart, Checkbox, Collapsible, Command, ContextMenu, Dialog, Drawer, DropdownMenu, Form, HoverCard, InputOtp, Input, Label, Menubar, NavigationMenu, Pagination, Popover, Progress, RadioGroup, Resizable, ScrollArea, Select, Separator, Sheet, Skeleton, Slider, Sonner, Spinner, Switch, Table, Tabs, Textarea, Toast, Toaster, ToggleGroup, Toggle, Tooltip, UseToast, Activities, Bookings, Clients, Coaches, Dashboard, Fields, Landing, Login, NotFound, Players, PremiumDashboard, ResetPassword, Roles, Settings, Swimming, Users, BookingsPage, FacilitiesPage, BookingList, ClientList, Collections, Pricing, Academy, Schools, FreeTime, FreeTimeBookings, Private, PrivateBookings, SchoolsBookings, SwimmingTabs, UserList };
+export { 
+  LoadingOverlay, 
+  RouteChangeListener, 
+  AuthForms, 
+  AuthModal, 
+  LoginForm, 
+  ProtectedRoute, 
+  RegisterForm, 
+  BookingModal, 
+  BookingsManagement, 
+  FacilitiesManagement, 
+  FacilityModal, 
+  ActivityForm, 
+  BookingForm, 
+  ClientForm, 
+  CoachForm, 
+  ConfirmDeleteModal, 
+  PlayerForm, 
+  About, 
+  Contact, 
+  Features, 
+  Footer, 
+  Hero, 
+  Navigation, 
+  Stats, 
+  ContextCard, 
+  DashboardLayout, 
+  Layout, 
+  PageWrapper, 
+  ResponsiveContainer, 
+  Sidebar, 
+  SidebarProvider, 
+  SidebarRail, 
+  Topbar, 
+  ModernSidebar, 
+  SidebarHeader, 
+  SidebarNavGroup, 
+  SidebarNavItem, 
+  Index, 
+  SidebarConfig, 
+  Types, 
+  AppointmentModal, 
+  StyleControlPanel, 
+  AppLogo, 
+  Accordion, 
+  AlertDialog, 
+  Alert, 
+  AspectRatio, 
+  Avatar, 
+  Badge, 
+  Breadcrumb, 
+  Button, 
+  Calendar, 
+  Card, 
+  Carousel, 
+  Chart, 
+  Checkbox, 
+  Collapsible, 
+  Command, 
+  ContextMenu, 
+  Dialog, 
+  Drawer, 
+  DropdownMenu, 
+  Form, 
+  HoverCard, 
+  InputOtp, 
+  Input, 
+  Label, 
+  Menubar, 
+  NavigationMenu, 
+  Pagination, 
+  Popover, 
+  Progress, 
+  RadioGroup, 
+  Resizable, 
+  ScrollArea, 
+  Select, 
+  Separator, 
+  Sheet, 
+  Skeleton, 
+  Slider, 
+  Sonner, 
+  Spinner, 
+  Switch, 
+  Table, 
+  Tabs, 
+  Textarea, 
+  Toast, 
+  Toaster, 
+  ToggleGroup, 
+  Toggle, 
+  Tooltip, 
+  UseToast, 
+  Activities, 
+  Bookings, 
+  Clients, 
+  Coaches, 
+  Dashboard, 
+  Fields, 
+  Landing, 
+  Login, 
+  NotFound, 
+  Players, 
+  PremiumDashboard, 
+  ResetPassword, 
+  Roles, 
+  Settings, 
+  Swimming, 
+  Users, 
+  SportsOverview, 
+  BookingsPage, 
+  FacilitiesPage, 
+  BookingList, 
+  ClientList, 
+  Collections, 
+  Pricing, 
+  Academy, 
+  Schools, 
+  FreeTime, 
+  FreeTimeBookings, 
+  Private, 
+  PrivateBookings, 
+  SchoolsBookings, 
+  SwimmingTabs, 
+  UserList, 
+  SwimmingDashboard, 
+  FootballDashboard, 
+  FieldsDashboard, 
+  AccountingDashboard, 
+  SportSelector, 
+  ReportsOverview 
+};
